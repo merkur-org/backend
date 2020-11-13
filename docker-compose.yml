@@ -33,7 +33,7 @@ services:
       - api-postgres-data:/var/lib/postgresql/data
     networks:
       - backend-network
-    
+
 volumes:
   api-postgres-data:
 networks:

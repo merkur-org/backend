@@ -16,3 +16,14 @@ ativar no open settings json do vs code (ctrl + shift + p)
   "source.fixAll.eslint": true
 }
 ```
+
+
+Migrations do banco
+
+```bash
+# fazer
+docker exec -it api-server yarn typeorm migration:run
+
+# desfazer
+docker exec -it api-server yarn typeorm migration:revert
+```
