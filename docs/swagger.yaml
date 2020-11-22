@@ -1,0 +1,59 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: API Backend
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: gprando55@gmail.com
+servers:
+- url: http://localhost:3333
+paths:
+  /users:
+    post:
+      summary: Criar um novo usuário
+      parameters:
+      description: Criar um novo usuário
+      tags:
+      - users
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+
+tags:
+  - name: users
+    description: Tudo sobre usuários
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+          - id
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        cpf:
+          type: string
+        role:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
