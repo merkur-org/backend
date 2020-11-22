@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
@@ -6,11 +8,13 @@ import morganBody from 'morgan-body';
 
 import AppError from '@shared/errors/AppError';
 
-import '@shared/infra/typeorm';
 import logger from '@shared/utils/logger';
 import config from '@config/index';
 import expressDevLogger from '@shared/utils/expressDevLogger';
 import routes from './routes';
+
+import '@shared/infra/typeorm/index';
+import '@shared/container/index';
 
 const app = express();
 
