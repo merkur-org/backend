@@ -1,0 +1,3 @@
+# Shared
+
+Dentro desta pasta temos a definição do servidor (instância do express) e também tudo o que poderá ser compartilhado entre mais do que um module da aplicação, por exemplo, classe de erro, função, etc...

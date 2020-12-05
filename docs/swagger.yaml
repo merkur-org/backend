@@ -22,6 +22,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+    put:
+      summary: Atualizar um usuário
+      parameters:
+      description: Atualizar um usuário
+      tags:
+      - users
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
 
 tags:

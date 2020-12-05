@@ -3,8 +3,8 @@ import dotenvParseVariables from 'dotenv-parse-variables';
 
 const env = dotenvExtended.load({
   path: process.env.ENV_FILE,
-  defaults: './config/.env.defaults',
-  schema: './config/.env.schema',
+  defaults: './env/.env.defaults',
+  schema: './env/.env.schema',
   includeProcessEnv: true,
   silent: false,
   errorOnMissing: true,
