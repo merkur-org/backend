@@ -14,8 +14,32 @@ class FakeUsersRepository implements IUsersRepository {
     return findUser;
   }
 
+  public async checkUserExists(
+    email: string,
+    cpf: string,
+    cnpj: string,
+  ): Promise<User | undefined> {
+    const findUser = this.users.find(
+      user => user.email === email || user.cpf === cpf || user.cnpj === cnpj,
+    );
+
+    return findUser;
+  }
+
   public async findByEmail(email: string): Promise<User | undefined> {
     const findUser = this.users.find(user => user.email === email);
+
+    return findUser;
+  }
+
+  public async findByCPF(cpf: string): Promise<User | undefined> {
+    const findUser = this.users.find(user => user.cpf === cpf);
+
+    return findUser;
+  }
+
+  public async findByCNPJ(cnpj: string): Promise<User | undefined> {
+    const findUser = this.users.find(user => user.cnpj === cnpj);
 
     return findUser;
   }
@@ -28,6 +52,10 @@ class FakeUsersRepository implements IUsersRepository {
     this.users.push(user);
 
     return user;
+  }
+
+  public async delete(id: string): Promise<void> {
+    this.users.filter(user => user.id !== id);
   }
 
   public async save(user: User): Promise<User> {

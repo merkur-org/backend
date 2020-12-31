@@ -30,6 +30,11 @@ interface Config {
   expressDevLogger: boolean;
   loggerLevel: LogLevel;
   port: number;
+
+  jwt: {
+    secret: string;
+    expiresIn: string;
+  };
 }
 
 const config: Config = {
@@ -39,6 +44,11 @@ const config: Config = {
   loggerLevel: parsedEnv.LOGGER_LEVEL as LogLevel,
 
   port: parsedEnv.PORT as number,
+
+  jwt: {
+    secret: parsedEnv.JWT_SECRET as string,
+    expiresIn: parsedEnv.JWT_EXPIRES_IN as string,
+  },
 };
 
 export default config;

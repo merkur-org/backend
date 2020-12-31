@@ -18,9 +18,37 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
+  public async checkUserExists(
+    email: string,
+    cpf: string,
+    cnpj: string,
+  ): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: [{ email }, { cpf }, { cnpj }],
+    });
+
+    return user;
+  }
+
   public async findByEmail(email: string): Promise<User | undefined> {
     const user = await this.ormRepository.findOne({
       where: { email },
+    });
+
+    return user;
+  }
+
+  public async findByCPF(cpf: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { cpf },
+    });
+
+    return user;
+  }
+
+  public async findByCNPJ(cnpj: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { cnpj },
     });
 
     return user;
@@ -32,6 +60,10 @@ class UsersRepository implements IUsersRepository {
     await this.ormRepository.save(user);
 
     return user;
+  }
+
+  public async delete(id: string): Promise<void> {
+    this.ormRepository.delete({ id });
   }
 
   public async save(user: User): Promise<User> {

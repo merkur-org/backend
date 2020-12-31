@@ -18,13 +18,19 @@ class User {
   email: string;
 
   @Column()
+  phone: string;
+
+  @Column()
   password: string;
 
   @Column()
   cpf: string;
 
   @Column()
-  role: string;
+  cnpj: string;
+
+  @Column()
+  role: 'r' | 'b' | 'p' | 'd' | 'a' | 'f' | 'bp' | 'db' | 'bf';
 
   @CreateDateColumn()
   created_at: Date;
