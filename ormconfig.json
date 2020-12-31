@@ -7,7 +7,7 @@
   "database": "data",
 
   "entities": [
-    "./src/modules/users/infra/typeorm/entities/*.ts"
+    "./src/modules/**/infra/typeorm/entities/*.ts"
   ],
 
   "migrations": [
