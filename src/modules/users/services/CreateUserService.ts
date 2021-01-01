@@ -50,7 +50,7 @@ class CreateUserService {
       throw new AppError('User already exists');
     }
 
-    if (role === 'r' && (!token || (token && !checkRootUser(token)))) {
+    if (role !== 'b' && (!token || (token && !checkRootUser(token)))) {
       throw new AppError(
         'Permission denied, only root user can create root',
         401,
