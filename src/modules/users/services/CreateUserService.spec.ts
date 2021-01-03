@@ -47,4 +47,31 @@ describe('CreateUser', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('should not be able to create a new user with root permission if it is not a user root that is creating', async () => {
+    await expect(
+      createUser.execute({
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        phone: '46 99999999',
+        password: '123456',
+        cpf: '123456789',
+        role: 'r',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to create a new user with root permission if it is not a user root that is creating', async () => {
+    await expect(
+      createUser.execute({
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        phone: '46 99999999',
+        password: '123456',
+        cpf: '123456789',
+        role: 'r',
+        token: 'non-root-user',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
+import { IRole } from '@modules/users/dtos/ICreateUserDTO';
+
 import CreateUserService from '@modules/users/services/CreateUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
 import ShowUserService from '@modules/users/services/ShowUserService';
@@ -41,6 +43,8 @@ export default class UsersController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
+    const { role: roleRequest, id: idRequest } = request.user;
+
     const {
       name,
       email,
@@ -64,6 +68,8 @@ export default class UsersController {
       old_password,
       password,
       role,
+      roleRequest: roleRequest as IRole,
+      idRequest,
     });
 
     return response.json(user);

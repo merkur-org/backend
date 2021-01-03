@@ -18,7 +18,7 @@ class DeleteUserService {
     const checkUserExists = await this.usersRepository.findById(user_id);
 
     if (!checkUserExists) {
-      throw new AppError('User not found');
+      throw new AppError('User not found', 404);
     }
     await this.usersRepository.delete(user_id);
 
