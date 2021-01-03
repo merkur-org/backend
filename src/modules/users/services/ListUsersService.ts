@@ -21,8 +21,6 @@ class ListUsersService {
       page,
     });
 
-    console.log('resposta caraio', response);
-
     return response;
   }
 }

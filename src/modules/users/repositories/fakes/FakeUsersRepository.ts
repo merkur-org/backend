@@ -69,8 +69,8 @@ class FakeUsersRepository implements IUsersRepository {
   }
 
   public async findAllPaginated({
-    page = 1,
-    limit = 10,
+    page,
+    limit,
   }: PaginationDTO): Promise<PaginatedUsersDTO> {
     const skippedItems = (page - 1) * limit;
 
@@ -81,8 +81,6 @@ class FakeUsersRepository implements IUsersRepository {
 
     const limitLoop =
       skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
-
-    console.log('iii', i, 'limiteee', limitLoop);
 
     if (i === 0 && limitLoop === 0 && this.users[0]) {
       users.push(this.users[0]);

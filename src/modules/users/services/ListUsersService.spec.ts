@@ -19,7 +19,7 @@ describe('listUsers', () => {
       password: '123456',
     });
 
-    const users = await listUsers.execute({});
+    const users = await listUsers.execute({ limit: 10, page: 1 });
 
     expect(users.data.length).toBe(1);
     expect(users.limit).toBe(10);
@@ -47,7 +47,7 @@ describe('listUsers', () => {
       password: '123456',
     });
 
-    const users = await listUsers.execute({ limit: 1 });
+    const users = await listUsers.execute({ limit: 1, page: 1 });
 
     expect(users.data.length).toBe(1);
     expect(users.limit).toBe(1);

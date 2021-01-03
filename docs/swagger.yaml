@@ -136,6 +136,8 @@ components:
           type: string
         email:
           type: string
+        phone:
+          type: string
         password:
           type: string
         cpf:

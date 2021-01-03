@@ -5,6 +5,7 @@ import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 
 import CreateUserService from '@modules/users/services/CreateUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
+import ListUsersService from '@modules/users/services/ListUsersService';
 import ShowUserService from '@modules/users/services/ShowUserService';
 import DeleteUserService from '@modules/users/services/DeleteUserService';
 
@@ -29,7 +30,18 @@ export default class UsersController {
     return response.json(user);
   }
 
-  // TODO fazer um metodo list para listar com paginação e filtros...
+  public async list(request: Request, response: Response): Promise<Response> {
+    const { page = 1, limit = 10 } = request.query;
+
+    const listUsers = container.resolve(ListUsersService);
+
+    const data = await listUsers.execute({
+      page: Number(page),
+      limit: Number(limit),
+    });
+
+    return response.json(data);
+  }
 
   public async show(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
