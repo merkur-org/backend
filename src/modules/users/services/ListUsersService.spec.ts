@@ -15,6 +15,7 @@ describe('listUsers', () => {
     await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
+      cpf: '111111111',
       phone: '46 99999-9999',
       password: '123456',
     });
@@ -31,18 +32,21 @@ describe('listUsers', () => {
     await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
+      cpf: '111111111',
       phone: '46 99999-9999',
       password: '123456',
     });
     await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndo1e@example.com',
+      cpf: '111111112',
       phone: '46 99999-9999',
       password: '123456',
     });
     await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndo2e@example.com',
+      cpf: '111111113',
       phone: '46 99999-9999',
       password: '123456',
     });

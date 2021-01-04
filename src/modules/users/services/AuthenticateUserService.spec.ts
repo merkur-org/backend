@@ -23,6 +23,7 @@ describe('AuthenticateUser', () => {
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
+      cpf: '111111111',
       phone: '46 99999-9999',
       password: '123456',
     });
@@ -49,6 +50,7 @@ describe('AuthenticateUser', () => {
     await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
+      cpf: '111111111',
       phone: '46 99999-9999',
       password: '123456',
     });

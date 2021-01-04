@@ -17,6 +17,7 @@ describe('ShowUser', () => {
     const created_user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
+      cpf: '111111111',
       phone: '46 99999-9999',
       password: '123456',
     });
