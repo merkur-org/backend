@@ -8,6 +8,7 @@ import UpdateUserService from '@modules/users/services/UpdateUserService';
 import ListUsersService from '@modules/users/services/ListUsersService';
 import ShowUserService from '@modules/users/services/ShowUserService';
 import DeleteUserService from '@modules/users/services/DeleteUserService';
+import { classToClass } from 'class-transformer';
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -27,7 +28,7 @@ export default class UsersController {
       token,
     });
 
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
@@ -40,7 +41,7 @@ export default class UsersController {
       limit: Number(limit),
     });
 
-    return response.json(data);
+    return response.json(classToClass(data));
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
@@ -50,7 +51,7 @@ export default class UsersController {
 
     const user = await showUser.execute({ user_id });
 
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -84,16 +85,22 @@ export default class UsersController {
       idRequest,
     });
 
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
 
+    const { role, id: request_user_id } = request.user;
+
     const deleteUser = container.resolve(DeleteUserService);
 
-    const user = await deleteUser.execute({ user_id });
+    const message = await deleteUser.execute({
+      user_id,
+      role: role as IRole,
+      request_user_id,
+    });
 
-    return response.json(user);
+    return response.json(message);
   }
 }
