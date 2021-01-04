@@ -13,7 +13,7 @@ interface IRequest {
   email: string;
   phone: string;
   password: string;
-  cpf?: string;
+  cpf: string;
   cnpj?: string;
   role?: IRole;
   token?: string;

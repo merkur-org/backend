@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import morganBody from 'morgan-body';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import { errors } from 'celebrate';
 
 import logger from '@shared/utils/logger';
 import config from '@config/index';
@@ -39,6 +40,8 @@ if (config.morganBodyLogger) {
 if (config.expressDevLogger) {
   app.use(expressDevLogger);
 }
+
+app.use(errors({ statusCode: 403 }));
 
 app.use(exceptionHandler);
 
