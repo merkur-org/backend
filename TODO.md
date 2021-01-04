@@ -6,6 +6,6 @@
 - [X] adicionar role de root ou admin
 - [X] criar user com role 'r' só um role 'r' pode
 - [] usuário admin será criado no banco com as migrations, criar um populate
-- [] criar middleware de validação com joi ou yup
+- [X] criar middleware de validação com joi ou yup
 - [] utilizar class-to-class para não retornar senha do user
 - [] Recuperação de senha

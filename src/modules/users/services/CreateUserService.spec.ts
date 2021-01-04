@@ -48,7 +48,7 @@ describe('CreateUser', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to create a new user with root permission if it is not a user root that is creating', async () => {
+  it('should not be able to create a new root user or administrator if you are not root', async () => {
     await expect(
       createUser.execute({
         name: 'John Doe',
