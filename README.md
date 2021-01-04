@@ -34,6 +34,11 @@ docker exec -it api-server yarn typeorm migration:revert
 yarn build
 ```
 
+## Rodar testes
+```bash
+yarn test --coverage
+```
+
 
 ## Após fazer o build do projeto deve se trocar no ormconfig.json
 
@@ -54,10 +59,3 @@ yarn build
     "migrationsDir": "./dist/shared/infra/typeorm/migrations"
   }
 ```
-// TODO [X] permissão no payload do token
-// TODO [X] email pode ser null ? aquela senhora que compra e faria login pelo celular
-// TODO [X] login pelo phone e cpf
-// TODO [ ] usuário admin será criado no banco com as migrations, criar um populate
-// TODO [X] Tratar phone para guardar (46) 99903-9412 como 46999039412
-// TODO [X] adicionar role de root ou admin
-// TODO [X] criar user com role 'r' só um role 'r' pode

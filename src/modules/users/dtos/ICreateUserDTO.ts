@@ -10,10 +10,10 @@ export type IRole =
   | 'bf'; // comprador e financeiro
 export default interface ICreateUserDTO {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   password: string;
-  cpf?: string;
+  cpf: string;
   cnpj?: string;
   role?: IRole;
 }

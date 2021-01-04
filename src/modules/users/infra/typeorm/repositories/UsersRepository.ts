@@ -3,6 +3,8 @@ import { getRepository, Repository } from 'typeorm';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
+import PaginationDTO from '@modules/users/dtos/PaginationDTO';
+import PaginatedUsersDTO from '@modules/users/dtos/PaginatedUsersDTO';
 import User from '../entities/User';
 
 class UsersRepository implements IUsersRepository {
@@ -68,6 +70,30 @@ class UsersRepository implements IUsersRepository {
 
   public async save(user: User): Promise<User> {
     return this.ormRepository.save(user);
+  }
+
+  public async findAllPaginated({
+    limit,
+    page,
+  }: PaginationDTO): Promise<PaginatedUsersDTO> {
+    const skippedItems = (page - 1) * limit;
+
+    console.log({ skippedItems, page });
+
+    const totalCount = await this.ormRepository.count();
+    const users = await this.ormRepository
+      .createQueryBuilder('user')
+      .orderBy('created_at', 'DESC')
+      .offset(skippedItems)
+      .limit(limit)
+      .getMany();
+
+    return {
+      totalCount,
+      page,
+      limit,
+      data: users,
+    };
   }
 }
 

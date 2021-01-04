@@ -17,6 +17,8 @@ interface IRequest {
   cnpj?: string;
   old_password?: string;
   password?: string;
+  roleRequest: IRole;
+  idRequest: string;
 }
 
 @injectable()
@@ -39,11 +41,17 @@ class UpdateUserService {
     cnpj = 'uninformed',
     old_password,
     password,
+    roleRequest,
+    idRequest,
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
       throw new AppError('User not found');
+    }
+
+    if (user && user.id !== idRequest && roleRequest !== 'r') {
+      throw new AppError('operation not allowed', 401);
     }
 
     const [
@@ -94,8 +102,15 @@ class UpdateUserService {
     }
 
     if (role) {
+      if (roleRequest !== 'r') {
+        throw new AppError(
+          'Permission denied, only root user can create root',
+          401,
+        );
+      }
       user.role = role;
     }
+
     return this.usersRepository.save(user);
   }
 }

@@ -11,7 +11,6 @@ paths:
   /users:
     post:
       summary: Criar um novo usuário
-      parameters:
       description: Criar um novo usuário
       tags:
       - users
@@ -22,9 +21,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+    get:
+      summary: Listar usuários
+      description: Listar usuários paginado e com filtros
+      tags:
+      - users
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: pagina a ser trazida
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: limite de registros
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/{user_id}:
+    get:
+      summary: Listar informações de um user
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+      description: Listar informações de um user
+      tags:
+      - users
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
     put:
       summary: Atualizar um usuário
       parameters:
+        - $ref: '#/components/parameters/user_id'
       description: Atualizar um usuário
       tags:
       - users
@@ -35,6 +81,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    delete:
+      parameters:
+      - $ref: '#/components/parameters/user_id'
+      summary: Deletar um usuário
+      description: Atualizar um usuário
+      tags:
+      - users
+      responses:
+        200:
+          description: Sucesso ao deletar user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
 
 
 tags:
@@ -42,6 +118,14 @@ tags:
     description: Tudo sobre usuários
 
 components:
+  parameters:
+    user_id:
+      required: true
+      description: 'id do user a ser operado'
+      name: user_id
+      in: path
+      schema:
+        type: string
   schemas:
     User:
       type: object
@@ -51,6 +135,8 @@ components:
         name:
           type: string
         email:
+          type: string
+        phone:
           type: string
         password:
           type: string
@@ -62,6 +148,17 @@ components:
           type: string
         updated_at:
           type: string
+
+    NotFound:
+      type: object
+      required:
+          - status
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+
 
   securitySchemes:
     bearerAuth:            # arbitrary name for the security scheme
