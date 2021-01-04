@@ -54,6 +54,19 @@ usersRouter.put(
     [Segments.PARAMS]: {
       user_id: Joi.string().uuid().required(),
     },
+    [Segments.BODY]: {
+      name: Joi.string(),
+      email: Joi.string().email(),
+      phone: Joi.string().regex(
+        /^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$/,
+      ),
+      cpf: Joi.string(),
+      cnpj: Joi.string(),
+      old_password: Joi.string(),
+      password: Joi.string(),
+      password_confirmation: Joi.string().valid(Joi.ref('password')),
+      role: Joi.string().valid('r', 'b', 'p', 'd', 'a', 'f', 'bp', 'db', 'bf'),
+    },
   }),
   usersController.update,
 );
