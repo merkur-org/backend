@@ -3,6 +3,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 
 import UsersController from '../controllers/UsersController';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import checkRole from '../middlewares/checkRole';
 
 const usersRouter = Router();
 const usersController = new UsersController();
@@ -29,6 +30,7 @@ usersRouter.use(ensureAuthenticated);
 
 usersRouter.get(
   '/:user_id',
+  [checkRole(['r', 'himself'])],
   celebrate({
     [Segments.PARAMS]: {
       user_id: Joi.string().uuid().required(),
@@ -39,6 +41,7 @@ usersRouter.get(
 
 usersRouter.get(
   '/',
+  [checkRole(['r'])],
   celebrate({
     [Segments.QUERY]: {
       limit: Joi.number().min(1),
@@ -50,6 +53,7 @@ usersRouter.get(
 
 usersRouter.put(
   '/:user_id',
+  [checkRole(['r', 'himself'])],
   celebrate({
     [Segments.PARAMS]: {
       user_id: Joi.string().uuid().required(),
@@ -73,6 +77,7 @@ usersRouter.put(
 
 usersRouter.delete(
   '/:user_id',
+  [checkRole(['r', 'himself'])],
   celebrate({
     [Segments.PARAMS]: {
       user_id: Joi.string().uuid().required(),
