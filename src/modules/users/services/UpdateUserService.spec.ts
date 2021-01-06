@@ -33,7 +33,6 @@ describe('UpdateUser', () => {
       cpf: '123456789',
       cnpj: '123456789',
       roleRequest: 'r',
-      idRequest: 'id',
     });
 
     expect(updatedUser.name).toBe('John Trê');
@@ -47,7 +46,6 @@ describe('UpdateUser', () => {
         name: 'Test',
         email: 'test@example.com',
         roleRequest: 'r',
-        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -75,7 +73,6 @@ describe('UpdateUser', () => {
         name: 'Test',
         email: 'johndoe@example.com',
         roleRequest: 'r',
-        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -96,7 +93,6 @@ describe('UpdateUser', () => {
       old_password: '123456',
       password: '123123',
       roleRequest: 'r',
-      idRequest: 'id',
     });
 
     expect(updatedUser.password).toBe('123123');
@@ -118,7 +114,6 @@ describe('UpdateUser', () => {
         email: 'johntre@example.com',
         password: '123123',
         roleRequest: 'r',
-        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -140,7 +135,6 @@ describe('UpdateUser', () => {
         old_password: 'wrong-old-password',
         password: '123123',
         roleRequest: 'r',
-        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -170,7 +164,6 @@ describe('UpdateUser', () => {
         old_password: 'wrong-old-password',
         password: '123123',
         roleRequest: 'r',
-        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -203,29 +196,6 @@ describe('UpdateUser', () => {
         old_password: 'wrong-old-password',
         password: '123123',
         roleRequest: 'r',
-        idRequest: 'id',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-  it('should not be able to update if the user id is not the same as the request and the permission of the user who is operating is not root', async () => {
-    const user = await fakeUsersRepository.create({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      phone: '46 99999999',
-      password: '123456',
-      cpf: '1234567890',
-      cnpj: '1234567890',
-    });
-
-    await expect(
-      updateUser.execute({
-        user_id: user.id,
-        name: user.name,
-        cpf: user.cpf,
-        cnpj: user.cnpj,
-        email: user.email,
-        roleRequest: 'b',
-        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -248,7 +218,6 @@ describe('UpdateUser', () => {
       email: user.email,
       roleRequest: 'r',
       role: 'bp',
-      idRequest: user.id,
     });
 
     expect(userUpdated.role).toBe('bp');
@@ -273,7 +242,6 @@ describe('UpdateUser', () => {
         email: user.email,
         roleRequest: 'b',
         role: 'bp',
-        idRequest: user.id,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
