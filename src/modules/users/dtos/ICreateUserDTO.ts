@@ -3,7 +3,7 @@ export type IRole =
   | 'b' // Comprador (buyer)
   | 'p' // fornecedor (provider)
   | 'd' // entregador (deliveryman)
-  | 'a' // administrador (administrator)
+  | 'a'
   | 'f' // financeiro (financial)
   | 'bp' // comprador && fornecedor
   | 'db' // entregador && comprador

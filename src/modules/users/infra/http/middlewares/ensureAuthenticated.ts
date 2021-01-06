@@ -8,10 +8,8 @@ import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 interface ITokenPayload {
   iat: number;
   exp: number;
-  sub: {
-    id: string;
-    role: IRole;
-  };
+  id: string;
+  role: IRole;
 }
 
 export default function ensureAuthenticated(
@@ -30,7 +28,7 @@ export default function ensureAuthenticated(
   try {
     const decoded = verify(token, Config.jwt.secret);
 
-    const { sub } = decoded as ITokenPayload;
+    const sub = decoded as ITokenPayload;
 
     request.user = {
       id: sub.id,

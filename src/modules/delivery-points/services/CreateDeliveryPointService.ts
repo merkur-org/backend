@@ -1,3 +1,4 @@
+import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import DeliveryPoint from '../infra/typeorm/entities/DeliveryPoints';
@@ -12,7 +13,7 @@ interface IRequest {
   cep: string;
   latitude: number;
   longitude: number;
-  userRole: string;
+  role: IRole;
 }
 
 @injectable()
@@ -31,9 +32,9 @@ class CreateDeliveryPointService {
     state,
     street,
     suburb,
-    userRole,
+    role,
   }: IRequest): Promise<DeliveryPoint> {
-    if (!userRole.match(/r|a/g)) {
+    if (!role.match(/r|a/g)) {
       throw new AppError('You dont have permission to do this action', 401);
     }
 

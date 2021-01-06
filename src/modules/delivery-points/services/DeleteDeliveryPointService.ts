@@ -1,10 +1,12 @@
 import { injectable, inject } from 'tsyringe';
 
+import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 import AppError from '@shared/errors/AppError';
 import IDeliveryPointsRepository from '../repositories/IDeliveryPointsRepository';
 
 interface IRequest {
   point_id: string;
+  role: IRole;
 }
 
 @injectable()

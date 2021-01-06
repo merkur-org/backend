@@ -1,10 +1,14 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+
 import DeliveryPointsController from '../controllers/DeliveryPointsController';
 
 const deliveryPointsRoutes = Router();
 const deliveryPointsController = new DeliveryPointsController();
+
+deliveryPointsRoutes.use(ensureAuthenticated);
 
 deliveryPointsRoutes.post(
   '/',

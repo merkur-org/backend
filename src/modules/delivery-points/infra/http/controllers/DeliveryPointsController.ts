@@ -8,11 +8,11 @@ import ListDeliveryPointsService from '@modules/delivery-points/services/ListDel
 import ShowDeliveryPointService from '@modules/delivery-points/services/ShowDeliveryPointService';
 import UpdateDeliveryPointService from '@modules/delivery-points/services/UpdateDeliveryPointService';
 import DeleteDeliveryPointService from '@modules/delivery-points/services/DeleteDeliveryPointService';
-import IndexDeliveryPointsService from '@modules/delivery-points/services/ListDeliveryPointsService';
-import { number } from '@hapi/joi';
 
 class DeliveryPointsController {
   public async create(request: Request, response: Response): Promise<Response> {
+    const { role } = request.user;
+
     const {
       cep,
       city,
@@ -23,8 +23,6 @@ class DeliveryPointsController {
       street,
       suburb,
     } = request.body;
-
-    // const { role } = request.user;
 
     const createDeliveryPoint = container.resolve(CreateDeliveryPointService);
 
@@ -37,7 +35,7 @@ class DeliveryPointsController {
       state,
       street,
       suburb,
-      userRole: 'r',
+      role: role as IRole,
     });
 
     return response.json({ deliveryPoint: point });
