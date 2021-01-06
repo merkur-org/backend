@@ -104,7 +104,7 @@ class UpdateUserService {
     if (role) {
       if (roleRequest !== 'r') {
         throw new AppError(
-          'Permission denied, only root user can create root',
+          'Permission denied, only the root user can upgrade to root',
           401,
         );
       }

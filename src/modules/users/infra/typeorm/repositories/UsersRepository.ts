@@ -78,8 +78,6 @@ class UsersRepository implements IUsersRepository {
   }: PaginationDTO): Promise<PaginatedUsersDTO> {
     const skippedItems = (page - 1) * limit;
 
-    console.log({ skippedItems, page });
-
     const totalCount = await this.ormRepository.count();
     const users = await this.ormRepository
       .createQueryBuilder('user')
