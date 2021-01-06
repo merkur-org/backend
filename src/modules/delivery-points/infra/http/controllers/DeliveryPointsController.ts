@@ -65,7 +65,7 @@ class DeliveryPointsController {
     return response.json(point);
   }
 
-  public async update(request: Request, response: Response) {
+  public async update(request: Request, response: Response): Promise<Response> {
     const { point_id } = request.params;
     const { role } = request.user;
 
