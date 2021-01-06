@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: '3.0.0'
 info:
   version: 1.0.0
   title: API Backend
@@ -6,14 +6,14 @@ info:
   contact:
     email: vinicius@utfpr.edu.br
 servers:
-- url: http://localhost:3333
+  - url: http://localhost:3333
 paths:
   /users:
     post:
       summary: Criar um novo usuário
       description: Criar um novo usuário
       tags:
-      - users
+        - users
       requestBody:
         content:
           application/json:
@@ -31,7 +31,7 @@ paths:
       summary: Listar usuários
       description: Listar usuários paginado e com filtros
       tags:
-      - users
+        - users
       parameters:
         - in: query
           name: page
@@ -59,7 +59,7 @@ paths:
         - $ref: '#/components/parameters/user_id'
       description: Listar informações de um user
       tags:
-      - users
+        - users
       responses:
         200:
           description: Sucesso
@@ -79,7 +79,7 @@ paths:
         - $ref: '#/components/parameters/user_id'
       description: Atualizar um usuário
       tags:
-      - users
+        - users
       responses:
         200:
           description: Sucesso
@@ -95,11 +95,11 @@ paths:
                 $ref: '#/components/schemas/NotFound'
     delete:
       parameters:
-      - $ref: '#/components/parameters/user_id'
+        - $ref: '#/components/parameters/user_id'
       summary: Deletar um usuário
       description: Atualizar um usuário
       tags:
-      - users
+        - users
       responses:
         200:
           description: Sucesso ao deletar user
@@ -131,12 +131,122 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
+  /delivery-points:
+    post:
+      summary: Criar ponto de entrega
+      tags:
+        - delivery points
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryPoints'
+
+    get:
+      summary: Listar pontos de entrega
+      tags:
+        - delivery points
+      parameters:
+        - in: query
+          name: state
+          required: true
+          schema:
+            type: string
+          description: filtrar pontos de entrega por estado
+
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: pagina a ser trazida
+
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: limite de registros
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryPoints'
+
+  /delivery-points/{point_id}:
+    get:
+      summary: Listar informações de um ponto de entrega
+      tags:
+        - delivery points
+      parameters:
+        - $ref: '#/components/parameters/point_id'
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryPoint'
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+    put:
+      summary: Atualizar um ponto de entrega
+      parameters:
+        - $ref: '#/components/parameters/point_id'
+      tags:
+        - delivery points
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryPoints'
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+    delete:
+      summary: Deletar um ponto de entrega
+      parameters:
+        - $ref: '#/components/parameters/point_id'
+      tags:
+        - delivery points
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
 
 tags:
   - name: users
     description: Tudo sobre usuários
   - name: products
     description: Tudo sobre produtos
+  - name: delivery points
+    description: Tudo sobre pontos de entrega
 
 components:
   parameters:
@@ -147,11 +257,20 @@ components:
       in: path
       schema:
         type: string
+
+    point_id:
+      required: true
+      description: 'id do ponto de entrega a ser operado'
+      name: point_id
+      in: path
+      schema:
+        type: string
+
   schemas:
     User:
       type: object
       required:
-          - id
+        - id
       properties:
         name:
           type: string
@@ -170,21 +289,40 @@ components:
         updated_at:
           type: string
 
+    DeliveryPoints:
+      type: object
+      required:
+        - id
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+        suburb:
+          type: string
+        street:
+          type: string
+        cep:
+          type: integer
+        number:
+          type: integer
+        latitude:
+          type: number
+        longitude:
+          type: number
+
     NotFound:
       type: object
       required:
-          - status
+        - status
       properties:
         status:
           type: string
         message:
           type: string
 
-
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth: # arbitrary name for the security scheme
       type: http
       scheme: bearer
       bearerFormat: JWT
-
-

@@ -1,18 +1,11 @@
 import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
+import ICreateDeliveryPointDTO from '../dtos/ICreateDeliveryPointDTO';
 import DeliveryPoint from '../infra/typeorm/entities/DeliveryPoints';
 import IDeliveryPointsRepository from '../repositories/IDeliveryPointsRepository';
 
-interface IRequest {
-  city: string;
-  state: string;
-  suburb: string;
-  street: string;
-  number: number;
-  cep: string;
-  latitude: number;
-  longitude: number;
+interface IRequest extends ICreateDeliveryPointDTO {
   role: IRole;
 }
 

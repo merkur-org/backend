@@ -5,7 +5,7 @@ import PaginationDTO from '@shared/dtos/PaginationDTO';
 import IDeliveryPointsRepository from '../repositories/IDeliveryPointsRepository';
 import PaginatedDeliveryPointsDTO from '../dtos/PaginatedDeliveryPointsDTO';
 
-interface IRequest {
+interface IRequest extends PaginationDTO {
   point_state: string;
 }
 
@@ -16,10 +16,11 @@ class ListDeliveryPointsService {
     private deliveryPointsRepository: IDeliveryPointsRepository,
   ) {}
 
-  public async execute(
-    { point_state }: IRequest,
-    { limit, page }: PaginationDTO,
-  ): Promise<PaginatedDeliveryPointsDTO> {
+  public async execute({
+    point_state,
+    limit,
+    page,
+  }: IRequest): Promise<PaginatedDeliveryPointsDTO> {
     if (!point_state) {
       throw new AppError('Please inform the state');
     }

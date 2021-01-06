@@ -8,25 +8,6 @@ import DeliveryPointsController from '../controllers/DeliveryPointsController';
 const deliveryPointsRoutes = Router();
 const deliveryPointsController = new DeliveryPointsController();
 
-deliveryPointsRoutes.use(ensureAuthenticated);
-
-deliveryPointsRoutes.post(
-  '/',
-  celebrate({
-    [Segments.BODY]: {
-      city: Joi.string().required(),
-      state: Joi.string().required(),
-      suburb: Joi.string().required(),
-      street: Joi.string().required(),
-      cep: Joi.number().required(),
-      number: Joi.number().required(),
-      latitude: Joi.number().required(),
-      longitude: Joi.number().required(),
-    },
-  }),
-  deliveryPointsController.create,
-);
-
 deliveryPointsRoutes.get(
   '/',
   celebrate({
@@ -47,6 +28,25 @@ deliveryPointsRoutes.get(
     },
   }),
   deliveryPointsController.show,
+);
+
+deliveryPointsRoutes.use(ensureAuthenticated);
+
+deliveryPointsRoutes.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      city: Joi.string().required(),
+      state: Joi.string().required(),
+      suburb: Joi.string().required(),
+      street: Joi.string().required(),
+      cep: Joi.number().required(),
+      number: Joi.number().required(),
+      latitude: Joi.number().required(),
+      longitude: Joi.number().required(),
+    },
+  }),
+  deliveryPointsController.create,
 );
 
 deliveryPointsRoutes.put(

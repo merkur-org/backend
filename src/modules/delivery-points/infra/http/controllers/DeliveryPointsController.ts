@@ -46,15 +46,11 @@ class DeliveryPointsController {
 
     const listDeliveryPoints = container.resolve(ListDeliveryPointsService);
 
-    const data = await listDeliveryPoints.execute(
-      {
-        point_state: String(state),
-      },
-      {
-        page: Number(page),
-        limit: Number(limit),
-      },
-    );
+    const data = await listDeliveryPoints.execute({
+      point_state: String(state),
+      page: Number(page),
+      limit: Number(limit),
+    });
 
     return response.json(data);
   }
@@ -71,6 +67,7 @@ class DeliveryPointsController {
 
   public async update(request: Request, response: Response) {
     const { point_id } = request.params;
+    const { role } = request.user;
 
     const {
       city,
@@ -95,6 +92,7 @@ class DeliveryPointsController {
       number,
       latitude,
       longitude,
+      role: role as IRole,
     });
 
     return response.json(point);
@@ -102,10 +100,14 @@ class DeliveryPointsController {
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { point_id } = request.params;
+    const { role } = request.user;
 
     const deleteDeliveryPoint = container.resolve(DeleteDeliveryPointService);
 
-    const point = await deleteDeliveryPoint.execute({ point_id });
+    const point = await deleteDeliveryPoint.execute({
+      point_id,
+      role: role as IRole,
+    });
 
     return response.json({ point });
   }
