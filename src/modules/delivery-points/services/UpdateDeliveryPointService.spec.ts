@@ -1,57 +1,70 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
-import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
-import UpdateUserService from './UpdateUserService';
+import FakeDeliveryPointsRepository from '../repositories/fakes/FakeDeliveryPointsRepository';
+import UpdateDeliveryPointService from './UpdateDeliveryPointService';
+import CreateDeliveryPointService from './CreateDeliveryPointService';
 
-let fakeUsersRepository: FakeUsersRepository;
-let fakeHashProvider: FakeHashProvider;
-let updateUser: UpdateUserService;
+let fakeDeliveryPointsRepository: FakeDeliveryPointsRepository;
+let createDeliveryPoint: CreateDeliveryPointService;
+let updateDeliveryPoint: UpdateDeliveryPointService;
 
-describe('UpdateUser', () => {
+describe('UpdateDeliveryPoint', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
-    fakeHashProvider = new FakeHashProvider();
+    fakeDeliveryPointsRepository = new FakeDeliveryPointsRepository();
 
-    updateUser = new UpdateUserService(fakeUsersRepository, fakeHashProvider);
+    createDeliveryPoint = new CreateDeliveryPointService(
+      fakeDeliveryPointsRepository,
+    );
+
+    updateDeliveryPoint = new UpdateDeliveryPointService(
+      fakeDeliveryPointsRepository,
+    );
   });
 
   it('should be able update the user', async () => {
-    const user = await fakeUsersRepository.create({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      phone: '46 99999999',
-      password: '123456',
-      cpf: '123456789',
-      cnpj: '123456789',
+    const point = await createDeliveryPoint.execute({
+      cep: '12345678',
+      city: 'example',
+      latitude: 40.6976701,
+      longitude: -74.2598663,
+      number: 1,
+      state: 'example',
+      street: 'example',
+      suburb: 'center',
+      role: 'r',
     });
 
-    const updatedUser = await updateUser.execute({
-      user_id: user.id,
-      name: 'John Trê',
-      email: 'johntre@example.com',
-      cpf: '123456789',
-      cnpj: '123456789',
-      roleRequest: 'r',
+    const updatedPoint = await updateDeliveryPoint.execute({
+      point_id: point.id,
+      cep: '87654321',
+      city: 'example2',
+      latitude: 40.6976701,
+      longitude: -74.2598663,
+      number: 1,
+      state: 'example',
+      street: 'example',
+      suburb: 'center',
+      role: 'r',
     });
 
-    expect(updatedUser.name).toBe('John Trê');
-    expect(updatedUser.email).toBe('johntre@example.com');
+    expect(updatedPoint.cep).toBe('87654321');
+    expect(updatedPoint.city).toBe('example2');
   });
 
   it('should not be able update the user from non-existing user', async () => {
     await expect(
-      updateUser.execute({
+      updateDeliveryPoint.execute({
         user_id: 'non-existing-user-id',
         name: 'Test',
         email: 'test@example.com',
         roleRequest: 'r',
+        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to change to another user email', async () => {
-    await fakeUsersRepository.create({
+    await createDeliveryPoint.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
       phone: '46 99999999',
@@ -59,7 +72,7 @@ describe('UpdateUser', () => {
       cpf: '123456789',
     });
 
-    const user = await fakeUsersRepository.create({
+    const user = await createDeliveryPoint.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
       phone: '46 99999999',
@@ -73,12 +86,13 @@ describe('UpdateUser', () => {
         name: 'Test',
         email: 'johndoe@example.com',
         roleRequest: 'r',
+        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should be able to update the password', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await createDeliveryPoint.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
       phone: '46 99999999',
@@ -86,13 +100,14 @@ describe('UpdateUser', () => {
       cpf: '123456789',
     });
 
-    const updatedUser = await updateUser.execute({
+    const updatedUser = await updateDeliveryPoint.execute({
       user_id: user.id,
       name: 'John Trê',
       email: 'johntre@example.com',
       old_password: '123456',
       password: '123123',
       roleRequest: 'r',
+      idRequest: 'id',
     });
 
     expect(updatedUser.password).toBe('123123');
@@ -114,6 +129,7 @@ describe('UpdateUser', () => {
         email: 'johntre@example.com',
         password: '123123',
         roleRequest: 'r',
+        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -135,6 +151,7 @@ describe('UpdateUser', () => {
         old_password: 'wrong-old-password',
         password: '123123',
         roleRequest: 'r',
+        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -164,6 +181,7 @@ describe('UpdateUser', () => {
         old_password: 'wrong-old-password',
         password: '123123',
         roleRequest: 'r',
+        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -196,6 +214,29 @@ describe('UpdateUser', () => {
         old_password: 'wrong-old-password',
         password: '123123',
         roleRequest: 'r',
+        idRequest: 'id',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+  it('should not be able to update if the user id is not the same as the request and the permission of the user who is operating is not root', async () => {
+    const user = await fakeUsersRepository.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      phone: '46 99999999',
+      password: '123456',
+      cpf: '1234567890',
+      cnpj: '1234567890',
+    });
+
+    await expect(
+      updateUser.execute({
+        user_id: user.id,
+        name: user.name,
+        cpf: user.cpf,
+        cnpj: user.cnpj,
+        email: user.email,
+        roleRequest: 'b',
+        idRequest: 'id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -218,6 +259,7 @@ describe('UpdateUser', () => {
       email: user.email,
       roleRequest: 'r',
       role: 'bp',
+      idRequest: user.id,
     });
 
     expect(userUpdated.role).toBe('bp');
@@ -242,6 +284,7 @@ describe('UpdateUser', () => {
         email: user.email,
         roleRequest: 'b',
         role: 'bp',
+        idRequest: user.id,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

@@ -2,6 +2,8 @@ import { uuid } from 'uuidv4';
 
 import DeliveryPoint from '@modules/delivery-points/infra/typeorm/entities/DeliveryPoints';
 import ICreateDeliveryPointDTO from '@modules/delivery-points/dtos/ICreateDeliveryPointDTO';
+import PaginationDTO from '@shared/dtos/PaginationDTO';
+import PaginatedDeliveryPointsDTO from '@modules/delivery-points/dtos/PaginatedDeliveryPointsDTO';
 import IDeliveryPointsRepository from '../IDeliveryPointsRepository';
 
 class FakeDeliveryPointsRepository implements IDeliveryPointsRepository {
@@ -35,6 +37,36 @@ class FakeDeliveryPointsRepository implements IDeliveryPointsRepository {
     this.deliveryPoints[findIndex] = point;
 
     return point;
+  }
+
+  public async findAllPaginated(
+    state: string,
+    { page, limit }: PaginationDTO,
+  ): Promise<PaginatedDeliveryPointsDTO> {
+    const skippedItems = (page - 1) * limit;
+
+    const totalCount = this.deliveryPoints.length;
+    const points: DeliveryPoint[] = [];
+
+    let i = skippedItems;
+
+    const limitLoop =
+      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+
+    if (i === 0 && limitLoop === 0 && this.deliveryPoints[0]) {
+      points.push(this.deliveryPoints[0]);
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i; i < limitLoop; i++) {
+      points.push(this.deliveryPoints[i]);
+    }
+
+    return {
+      totalCount,
+      page,
+      limit,
+      data: points,
+    };
   }
 }
 

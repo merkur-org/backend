@@ -1,18 +1,12 @@
+import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
+import ICreateDeliveryPointDTO from '../dtos/ICreateDeliveryPointDTO';
 import DeliveryPoint from '../infra/typeorm/entities/DeliveryPoints';
 import IDeliveryPointsRepository from '../repositories/IDeliveryPointsRepository';
 
-interface IRequest {
-  city: string;
-  state: string;
-  suburb: string;
-  street: string;
-  number: number;
-  cep: string;
-  latitude: number;
-  longitude: number;
-  userRole: string;
+interface IRequest extends ICreateDeliveryPointDTO {
+  role: IRole;
 }
 
 @injectable()
@@ -31,9 +25,9 @@ class CreateDeliveryPointService {
     state,
     street,
     suburb,
-    userRole,
+    role,
   }: IRequest): Promise<DeliveryPoint> {
-    if (!userRole.match(/r|a/g)) {
+    if (!role.match(/r|a/g)) {
       throw new AppError('You dont have permission to do this action', 401);
     }
 

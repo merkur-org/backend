@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe';
 
 import IUsersRepository from '../repositories/IUsersRepository';
 
-import PaginationDTO from '../dtos/PaginationDTO';
+import PaginationDTO from '../../../shared/dtos/PaginationDTO';
 import PaginatedUsersDTO from '../dtos/PaginatedUsersDTO';
 
 @injectable()

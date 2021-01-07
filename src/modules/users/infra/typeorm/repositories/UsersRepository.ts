@@ -3,7 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
-import PaginationDTO from '@modules/users/dtos/PaginationDTO';
+import PaginationDTO from '@shared/dtos/PaginationDTO';
 import PaginatedUsersDTO from '@modules/users/dtos/PaginatedUsersDTO';
 import User from '../entities/User';
 

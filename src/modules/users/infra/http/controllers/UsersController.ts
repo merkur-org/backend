@@ -56,7 +56,7 @@ export default class UsersController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
-    const { role: roleRequest, id: idRequest } = request.user;
+    const { role: roleRequest } = request.user;
 
     const {
       name,
@@ -82,7 +82,6 @@ export default class UsersController {
       password,
       role,
       roleRequest: roleRequest as IRole,
-      idRequest,
     });
 
     return response.json(classToClass(user));
@@ -91,14 +90,10 @@ export default class UsersController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
 
-    const { role, id: request_user_id } = request.user;
-
     const deleteUser = container.resolve(DeleteUserService);
 
     const message = await deleteUser.execute({
       user_id,
-      role: role as IRole,
-      request_user_id,
     });
 
     return response.json(message);
