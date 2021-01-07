@@ -19,22 +19,23 @@ export default class createOrder1609879520822 implements MigrationInterface {
           },
           {
             name: 'value',
-            type: 'varchar',
+            type: 'float',
           },
           {
             name: 'final_value',
-            type: 'varchar',
+            type: 'float',
           },
           {
             name: 'payment_type',
-            type: 'varchar',
+            type: 'enum',
+            enum: ['credit_card', 'money', 'pix', 'bank_slip', 'bank_transfer'],
           },
           {
             name: 'payment_status',
             type: 'enum',
             enum: [
               'processing',
-              'awaiting payment',
+              'awaiting_payment',
               'canceled',
               'expired',
               'paid',
@@ -43,13 +44,7 @@ export default class createOrder1609879520822 implements MigrationInterface {
           {
             name: 'sales_type',
             type: 'enum',
-            enum: [
-              'processing',
-              'awaiting payment',
-              'canceled',
-              'expired',
-              'paid',
-            ],
+            enum: ['wholesale', 'retail'],
           },
 
           {

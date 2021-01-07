@@ -15,6 +15,27 @@ export default class createOrderDetail1609883515226
             default: 'uuid_generate_v4()',
           },
           {
+            name: 'order_id',
+            type: 'uuid',
+          },
+          {
+            name: 'product_id',
+            type: 'uuid',
+          },
+          {
+            name: 'unit_price',
+            type: 'float',
+          },
+          {
+            name: 'quantity',
+            type: 'float',
+          },
+          {
+            name: 'discount',
+            type: 'float',
+          },
+
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
@@ -23,6 +44,24 @@ export default class createOrderDetail1609883515226
             name: 'updated_at',
             type: 'timestamp',
             default: 'now()',
+          },
+        ],
+        foreignKeys: [
+          {
+            name: 'OrderDetailOrder',
+            referencedTableName: 'orders',
+            referencedColumnNames: ['id'],
+            columnNames: ['order_id'],
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'OrderDetailProduct',
+            referencedTableName: 'products',
+            referencedColumnNames: ['id'],
+            columnNames: ['product_id'],
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),
