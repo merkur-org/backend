@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
-import checkRole from '@modules/users/infra/http/middlewares/checkRole';
 
+import checkRole from '@modules/users/infra/http/middlewares/checkRole';
 import DeliveryPointsController from '../controllers/DeliveryPointsController';
 
 const deliveryPointsRoutes = Router();
@@ -53,7 +53,7 @@ deliveryPointsRoutes.post(
 
 deliveryPointsRoutes.put(
   '/:point_id',
-  [checkRole(['r', 'himself'])],
+  [checkRole(['r'])],
   celebrate({
     [Segments.PARAMS]: {
       point_id: Joi.string().uuid().required(),
@@ -64,7 +64,7 @@ deliveryPointsRoutes.put(
 
 deliveryPointsRoutes.delete(
   '/:point_id',
-  [checkRole(['r', 'himself'])],
+  [checkRole(['r'])],
   celebrate({
     [Segments.PARAMS]: {
       point_id: Joi.string().uuid().required(),
