@@ -4,7 +4,7 @@ import IWeeklyListReposiroty from '@modules/weekly-list/repositories/IWeeklyList
 
 import WeeklyList from '../entities/WeeklyList';
 
-class FakeWeeklyListRepository implements IWeeklyListReposiroty {
+class WeeklyListRepository implements IWeeklyListReposiroty {
   private ormRepository: Repository<WeeklyList>;
 
   constructor() {
@@ -34,4 +34,4 @@ class FakeWeeklyListRepository implements IWeeklyListReposiroty {
   }
 }
 
-export default FakeWeeklyListRepository;
+export default WeeklyListRepository;

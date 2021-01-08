@@ -23,8 +23,8 @@ export default class createWeeklyListDetail1610039989598
             type: 'uuid',
           },
           {
-            name: 'quantity',
-            type: 'int',
+            name: 'total_price',
+            type: 'float',
           },
           {
             name: 'created_at',
@@ -60,6 +60,6 @@ export default class createWeeklyListDetail1610039989598
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('weekly_list_detais');
+    await queryRunner.dropTable('weekly_list_details');
   }
 }
