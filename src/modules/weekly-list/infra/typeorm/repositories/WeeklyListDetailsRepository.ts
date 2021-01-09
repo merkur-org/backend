@@ -1,41 +1,50 @@
 import { getRepository, Repository } from 'typeorm';
 
-import IWeeklyListDetailsReposiroty from '@modules/weekly-list/repositories/IWeeklyListDetailsRepository';
+import WeeklyListDetail from '@modules/weekly-list/infra/typeorm/entities/WeeklyListDetail';
 import ICreateWeeklyListDetailDTO from '@modules/weekly-list/dtos/ICreateWeeklyListDetailDTO';
-import WeeklyListDetails from '../entities/WeeklyListDetail';
+import IWeeklyListDetailReposiroty from '@modules/weekly-list/repositories/IWeeklyListDetailsRepository';
 
-class WeeklyListDetailsRepository implements IWeeklyListDetailsReposiroty {
-  private ormRepository: Repository<WeeklyListDetails>;
+class WeeklyListDetailRepository implements IWeeklyListDetailReposiroty {
+  private ormReposiroty: Repository<WeeklyListDetail>;
 
   constructor() {
-    this.ormRepository = getRepository(WeeklyListDetails);
+    this.ormReposiroty = getRepository(WeeklyListDetail);
   }
 
-  public async findById(id: string): Promise<WeeklyListDetails | undefined> {
-    const foundDetail = this.ormRepository.findOne(id);
+  public async findById(id: string): Promise<WeeklyListDetail | undefined> {
+    const foundDetail = this.ormReposiroty.findOne(id);
+
+    return foundDetail;
+  }
+
+  public async findByListId(
+    list_id: string,
+  ): Promise<WeeklyListDetail[] | undefined> {
+    const foundDetail = this.ormReposiroty.find({ where: { list_id } });
 
     return foundDetail;
   }
 
   public async create(
-    data: ICreateWeeklyListDetailDTO,
-  ): Promise<WeeklyListDetails> {
-    const detail = this.ormRepository.create(data);
+    data: ICreateWeeklyListDetailDTO[],
+  ): Promise<WeeklyListDetail[]> {
+    const details = this.ormReposiroty.create(data.map(d => d));
+    await this.ormReposiroty.save(details);
 
-    await this.ormRepository.save(detail);
-
-    return detail;
+    return details;
   }
 
   public async delete(id: string): Promise<void> {
-    this.ormRepository.delete({ id });
+    this.ormReposiroty.delete({ id });
   }
 
   public async save(
-    weeklyListDetail: WeeklyListDetails,
-  ): Promise<WeeklyListDetails> {
-    return this.ormRepository.save(weeklyListDetail);
+    weeklyListDetails: WeeklyListDetail[],
+  ): Promise<WeeklyListDetail[]> {
+    await this.ormReposiroty.save(weeklyListDetails);
+
+    return weeklyListDetails;
   }
 }
 
-export default WeeklyListDetailsRepository;
+export default WeeklyListDetailRepository;

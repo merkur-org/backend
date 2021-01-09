@@ -1,9 +1,10 @@
 import WeeklyListDetail from '../infra/typeorm/entities/WeeklyListDetail';
 import ICreateWeeklyListDetailDTO from '../dtos/ICreateWeeklyListDetailDTO';
 
-export default interface IWeeklyListReposiroty {
+export default interface IWeeklyListDetailReposiroty {
   findById(id: string): Promise<WeeklyListDetail | undefined>;
-  create(data: ICreateWeeklyListDetailDTO): Promise<WeeklyListDetail>;
+  findByListId(list_id: string): Promise<WeeklyListDetail[] | undefined>;
+  create(data: ICreateWeeklyListDetailDTO[]): Promise<WeeklyListDetail[]>;
   delete(id: string): Promise<void>;
-  save(weeklyListDetail: WeeklyListDetail): Promise<WeeklyListDetail>;
+  save(weeklyListDetail: WeeklyListDetail[]): Promise<WeeklyListDetail[]>;
 }

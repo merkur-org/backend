@@ -1,8 +1,10 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Between } from 'typeorm';
 
 import IWeeklyListReposiroty from '@modules/weekly-list/repositories/IWeeklyListsReposiroty';
+import ICreateWeeklyListDTO from '@modules/weekly-list/dtos/ICreateWeeklyListDTO';
+import IFindAllListsInPeriod from '@modules/weekly-list/dtos/IFindAllListsInPeriod';
 
-import WeeklyList from '../entities/WeeklyList';
+import WeeklyList from '@modules/weekly-list/infra/typeorm/entities/WeeklyList';
 
 class WeeklyListRepository implements IWeeklyListReposiroty {
   private ormRepository: Repository<WeeklyList>;
@@ -17,9 +19,30 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
     return foundList;
   }
 
-  public async create(): Promise<WeeklyList> {
-    const list = this.ormRepository.create();
+  public async findByUserId(
+    user_id: string,
+  ): Promise<WeeklyList[] | undefined> {
+    const foundLists = this.ormRepository.find({ where: { user_id } });
 
+    return foundLists;
+  }
+
+  public async findByPeriod({
+    start_date,
+    end_date = new Date(),
+  }: IFindAllListsInPeriod): Promise<WeeklyList[] | undefined> {
+    const foundLists = this.ormRepository.find({
+      where: Between(start_date, end_date),
+    });
+
+    return foundLists;
+  }
+
+  public async create({
+    user_id,
+    start_date,
+  }: ICreateWeeklyListDTO): Promise<WeeklyList> {
+    const list = this.ormRepository.create({ user_id, start_date });
     await this.ormRepository.save(list);
 
     return list;
@@ -30,7 +53,9 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
   }
 
   public async save(weeklyList: WeeklyList): Promise<WeeklyList> {
-    return this.ormRepository.save(weeklyList);
+    await this.ormRepository.save(weeklyList);
+
+    return weeklyList;
   }
 }
 

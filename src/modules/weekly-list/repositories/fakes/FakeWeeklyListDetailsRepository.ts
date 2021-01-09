@@ -15,16 +15,28 @@ class FakeWeeklyListDetailRepository implements IWeeklyListDetailReposiroty {
     return foundDetail;
   }
 
+  public async findByListId(
+    list_id: string,
+  ): Promise<WeeklyListDetail[] | undefined> {
+    const foundDetail = this.weeklyListDetails.filter(
+      listDetail => listDetail.list_id === list_id,
+    );
+
+    return foundDetail;
+  }
+
   public async create(
-    data: ICreateWeeklyListDetailDTO,
-  ): Promise<WeeklyListDetail> {
-    const detail = new WeeklyListDetail();
+    data: ICreateWeeklyListDetailDTO[],
+  ): Promise<WeeklyListDetail[]> {
+    const weeklyListDetails = data.map(listDetail => {
+      const detail = new WeeklyListDetail();
+      Object.assign(detail, { id: uuid() }, listDetail);
 
-    Object.assign(detail, { id: uuid() }, data);
+      this.weeklyListDetails.push(detail);
+      return detail;
+    });
 
-    this.weeklyListDetails.push(detail);
-
-    return detail;
+    return weeklyListDetails;
   }
 
   public async delete(id: string): Promise<void> {
@@ -32,15 +44,19 @@ class FakeWeeklyListDetailRepository implements IWeeklyListDetailReposiroty {
   }
 
   public async save(
-    weeklyListDetails: WeeklyListDetail,
-  ): Promise<WeeklyListDetail> {
-    const findIndex = this.weeklyListDetails.findIndex(
-      foundDetail => foundDetail.id === weeklyListDetails.id,
-    );
+    weeklyListDetails: WeeklyListDetail[],
+  ): Promise<WeeklyListDetail[]> {
+    const savedList = weeklyListDetails.map(listDetail => {
+      const findIndex = this.weeklyListDetails.findIndex(
+        foundDetail => foundDetail.id === listDetail.id,
+      );
 
-    this.weeklyListDetails[findIndex] = weeklyListDetails;
+      this.weeklyListDetails[findIndex] = listDetail;
 
-    return weeklyListDetails;
+      return listDetail;
+    });
+
+    return savedList;
   }
 }
 

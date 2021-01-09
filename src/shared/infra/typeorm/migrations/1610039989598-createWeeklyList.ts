@@ -15,6 +15,19 @@ export default class createWeeklyList1610039989598
             default: 'uuid_generate_v4()',
           },
           {
+            name: 'user_id',
+            type: 'uuid',
+          },
+          {
+            name: 'start_date',
+            type: 'timestamp with time zone',
+          },
+          {
+            name: 'status',
+            type: 'enum',
+            enum: ['unavailable', 'available', 'created'],
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
@@ -23,6 +36,16 @@ export default class createWeeklyList1610039989598
             name: 'updated_at',
             type: 'timestamp',
             default: 'now()',
+          },
+        ],
+        foreignKeys: [
+          {
+            name: 'ListUser',
+            referencedTableName: 'users',
+            referencedColumnNames: ['id'],
+            columnNames: ['user_id'],
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE',
           },
         ],
       }),

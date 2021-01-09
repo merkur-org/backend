@@ -1,8 +1,10 @@
-import Product from '@modules/products/infra/typeorm/entities/Product';
-import WeeklyList from '../infra/typeorm/entities/WeeklyList';
-
 export default interface ICreateWeeklyListDetailDTO {
-  weekly_list: WeeklyList;
-  products: Product[];
+  list_id: string;
+  product_id: string;
+  due_date: Date;
+  quantity: number;
+  unit_price: number;
+  discount: number;
   total_price: number;
+  lot?: string;
 }

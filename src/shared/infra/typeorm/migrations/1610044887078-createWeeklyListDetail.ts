@@ -23,6 +23,27 @@ export default class createWeeklyListDetail1610039989598
             type: 'uuid',
           },
           {
+            name: 'due_date',
+            type: 'timestamp with time zone',
+          },
+          {
+            name: 'lot',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'quantity',
+            type: 'int',
+          },
+          {
+            name: 'unit_price',
+            type: 'float',
+          },
+          {
+            name: 'discount',
+            type: 'float',
+          },
+          {
             name: 'total_price',
             type: 'float',
           },
