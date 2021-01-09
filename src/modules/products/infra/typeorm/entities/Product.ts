@@ -6,6 +6,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export type IUnit = 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton';
+
 @Entity('products')
 class Product {
   @PrimaryColumn('uuid')
@@ -15,7 +17,7 @@ class Product {
   name: string;
 
   @Column('enum')
-  unit: 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton';
+  unit: IUnit;
 
   @Column('float')
   cost_price: number;

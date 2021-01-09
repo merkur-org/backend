@@ -4,6 +4,7 @@ import usersRoutes from '@modules/users/infra/http/routes/users.routes';
 import sessionsRoutes from '@modules/users/infra/http/routes/sessions.routes';
 import productsRoutes from '@modules/products/infra/http/routes/products.routes';
 import deliveryPointsRoutes from '@modules/delivery-points/infra/http/routes/deliveryPoints.routes';
+import weeklyListRoutes from '@modules/weekly-list/infra/http/routes/weeklyList.routes';
 
 const routes = Router();
 
@@ -13,5 +14,7 @@ routes.use('/sessions', sessionsRoutes);
 routes.use('/delivery-points', deliveryPointsRoutes);
 
 routes.use('/products', productsRoutes);
+
+routes.use('/weekly-list', weeklyListRoutes);
 
 export default routes;

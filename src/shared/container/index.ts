@@ -11,6 +11,12 @@ import DeliveryPointsRepository from '@modules/delivery-points/infra/typeorm/rep
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import ProductsRepository from '@modules/products/infra/typeorm/repositories/ProductsRepository';
 
+import IWeeklyListRepository from '@modules/weekly-list/repositories/IWeeklyListsReposiroty';
+import WeeklyListRepository from '@modules/weekly-list/infra/typeorm/repositories/WeeklyListsRepository';
+
+import IWeeklyListDetailsRepository from '@modules/weekly-list/repositories/IWeeklyListDetailsRepository';
+import WeeklyListDetailsRepository from '@modules/weekly-list/infra/typeorm/repositories/WeeklyListDetailsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -24,4 +30,14 @@ container.registerSingleton<IDeliveryPointsRepository>(
 container.registerSingleton<IProductsRepository>(
   'ProductsRepository',
   ProductsRepository,
+);
+
+container.registerSingleton<IWeeklyListRepository>(
+  'WeeklyListRepository',
+  WeeklyListRepository,
+);
+
+container.registerSingleton<IWeeklyListDetailsRepository>(
+  'WeeklyListDetailsRepository',
+  WeeklyListDetailsRepository,
 );

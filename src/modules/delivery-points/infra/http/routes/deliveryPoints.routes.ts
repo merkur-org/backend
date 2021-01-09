@@ -3,6 +3,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
+import checkRole from '@modules/users/infra/http/middlewares/checkRole';
 import DeliveryPointsController from '../controllers/DeliveryPointsController';
 
 const deliveryPointsRoutes = Router();
@@ -34,6 +35,7 @@ deliveryPointsRoutes.use(ensureAuthenticated);
 
 deliveryPointsRoutes.post(
   '/',
+  [checkRole(['r'])],
   celebrate({
     [Segments.BODY]: {
       city: Joi.string().required(),
@@ -51,6 +53,7 @@ deliveryPointsRoutes.post(
 
 deliveryPointsRoutes.put(
   '/:point_id',
+  [checkRole(['r'])],
   celebrate({
     [Segments.PARAMS]: {
       point_id: Joi.string().uuid().required(),
@@ -61,6 +64,7 @@ deliveryPointsRoutes.put(
 
 deliveryPointsRoutes.delete(
   '/:point_id',
+  [checkRole(['r'])],
   celebrate({
     [Segments.PARAMS]: {
       point_id: Joi.string().uuid().required(),
