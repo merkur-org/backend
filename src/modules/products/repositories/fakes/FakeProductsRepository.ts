@@ -3,6 +3,8 @@ import { uuid } from 'uuidv4';
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 import Product from '@modules/products/infra/typeorm/entities/Product';
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
+import PaginatedProductDTO from '@modules/products/dtos/PaginatedProductsDTO';
+import PaginationDTO from '@shared/dtos/PaginationDTO';
 
 class FakeProductsRepository implements IProductsRepository {
   private products: Product[] = [];
@@ -49,6 +51,36 @@ class FakeProductsRepository implements IProductsRepository {
     this.products[findIndex] = product;
 
     return product;
+  }
+
+  public async findAllPaginated({
+    page,
+    limit,
+  }: PaginationDTO): Promise<PaginatedProductDTO> {
+    const skippedItems = (page - 1) * limit;
+
+    const totalCount = this.products.length;
+    const products: Product[] = [];
+
+    let i = skippedItems;
+
+    const limitLoop =
+      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+
+    if (i === 0 && limitLoop === 0 && this.products[0]) {
+      products.push(this.products[0]);
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i; i < limitLoop; i++) {
+      products.push(this.products[i]);
+    }
+
+    return {
+      totalCount,
+      page,
+      limit,
+      data: products,
+    };
   }
 }
 
