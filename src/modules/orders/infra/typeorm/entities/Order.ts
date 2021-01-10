@@ -8,7 +8,9 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import OrderDetail from './OrderDetail';
 
 export type IPaymentStatus =
   | 'processing'
@@ -32,7 +34,7 @@ class Order {
   id: string;
 
   @Column('timestamp with time zone')
-  date: number;
+  date: Date;
 
   @Column('float')
   value: number;
@@ -59,9 +61,12 @@ class Order {
   @Column()
   user_id: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, user => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => OrderDetail, orderDetail => orderDetail.order_id)
+  order_details: OrderDetail[];
 
   @CreateDateColumn()
   created_at: Date;

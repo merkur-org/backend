@@ -16,19 +16,19 @@ class OrderDetail {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('uuid')
   order_id: string;
 
-  @ManyToOne(() => Order)
+  @ManyToOne(() => Order, orderDetail => orderDetail.id)
   @JoinColumn({ name: 'order_id' })
-  delivery_point: Order;
+  order: Order;
 
   @Column()
   product_id: string;
 
-  @ManyToOne(() => Product)
+  @ManyToOne(() => Product, product => product.id)
   @JoinColumn({ name: 'product_id' })
-  user: Product;
+  products: Product;
 
   @Column('float')
   unit_price: number;

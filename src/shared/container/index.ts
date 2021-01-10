@@ -17,6 +17,12 @@ import WeeklyListRepository from '@modules/weekly-list/infra/typeorm/repositorie
 import IWeeklyListDetailsRepository from '@modules/weekly-list/repositories/IWeeklyListDetailsRepository';
 import WeeklyListDetailsRepository from '@modules/weekly-list/infra/typeorm/repositories/WeeklyListDetailsRepository';
 
+import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
+import OrdersRepository from '@modules/orders/infra/typeorm/repositories/OrdersRepository';
+
+import IOrderDetailsRepository from '@modules/orders/repositories/IOrderDetailsRepository';
+import OrderDetailsRepository from '@modules/orders/infra/typeorm/repositories/OrderDetailsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -40,4 +46,14 @@ container.registerSingleton<IWeeklyListRepository>(
 container.registerSingleton<IWeeklyListDetailsRepository>(
   'WeeklyListDetailsRepository',
   WeeklyListDetailsRepository,
+);
+
+container.registerSingleton<IOrdersRepository>(
+  'OrdersRepository',
+  OrdersRepository,
+);
+
+container.registerSingleton<IOrderDetailsRepository>(
+  'OrderDetailsRepository',
+  OrderDetailsRepository,
 );
