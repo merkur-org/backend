@@ -1,12 +1,10 @@
 import { injectable, inject } from 'tsyringe';
 
-import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 import AppError from '@shared/errors/AppError';
 import IDeliveryPointsRepository from '../repositories/IDeliveryPointsRepository';
 
 interface IRequest {
   point_id: string;
-  role: IRole;
 }
 
 @injectable()
@@ -16,14 +14,7 @@ class DeleteDeliveryPointService {
     private deliveryPointsRepository: IDeliveryPointsRepository,
   ) {}
 
-  public async execute({
-    point_id,
-    role,
-  }: IRequest): Promise<{ message: string }> {
-    if (!role.match(/r|a/g)) {
-      throw new AppError('You dont have permission to do this action', 401);
-    }
-
+  public async execute({ point_id }: IRequest): Promise<{ message: string }> {
     const point = await this.deliveryPointsRepository.findByID(point_id);
 
     if (!point) {

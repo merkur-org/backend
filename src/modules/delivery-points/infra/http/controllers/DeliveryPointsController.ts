@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import { IRole } from '@modules/users/dtos/ICreateUserDTO';
-
 import CreateDeliveryPointService from '@modules/delivery-points/services/CreateDeliveryPointService';
 import ListDeliveryPointsService from '@modules/delivery-points/services/ListDeliveryPointsService';
 import ShowDeliveryPointService from '@modules/delivery-points/services/ShowDeliveryPointService';
@@ -11,8 +9,6 @@ import DeleteDeliveryPointService from '@modules/delivery-points/services/Delete
 
 class DeliveryPointsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { role } = request.user;
-
     const {
       cep,
       city,
@@ -35,7 +31,6 @@ class DeliveryPointsController {
       state,
       street,
       suburb,
-      role: role as IRole,
     });
 
     return response.json({ deliveryPoint: point });
@@ -67,8 +62,6 @@ class DeliveryPointsController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { point_id } = request.params;
-    const { role } = request.user;
-
     const {
       city,
       state,
@@ -92,7 +85,6 @@ class DeliveryPointsController {
       number,
       latitude,
       longitude,
-      role: role as IRole,
     });
 
     return response.json(point);
@@ -100,13 +92,11 @@ class DeliveryPointsController {
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { point_id } = request.params;
-    const { role } = request.user;
 
     const deleteDeliveryPoint = container.resolve(DeleteDeliveryPointService);
 
     const point = await deleteDeliveryPoint.execute({
       point_id,
-      role: role as IRole,
     });
 
     return response.json({ point });

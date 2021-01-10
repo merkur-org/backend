@@ -1,14 +1,12 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 import IDeliveryPointsRepository from '../repositories/IDeliveryPointsRepository';
 import DeliveryPoint from '../infra/typeorm/entities/DeliveryPoints';
 import ICreateDeliveryPointDTO from '../dtos/ICreateDeliveryPointDTO';
 
 interface IRequest extends ICreateDeliveryPointDTO {
   point_id: string;
-  role: IRole;
 }
 
 @injectable()
@@ -28,12 +26,7 @@ class UpdateDeliveryPointService {
     number,
     latitude,
     longitude,
-    role,
   }: IRequest): Promise<DeliveryPoint> {
-    if (!role.match(/r|a/g)) {
-      throw new AppError('You dont have permission to do this action', 401);
-    }
-
     const point = await this.deliveryPointsRepository.findByID(point_id);
 
     if (!point) {
