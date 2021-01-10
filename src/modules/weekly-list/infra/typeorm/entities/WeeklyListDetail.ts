@@ -1,11 +1,11 @@
 import {
   Entity,
-  PrimaryColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import Product from '@modules/products/infra/typeorm/entities/Product';
@@ -13,7 +13,7 @@ import WeeklyList from './WeeklyList';
 
 @Entity('weekly_list_details')
 class WeeklyListDetail {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('uuid')

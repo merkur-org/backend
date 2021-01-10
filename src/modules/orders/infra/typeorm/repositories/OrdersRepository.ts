@@ -34,8 +34,26 @@ class OrdersRepository implements IOrdersRepository {
     return foundOrders;
   }
 
-  public async create(data: ICreateOrderDTO): Promise<Order> {
-    const order = this.ormRepository.create(data);
+  public async create({
+    date,
+    delivery_point_id,
+    final_value,
+    payment_status,
+    payment_type,
+    sales_type,
+    user_id,
+    value,
+  }: ICreateOrderDTO): Promise<Order> {
+    const order = this.ormRepository.create({
+      date,
+      delivery_point_id,
+      final_value,
+      payment_status,
+      payment_type,
+      sales_type,
+      user_id,
+      value,
+    });
 
     await this.ormRepository.save(order);
 

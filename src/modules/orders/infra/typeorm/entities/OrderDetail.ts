@@ -1,11 +1,11 @@
 import {
   Entity,
-  PrimaryColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import Product from '@modules/products/infra/typeorm/entities/Product';
@@ -13,7 +13,7 @@ import Order from './Order';
 
 @Entity('order_details')
 class OrderDetail {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('uuid')

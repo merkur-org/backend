@@ -8,8 +8,7 @@ import IOrderDetailsRepository from '../repositories/IOrderDetailsRepository';
 import IOrdersRepository from '../repositories/IOrdersRepository';
 
 interface IRequest extends ICreateOrderDTO {
-  // details: Omit<ICreateOrderDetailDTO, 'order_id'>[];
-  details: ICreateOrderDetailDTO[];
+  details: Omit<ICreateOrderDetailDTO, 'order_id'>[];
 }
 
 interface IResponse {
@@ -51,7 +50,7 @@ class CreateOrderService {
     const serializedProducts = details.map(detail => {
       return {
         ...detail,
-        order_id: '373eee3c-4f78-440f-a2ab-e99abbab017e',
+        order_id: order.id,
       };
     });
 

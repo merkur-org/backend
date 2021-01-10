@@ -2,13 +2,13 @@ import DeliveryPoint from '@modules/delivery-points/infra/typeorm/entities/Deliv
 import User from '@modules/users/infra/typeorm/entities/User';
 import {
   Entity,
-  PrimaryColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import OrderDetail from './OrderDetail';
 
@@ -30,7 +30,7 @@ export type ISalesType = 'wholesale' | 'retail';
 
 @Entity('orders')
 class Order {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('timestamp with time zone')
