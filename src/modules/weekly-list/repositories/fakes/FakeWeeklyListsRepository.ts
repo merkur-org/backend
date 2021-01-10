@@ -4,6 +4,8 @@ import IWeeklyListReposiroty from '@modules/weekly-list/repositories/IWeeklyList
 import ICreateWeeklyListDTO from '@modules/weekly-list/dtos/ICreateWeeklyListDTO';
 import IFindAllListsInPeriod from '@modules/weekly-list/dtos/IFindAllListsInPeriod';
 
+import PaginatedWeeklyListsDTO from '@modules/weekly-list/dtos/PaginatedWeeklyListsDTO';
+import PaginationDTO from '@shared/dtos/PaginationDTO';
 import WeeklyList from '../../infra/typeorm/entities/WeeklyList';
 
 class FakeWeeklyListRepository implements IWeeklyListReposiroty {
@@ -63,6 +65,36 @@ class FakeWeeklyListRepository implements IWeeklyListReposiroty {
     this.weeklyLists[findIndex] = weeklyList;
 
     return weeklyList;
+  }
+
+  public async findAllPaginated({
+    page,
+    limit,
+  }: PaginationDTO): Promise<PaginatedWeeklyListsDTO> {
+    const skippedItems = (page - 1) * limit;
+
+    const totalCount = this.weeklyLists.length;
+    const lists: WeeklyList[] = [];
+
+    let i = skippedItems;
+
+    const limitLoop =
+      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+
+    if (i === 0 && limitLoop === 0 && this.weeklyLists[0]) {
+      lists.push(this.weeklyLists[0]);
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i; i < limitLoop; i++) {
+      lists.push(this.weeklyLists[i]);
+    }
+
+    return {
+      totalCount,
+      page,
+      limit,
+      data: lists,
+    };
   }
 }
 

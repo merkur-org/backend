@@ -16,10 +16,78 @@ weeklyListRoutes.post(
   [checkRole(['r'])],
   celebrate({
     [Segments.BODY]: {
-      point: Joi.array().required(),
+      start_date: Joi.date(),
+      status: Joi.string().required(),
+      details: Joi.array().items({
+        product_id: Joi.string().required(),
+        due_date: Joi.date().required(),
+        quantity: Joi.number().required(),
+        unit_price: Joi.number().required(),
+        discount: Joi.number(),
+        total_price: Joi.number().required(),
+        lot: Joi.string(),
+      }),
     },
   }),
   weeklyListController.create,
+);
+
+weeklyListRoutes.get(
+  '/:list_id',
+  [checkRole(['r'])],
+  celebrate({
+    [Segments.PARAMS]: {
+      list_id: Joi.string().required(),
+    },
+  }),
+  weeklyListController.show,
+);
+
+weeklyListRoutes.get(
+  '/',
+  [checkRole(['r'])],
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number().min(1),
+      page: Joi.number().min(1),
+    },
+  }),
+  weeklyListController.list,
+);
+
+weeklyListRoutes.delete(
+  '/:list_id',
+  [checkRole(['r'])],
+  celebrate({
+    [Segments.PARAMS]: {
+      list_id: Joi.string().required(),
+    },
+  }),
+  weeklyListController.delete,
+);
+
+weeklyListRoutes.put(
+  '/:list_id',
+  [checkRole(['r'])],
+  celebrate({
+    [Segments.PARAMS]: {
+      list_id: Joi.string().required(),
+    },
+    [Segments.BODY]: {
+      start_date: Joi.date(),
+      status: Joi.string().required(),
+      details: Joi.array().items({
+        product_id: Joi.string().required(),
+        due_date: Joi.date().required(),
+        quantity: Joi.number().required(),
+        unit_price: Joi.number().required(),
+        discount: Joi.number(),
+        total_price: Joi.number().required(),
+        lot: Joi.string(),
+      }),
+    },
+  }),
+  weeklyListController.update,
 );
 
 export default weeklyListRoutes;

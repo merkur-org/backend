@@ -19,7 +19,7 @@ class ShowDeliveryPointService {
     const point = await this.deliveryPointsRepository.findByID(point_id);
 
     if (!point) {
-      throw new AppError('Delivery Point not found');
+      throw new AppError('Delivery Point not found', 404);
     }
 
     return point;
