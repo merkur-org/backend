@@ -8,6 +8,27 @@ const productsController = new ProductsController();
 
 const productsRouter = Router();
 
+productsRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number().min(1),
+      limit: Joi.number().min(1),
+    },
+  }),
+  productsController.list,
+);
+
+productsRouter.get(
+  '/:product_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      product_id: Joi.string().uuid().required(),
+    },
+  }),
+  productsController.show,
+);
+
 productsRouter.use(ensureAuthenticated);
 
 productsRouter.post(
@@ -22,6 +43,26 @@ productsRouter.post(
     },
   }),
   productsController.create,
+);
+
+productsRouter.put(
+  ':/product_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      product_id: Joi.string().uuid().required(),
+    },
+  }),
+  productsController.update,
+);
+
+productsRouter.delete(
+  ':product_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      product_id: Joi.string().uuid().required(),
+    },
+  }),
+  productsController.delete,
 );
 
 export default productsRouter;
