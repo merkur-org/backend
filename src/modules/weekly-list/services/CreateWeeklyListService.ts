@@ -17,21 +17,23 @@ interface IResponse {
 @injectable()
 class CreateDeliveryPointService {
   constructor(
-    @inject('WeeklyListRepository')
-    private weeklyListRepository: IWeeklyListsReposiroty,
+    @inject('WeeklyListsRepository')
+    private weeklyListsRepository: IWeeklyListsReposiroty,
 
-    @inject('WeeklyListDetailRepository')
-    private weeklyListDetailRepository: IWeeklyListDetailsRepository,
+    @inject('WeeklyListDetailsRepository')
+    private weeklyListDetailsRepository: IWeeklyListDetailsRepository,
   ) {}
 
   public async execute({
     details,
     start_date,
     user_id,
+    status,
   }: IRequest): Promise<IResponse> {
-    const weeklyList = await this.weeklyListRepository.create({
+    const weeklyList = await this.weeklyListsRepository.create({
       start_date,
       user_id,
+      status,
     });
 
     const serializedProducts = details.map(detail => {
@@ -41,7 +43,7 @@ class CreateDeliveryPointService {
       };
     });
 
-    const weeklyListDetails = await this.weeklyListDetailRepository.create(
+    const weeklyListDetails = await this.weeklyListDetailsRepository.create(
       serializedProducts,
     );
 

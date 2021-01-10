@@ -12,7 +12,7 @@ import IProductsRepository from '@modules/products/repositories/IProductsReposit
 import ProductsRepository from '@modules/products/infra/typeorm/repositories/ProductsRepository';
 
 import IWeeklyListRepository from '@modules/weekly-list/repositories/IWeeklyListsReposiroty';
-import WeeklyListRepository from '@modules/weekly-list/infra/typeorm/repositories/WeeklyListsRepository';
+import WeeklyListsRepository from '@modules/weekly-list/infra/typeorm/repositories/WeeklyListsRepository';
 
 import IWeeklyListDetailsRepository from '@modules/weekly-list/repositories/IWeeklyListDetailsRepository';
 import WeeklyListDetailsRepository from '@modules/weekly-list/infra/typeorm/repositories/WeeklyListDetailsRepository';
@@ -33,8 +33,8 @@ container.registerSingleton<IProductsRepository>(
 );
 
 container.registerSingleton<IWeeklyListRepository>(
-  'WeeklyListRepository',
-  WeeklyListRepository,
+  'WeeklyListsRepository',
+  WeeklyListsRepository,
 );
 
 container.registerSingleton<IWeeklyListDetailsRepository>(

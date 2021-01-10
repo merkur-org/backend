@@ -1,7 +1,7 @@
 import User from '@modules/users/infra/typeorm/entities/User';
 import {
   Entity,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
@@ -15,7 +15,7 @@ export type IStatusList = 'unavailable' | 'available' | 'created';
 
 @Entity('weekly_list')
 class WeeklyList {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('uuid')

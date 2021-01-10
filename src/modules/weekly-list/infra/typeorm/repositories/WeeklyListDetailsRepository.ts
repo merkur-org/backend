@@ -12,7 +12,7 @@ class WeeklyListDetailRepository implements IWeeklyListDetailReposiroty {
   }
 
   public async findById(id: string): Promise<WeeklyListDetail | undefined> {
-    const foundDetail = this.ormReposiroty.findOne(id);
+    const foundDetail = await this.ormReposiroty.findOne(id);
 
     return foundDetail;
   }
@@ -20,7 +20,7 @@ class WeeklyListDetailRepository implements IWeeklyListDetailReposiroty {
   public async findByListId(
     list_id: string,
   ): Promise<WeeklyListDetail[] | undefined> {
-    const foundDetail = this.ormReposiroty.find({ where: { list_id } });
+    const foundDetail = await this.ormReposiroty.find({ where: { list_id } });
 
     return foundDetail;
   }
