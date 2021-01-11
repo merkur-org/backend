@@ -47,20 +47,26 @@ class UpdateWeeklyListService {
       list_id,
     );
 
-    let serializedDetails;
     if (listDetails) {
-      serializedDetails = details.map(detail => {
-        return {
-          ...detail,
-          list_id,
-        };
+      details.forEach(detail => {
+        const detailIndex = listDetails.findIndex(() => detail.id);
+
+        if (detailIndex !== -1) {
+          listDetails[detailIndex].due_date = detail.due_date;
+          listDetails[detailIndex].lot = detail.lot;
+          listDetails[detailIndex].quantity = detail.quantity;
+          listDetails[detailIndex].unit_price = detail.unit_price;
+          listDetails[detailIndex].unit_price = detail.unit_price;
+          listDetails[detailIndex].discount = detail.discount;
+          listDetails[detailIndex].total_price = detail.total_price;
+        }
       });
-      await this.weeklyListDetailsRepository.save(serializedDetails);
+      await this.weeklyListDetailsRepository.save(listDetails);
     }
 
     return {
       weekly_list: list,
-      weekly_list_details: serializedDetails as WeeklyListDetail[],
+      weekly_list_details: listDetails as WeeklyListDetail[],
     };
   }
 }

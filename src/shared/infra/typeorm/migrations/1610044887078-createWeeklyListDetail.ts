@@ -64,7 +64,7 @@ export default class createWeeklyListDetail1610039989598
             referencedTableName: 'weekly_list',
             referencedColumnNames: ['id'],
             columnNames: ['list_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
           {
@@ -72,7 +72,7 @@ export default class createWeeklyListDetail1610039989598
             referencedTableName: 'products',
             referencedColumnNames: ['id'],
             columnNames: ['product_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
         ],

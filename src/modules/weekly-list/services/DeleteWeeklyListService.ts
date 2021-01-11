@@ -19,17 +19,17 @@ class DeleteWeeklyListService {
   ) {}
 
   public async execute({ list_id }: IRequest): Promise<{ message: string }> {
-    const removedDetails = await this.weeklyListDetailsRepository.findByListId(
-      list_id,
-    );
+    // const removedDetails = await this.weeklyListDetailsRepository.findByListId(
+    //   list_id,
+    // );
 
-    if (removedDetails) {
-      await Promise.all(
-        removedDetails.map(async detail => {
-          await this.weeklyListDetailsRepository.delete(detail.id);
-        }),
-      );
-    }
+    // if (removedDetails) {
+    //   await Promise.all(
+    //     removedDetails.map(async detail => {
+    //       await this.weeklyListDetailsRepository.delete(detail.id);
+    //     }),
+    //   );
+    // }
 
     const list = await this.weeklyListsRepository.findById(list_id);
 
@@ -37,8 +37,7 @@ class DeleteWeeklyListService {
       throw new AppError('Weekly List not found', 404);
     }
 
-    await this.weeklyListsRepository.delete(list_id);
-    await this.weeklyListsRepository.delete(list_id);
+    await this.weeklyListsRepository.delete(list.id);
 
     return { message: 'weekly list point deleted' };
   }

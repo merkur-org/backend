@@ -25,11 +25,12 @@ class WeeklyListController {
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
-    const { page = 1, limit = 10 } = request.query;
+    const { page = 1, limit = 10, user_id } = request.query;
 
     const listWeeklyLists = container.resolve(ListWeeklyListsService);
 
     const data = await listWeeklyLists.execute({
+      user_id: String(user_id),
       page: Number(page),
       limit: Number(limit),
     });

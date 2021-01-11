@@ -6,6 +6,7 @@ import IFindAllListsInPeriod from '@modules/weekly-list/dtos/IFindAllListsInPeri
 import WeeklyList from '@modules/weekly-list/infra/typeorm/entities/WeeklyList';
 import PaginationDTO from '@shared/dtos/PaginationDTO';
 import PaginatedWeeklyListsDTO from '@modules/weekly-list/dtos/PaginatedWeeklyListsDTO';
+import WeeklyListDetail from '../entities/WeeklyListDetail';
 
 class WeeklyListRepository implements IWeeklyListReposiroty {
   private ormRepository: Repository<WeeklyList>;
@@ -51,7 +52,7 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
   }
 
   public async delete(id: string): Promise<void> {
-    this.ormRepository.delete({ id });
+    await this.ormRepository.delete({ id });
   }
 
   public async save(weeklyList: WeeklyList): Promise<WeeklyList> {
@@ -61,6 +62,7 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
   }
 
   public async findAllPaginated({
+    user_id,
     page,
     limit,
   }: PaginationDTO): Promise<PaginatedWeeklyListsDTO> {
@@ -68,11 +70,16 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
 
     const totalCount = await this.ormRepository.count();
     const lists = await this.ormRepository
-      .createQueryBuilder('weekly_list')
-      .orderBy('created_at', 'DESC')
+      .createQueryBuilder('wl')
+      .select('wl.*')
+      .addSelect('json_agg(wld) as "details"')
+      .orderBy('wl.created_at', 'DESC')
+      .leftJoin(WeeklyListDetail, 'wld', 'wl.id = wld.list_id')
+      .where('wl.user_id = :user_id', { user_id })
+      .groupBy('wl.id')
       .offset(skippedItems)
       .limit(limit)
-      .getMany();
+      .getRawMany();
 
     return {
       totalCount,
@@ -84,3 +91,14 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
 }
 
 export default WeeklyListRepository;
+
+// select
+// wl.created_at as created_at,
+// wl.id as id,
+// wl.start_date as start_date,
+// wl.status as status,
+// wl.updated_at as updated_at ,
+// wl.user_id as user_id
+// from weekly_list wl
+// left join weekly_list_details wld ON wl.id = wld.list_id
+// offset 0
