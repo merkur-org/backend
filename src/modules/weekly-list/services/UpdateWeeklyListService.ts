@@ -9,7 +9,17 @@ import ICreateWeeklyListDTO from '../dtos/ICreateWeeklyListDTO';
 
 interface IRequest extends Omit<ICreateWeeklyListDTO, 'user_id'> {
   list_id: string;
-  details: WeeklyListDetail[];
+  details: [
+    {
+      id: string;
+      due_date: Date;
+      lot: string;
+      quantity: number;
+      unit_price: number;
+      discount: number;
+      total_price: number;
+    },
+  ];
 }
 
 interface IResponse {

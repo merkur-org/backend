@@ -13,8 +13,8 @@ export default interface IWeeklyListReposiroty {
   create(data: ICreateWeeklyListDTO): Promise<WeeklyList>;
   delete(id: string): Promise<void>;
   save(weeklyList: WeeklyList): Promise<WeeklyList>;
-  findAllPaginated({
-    page,
-    limit,
-  }: PaginationDTO): Promise<PaginatedWeeklyListsDTO>;
+  findAllPaginated(
+    user_id: string,
+    { page, limit }: PaginationDTO,
+  ): Promise<PaginatedWeeklyListsDTO>;
 }

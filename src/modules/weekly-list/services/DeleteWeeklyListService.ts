@@ -19,18 +19,6 @@ class DeleteWeeklyListService {
   ) {}
 
   public async execute({ list_id }: IRequest): Promise<{ message: string }> {
-    // const removedDetails = await this.weeklyListDetailsRepository.findByListId(
-    //   list_id,
-    // );
-
-    // if (removedDetails) {
-    //   await Promise.all(
-    //     removedDetails.map(async detail => {
-    //       await this.weeklyListDetailsRepository.delete(detail.id);
-    //     }),
-    //   );
-    // }
-
     const list = await this.weeklyListsRepository.findById(list_id);
 
     if (!list) {

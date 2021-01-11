@@ -67,10 +67,10 @@ class FakeWeeklyListRepository implements IWeeklyListReposiroty {
     return weeklyList;
   }
 
-  public async findAllPaginated({
-    page,
-    limit,
-  }: PaginationDTO): Promise<PaginatedWeeklyListsDTO> {
+  public async findAllPaginated(
+    user_id: string,
+    { page, limit }: PaginationDTO,
+  ): Promise<PaginatedWeeklyListsDTO> {
     const skippedItems = (page - 1) * limit;
 
     const totalCount = this.weeklyLists.length;

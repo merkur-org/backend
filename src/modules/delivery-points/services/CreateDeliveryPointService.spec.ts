@@ -25,25 +25,8 @@ describe('CreateDeliveryPoint', () => {
       state: 'example',
       street: 'example',
       suburb: 'center',
-      role: 'r',
     });
 
     expect(point).toHaveProperty('id');
-  });
-
-  it('should not be able to create a new delivery point if you are not root', async () => {
-    await expect(
-      createDeliveryPoint.execute({
-        cep: '12345678',
-        city: 'example',
-        latitude: 40.6976701,
-        longitude: -74.2598663,
-        number: 1,
-        state: 'example',
-        street: 'example',
-        suburb: 'center',
-        role: 'b',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
   });
 });

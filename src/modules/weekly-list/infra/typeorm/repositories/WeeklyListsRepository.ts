@@ -16,7 +16,9 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
   }
 
   public async findById(id: string): Promise<WeeklyList | undefined> {
-    const foundList = this.ormRepository.findOne(id);
+    const foundList = await this.ormRepository.findOne(id);
+
+    console.log(foundList);
 
     return foundList;
   }
@@ -24,7 +26,7 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
   public async findByUserId(
     user_id: string,
   ): Promise<WeeklyList[] | undefined> {
-    const foundLists = this.ormRepository.find({ where: { user_id } });
+    const foundLists = await this.ormRepository.find({ where: { user_id } });
 
     return foundLists;
   }
@@ -33,7 +35,7 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
     start_date,
     end_date = new Date(),
   }: IFindAllListsInPeriod): Promise<WeeklyList[] | undefined> {
-    const foundLists = this.ormRepository.find({
+    const foundLists = await this.ormRepository.find({
       where: Between(start_date, end_date),
     });
 
@@ -61,11 +63,10 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
     return weeklyList;
   }
 
-  public async findAllPaginated({
-    user_id,
-    page,
-    limit,
-  }: PaginationDTO): Promise<PaginatedWeeklyListsDTO> {
+  public async findAllPaginated(
+    user_id: string,
+    { page, limit }: PaginationDTO,
+  ): Promise<PaginatedWeeklyListsDTO> {
     const skippedItems = (page - 1) * limit;
 
     const totalCount = await this.ormRepository.count();

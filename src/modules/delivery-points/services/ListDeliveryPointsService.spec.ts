@@ -28,7 +28,6 @@ describe('listUsers', () => {
       state: 'example',
       street: 'example',
       suburb: 'center',
-      role: 'r',
     });
 
     const points = await listDeliveryPoints.execute({
@@ -53,7 +52,6 @@ describe('listUsers', () => {
       state: 'example',
       street: 'example',
       suburb: 'center',
-      role: 'r',
     });
     await createDeliveryPoint.execute({
       cep: '12345678',
@@ -64,7 +62,6 @@ describe('listUsers', () => {
       state: 'example',
       street: 'example',
       suburb: 'center',
-      role: 'r',
     });
     await createDeliveryPoint.execute({
       cep: '12345678',
@@ -75,7 +72,6 @@ describe('listUsers', () => {
       state: 'example',
       street: 'example',
       suburb: 'center',
-      role: 'r',
     });
 
     const users = await listDeliveryPoints.execute({
