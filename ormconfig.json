@@ -5,6 +5,7 @@
   "username": "postgres",
   "password": "docker",
   "database": "data",
+  "logging": false,
 
   "entities": [
     "./src/modules/**/infra/typeorm/entities/*.ts"

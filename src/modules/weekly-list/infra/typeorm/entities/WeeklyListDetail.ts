@@ -19,14 +19,16 @@ class WeeklyListDetail {
   @Column('uuid')
   list_id: string;
 
-  @ManyToOne(() => WeeklyList, weeklyList => weeklyList.id)
+  @ManyToOne(() => WeeklyList, weeklyList => weeklyList.id, {
+    cascade: true,
+  })
   @JoinColumn({ name: 'list_id' })
   weekly_list: WeeklyList;
 
   @Column('uuid')
   product_id: string;
 
-  @ManyToOne(() => Product, product => product.id)
+  @ManyToOne(() => Product, product => product.id, { cascade: true })
   @JoinColumn({ name: 'product_id' })
   products: Product[];
 

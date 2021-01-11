@@ -21,7 +21,7 @@ describe('UpdateDeliveryPoint', () => {
     );
   });
 
-  it('should be able update the user', async () => {
+  it('should be able update the delivery point', async () => {
     const point = await createDeliveryPoint.execute({
       cep: '12345678',
       city: 'example',

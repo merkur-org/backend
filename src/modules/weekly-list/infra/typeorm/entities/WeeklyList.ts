@@ -29,7 +29,7 @@ class WeeklyList {
     () => WeeklyListDetail,
     weeklyListDetail => weeklyListDetail.list_id,
   )
-  weely_list_details: WeeklyListDetail[];
+  weekly_list_details: WeeklyListDetail[];
 
   @Column('timestamp with time zone')
   start_date: Date;

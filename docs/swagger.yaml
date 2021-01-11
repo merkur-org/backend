@@ -240,6 +240,115 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFound'
 
+  /weekly-list:
+    post:
+      summary: Criar lista semanal
+      tags:
+        - weekly lists
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyLists'
+
+    get:
+      summary: Listar listas semanais
+      tags:
+        - weekly lists
+      parameters:
+        - in: query
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: filtrar listas semanais por usuário
+
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: pagina a ser trazida
+
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: limite de registros
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyLists'
+
+  /weekly-list/{list_id}:
+    get:
+      summary: Listar informações de uma lista semanal
+      tags:
+        - weekly lists
+      parameters:
+        - $ref: '#/components/parameters/list_id'
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyLists'
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+    put:
+      summary: Atualizar uma lista semanal
+      parameters:
+        - $ref: '#/components/parameters/list_id'
+      tags:
+        - weekly lists
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyLists'
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+    delete:
+      summary: Deletar uma lista semanal
+      parameters:
+        - $ref: '#/components/parameters/list_id'
+      tags:
+        - weekly lists
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
 tags:
   - name: users
     description: Tudo sobre usuários
@@ -247,6 +356,8 @@ tags:
     description: Tudo sobre produtos
   - name: delivery points
     description: Tudo sobre pontos de entrega
+  - name: weekly lists
+    description: Tudo sobre listas semanais
 
 components:
   parameters:
@@ -264,6 +375,14 @@ components:
       name: point_id
       in: path
       schema:
+        type: string
+
+    list_id:
+      required: true
+      description: 'id da lista semanal a ser operada'
+      name: list_id
+      in: path
+      schame:
         type: string
 
   schemas:
@@ -310,6 +429,35 @@ components:
           type: number
         longitude:
           type: number
+
+    WeeklyLists:
+      type: object
+      required:
+        - id
+      properties:
+        start_date:
+          type: string
+        status:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: string
+              due_date:
+                type: string
+              lot:
+                type: string
+              quantitty:
+                type: integer
+              unit_price:
+                type: float
+              discount:
+                type: float
+              total_price:
+                type: float
 
     NotFound:
       type: object

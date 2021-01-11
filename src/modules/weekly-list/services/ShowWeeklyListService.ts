@@ -27,13 +27,13 @@ class ShowWeeklyListSerice {
   public async execute({ list_id }: IRequest): Promise<IResponse> {
     const weeklyList = await this.weeklyListsRepository.findById(list_id);
 
-    const listDetails = await this.weeklyListDetailsRepository.findByListId(
-      list_id,
-    );
-
     if (!weeklyList) {
       throw new AppError('Weekly List not found', 404);
     }
+
+    const listDetails = await this.weeklyListDetailsRepository.findByListId(
+      list_id,
+    );
 
     return {
       weekly_list: weeklyList,
