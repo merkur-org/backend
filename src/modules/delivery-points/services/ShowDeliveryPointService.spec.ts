@@ -30,7 +30,6 @@ describe('ShowDeliveryPoint', () => {
       state: 'example',
       street: 'example',
       suburb: 'center',
-      role: 'r',
     });
 
     const point = await showDeliveryPoint.execute({

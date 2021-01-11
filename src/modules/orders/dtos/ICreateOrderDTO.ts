@@ -5,7 +5,7 @@ import {
 } from '../infra/typeorm/entities/Order';
 
 export default interface ICreateOrderDTO {
-  date: number;
+  date: Date;
   value: number;
   final_value: number;
   payment_type: IPaymentType;

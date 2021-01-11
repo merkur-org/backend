@@ -29,13 +29,11 @@ describe('DeleteDeliveryPoint', () => {
       state: 'example',
       street: 'example',
       suburb: 'center',
-      role: 'r',
     });
 
     // TODO validar se existe o user antes do delete
     const message = await deleteDeliveryPoint.execute({
       point_id: point.id,
-      role: 'r',
     });
 
     expect(message).toHaveProperty('message');
@@ -45,28 +43,6 @@ describe('DeleteDeliveryPoint', () => {
     await expect(
       deleteDeliveryPoint.execute({
         point_id: 'non-existing-point-id',
-        role: 'r',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not be able to delete the user if the user who is requesting is not root or admin', async () => {
-    const point = await createDeliveryPoint.execute({
-      cep: '12345678',
-      city: 'example',
-      latitude: 40.6976701,
-      longitude: -74.2598663,
-      number: 1,
-      state: 'example',
-      street: 'example',
-      suburb: 'center',
-      role: 'r',
-    });
-
-    await expect(
-      deleteDeliveryPoint.execute({
-        point_id: point.id,
-        role: 'b',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
 
 import ICreateOrderDetailDTO from '../dtos/ICreateOrderDetailDTO';
@@ -15,6 +16,7 @@ interface IResponse {
   order: Order;
   order_details: OrderDetail[];
 }
+
 @injectable()
 class CreateOrderService {
   constructor(

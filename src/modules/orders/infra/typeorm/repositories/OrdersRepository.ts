@@ -18,7 +18,9 @@ class OrdersRepository implements IOrdersRepository {
   }
 
   public async findByUserId(user_id: string): Promise<Order[] | undefined> {
-    const foundOrders = this.ormRepository.find({ where: { user_id } });
+    const foundOrders = this.ormRepository.find({
+      where: { user_id },
+    });
 
     return foundOrders;
   }

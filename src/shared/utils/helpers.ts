@@ -44,3 +44,7 @@ export const create_slug = (value: string | string[]): string => {
     .replace(new RegExp('/', 'g'), '-')
     .replace(new RegExp(' ', 'g'), '-');
 };
+
+export function hasKey<O>(obj: O, key: keyof any): key is keyof O {
+  return key in obj;
+}
