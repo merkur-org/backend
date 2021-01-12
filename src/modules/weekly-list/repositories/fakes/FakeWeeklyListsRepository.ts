@@ -5,7 +5,7 @@ import ICreateWeeklyListDTO from '@modules/weekly-list/dtos/ICreateWeeklyListDTO
 import IFindAllListsInPeriod from '@modules/weekly-list/dtos/IFindAllListsInPeriod';
 
 import PaginatedWeeklyListsDTO from '@modules/weekly-list/dtos/PaginatedWeeklyListsDTO';
-import PaginationDTO from '@shared/dtos/PaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import WeeklyList from '../../infra/typeorm/entities/WeeklyList';
 
 class FakeWeeklyListRepository implements IWeeklyListReposiroty {
@@ -69,7 +69,7 @@ class FakeWeeklyListRepository implements IWeeklyListReposiroty {
 
   public async findAllPaginated(
     user_id: string,
-    { page, limit }: PaginationDTO,
+    { page, limit }: IPaginationDTO,
   ): Promise<PaginatedWeeklyListsDTO> {
     const skippedItems = (page - 1) * limit;
 

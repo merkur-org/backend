@@ -1,9 +1,12 @@
 import ICreateOrderDTO from '@modules/orders/dtos/ICreateOrderDTO';
+import IPaginatedOrdersDTO from '@modules/orders/dtos/IPaginatedOrdersDTO';
 import IFindAllInPeriod from '@shared/dtos/IFindAllInPeriod';
 import { uuid } from 'uuidv4';
 
 import Order from '../../infra/typeorm/entities/Order';
-import IOrdersRepository from '../IOrdersRepository';
+import IOrdersRepository, {
+  IFindAllOrdersPaginated,
+} from '../IOrdersRepository';
 
 class FakeOrdersRepository implements IOrdersRepository {
   private orders: Order[] = [];
@@ -18,6 +21,37 @@ class FakeOrdersRepository implements IOrdersRepository {
     const foundOrders = this.orders.filter(order => order.user_id === user_id);
 
     return foundOrders;
+  }
+
+  public async findAllPaginated({
+    page,
+    limit,
+    user_id,
+  }: IFindAllOrdersPaginated): Promise<IPaginatedOrdersDTO> {
+    const skippedItems = (page - 1) * limit;
+
+    const totalCount = this.orders.length;
+    const orders: Order[] = [];
+
+    let i = skippedItems;
+
+    const limitLoop =
+      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+
+    if (i === 0 && limitLoop === 0 && this.orders[0]) {
+      orders.push(this.orders[0]);
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i; i < limitLoop; i++) {
+      orders.push(this.orders[i]);
+    }
+
+    return {
+      totalCount,
+      page,
+      limit,
+      data: orders,
+    };
   }
 
   public async findByPeriod({

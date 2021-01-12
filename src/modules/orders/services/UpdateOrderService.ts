@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import ICreateOrderDetailDTO from '../dtos/ICreateOrderDetailDTO';
@@ -48,30 +49,31 @@ class UpdateOrderService {
 
     foundOrder.value = order.value || foundOrder.value;
     foundOrder.date = order.date || foundOrder.date;
-    // eslint-disable-next-line prettier/prettier
-    foundOrder.delivery_point_id = order.delivery_point_id || foundOrder.delivery_point_id;
-    // eslint-disable-next-line prettier/prettier
-    foundOrder.payment_status = order.payment_status || foundOrder.payment_status;
+    foundOrder.delivery_point_id =
+      order.delivery_point_id || foundOrder.delivery_point_id;
+    foundOrder.payment_status =
+      order.payment_status || foundOrder.payment_status;
     foundOrder.payment_type = order.payment_type || foundOrder.payment_type;
     foundOrder.sales_type = order.sales_type || foundOrder.sales_type;
     foundOrder.updated_at = new Date();
 
-    const detailsChanged = details.map(detail => {
+    details.forEach(detail => {
       const index = foundDetails.findIndex(d => d.id === detail.id);
 
-      const detailChanged = foundDetails[index];
-
-      detailChanged.discount = detail.discount || detailChanged.discount;
-      detailChanged.quantity = detail.quantity || detailChanged.quantity;
-      detailChanged.unit_price = detail.unit_price || detailChanged.unit_price;
-      detailChanged.updated_at = new Date();
-
-      return detailChanged;
+      if (index >= 0) {
+        foundDetails[index].discount =
+          detail.discount || foundDetails[index].discount;
+        foundDetails[index].quantity =
+          detail.quantity || foundDetails[index].quantity;
+        foundDetails[index].unit_price =
+          detail.unit_price || foundDetails[index].unit_price;
+        foundDetails[index].updated_at = new Date();
+      }
     });
 
     const orderUpdatedPromise = this.ordersRepository.save(foundOrder);
     const detailsUpdatedPromise = this.orderDetailsRepository.save(
-      detailsChanged,
+      foundDetails,
     );
 
     const [orderUpdated, detailsUpdated] = await Promise.all([

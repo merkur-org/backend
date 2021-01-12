@@ -1,37 +1,17 @@
-// import AppError from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 import UpdateOrder from '@modules/orders/services/UpdateOrderService';
 import CreateOrder from '@modules/orders/services/CreateOrderService';
 import FakeOrderDetailsRepository from '../repositories/fakes/FakeOrderDetailsRespository';
 import FakeOrdersRepository from '../repositories/fakes/FakeOrdersRespository';
-import {
-  IPaymentStatus,
-  ISalesType,
-  IPaymentType,
-} from '../infra/typeorm/entities/Order';
+
+import OrderDetail from '../infra/typeorm/entities/OrderDetail';
+import Order from '../infra/typeorm/entities/Order';
+import { fakeOrder } from './mocks';
 
 let fakeOrdersRepository: FakeOrdersRepository;
 let fakeOrderDetailsRepository: FakeOrderDetailsRepository;
 let updateOrder: UpdateOrder;
 let createOrder: CreateOrder;
-
-const fakeOrder = {
-  date: new Date(),
-  delivery_point_id: 'c13d9f6c-d27c-4175-886c-ce4b653fc68d',
-  final_value: 45,
-  payment_status: 'processing' as IPaymentStatus,
-  payment_type: 'credit_card' as IPaymentType,
-  sales_type: 'wholesale' as ISalesType,
-  value: 456,
-  user_id: 'user-id',
-  details: [
-    {
-      product_id: '5971f952-d12a-4493-ba85-5fd976db275c',
-      unit_price: 22,
-      quantity: 2,
-      discount: 1,
-    },
-  ],
-};
 
 describe('UpdateOrder', () => {
   beforeEach(() => {
@@ -49,7 +29,7 @@ describe('UpdateOrder', () => {
     );
   });
 
-  it('should be able to create a new user', async () => {
+  it('should be able to create a new order', async () => {
     let response = await createOrder.execute(fakeOrder);
 
     response.order.value = 10;
@@ -62,5 +42,34 @@ describe('UpdateOrder', () => {
     expect(response).toHaveProperty('order');
     expect(response).toHaveProperty('order_details');
     expect(response.order.value).toBe(10);
+  });
+
+  it('should not be able to update an order that does not exist or that has no details', async () => {
+    const order = new Order();
+    order.id = 'non-exists';
+
+    const order_details = [] as OrderDetail[];
+
+    await expect(
+      updateOrder.execute({
+        order,
+        details: order_details,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should to maintain data that is not required to update', async () => {
+    const { order, order_details } = await createOrder.execute(fakeOrder);
+    const orderUpdate = new Order();
+    const orderDetailUpdate = new OrderDetail();
+    orderUpdate.id = order.id;
+    orderDetailUpdate.id = order_details[0].id;
+    const response = await updateOrder.execute({
+      order: orderUpdate,
+      details: [orderDetailUpdate],
+    });
+
+    expect(response).toHaveProperty('order');
+    expect(response).toHaveProperty('order_details');
   });
 });

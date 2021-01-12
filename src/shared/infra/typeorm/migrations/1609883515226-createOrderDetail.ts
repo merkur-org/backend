@@ -17,6 +17,7 @@ export default class createOrderDetail1609883515226
           {
             name: 'order_id',
             type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'product_id',

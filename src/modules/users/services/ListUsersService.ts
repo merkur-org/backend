@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe';
 
 import IUsersRepository from '../repositories/IUsersRepository';
 
-import PaginationDTO from '../../../shared/dtos/PaginationDTO';
+import IPaginationDTO from '../../../shared/dtos/IPaginationDTO';
 import PaginatedUsersDTO from '../dtos/PaginatedUsersDTO';
 
 @injectable()
@@ -15,7 +15,7 @@ class ListUsersService {
   public async execute({
     limit,
     page,
-  }: PaginationDTO): Promise<PaginatedUsersDTO> {
+  }: IPaginationDTO): Promise<PaginatedUsersDTO> {
     const response = await this.usersRepository.findAllPaginated({
       limit,
       page,

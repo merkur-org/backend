@@ -4,7 +4,7 @@ import IWeeklyListReposiroty from '@modules/weekly-list/repositories/IWeeklyList
 import ICreateWeeklyListDTO from '@modules/weekly-list/dtos/ICreateWeeklyListDTO';
 import IFindAllListsInPeriod from '@modules/weekly-list/dtos/IFindAllListsInPeriod';
 import WeeklyList from '@modules/weekly-list/infra/typeorm/entities/WeeklyList';
-import PaginationDTO from '@shared/dtos/PaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import PaginatedWeeklyListsDTO from '@modules/weekly-list/dtos/PaginatedWeeklyListsDTO';
 import WeeklyListDetail from '../entities/WeeklyListDetail';
 
@@ -17,8 +17,6 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
 
   public async findById(id: string): Promise<WeeklyList | undefined> {
     const foundList = await this.ormRepository.findOne(id);
-
-    console.log(foundList);
 
     return foundList;
   }
@@ -65,7 +63,7 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
 
   public async findAllPaginated(
     user_id: string,
-    { page, limit }: PaginationDTO,
+    { page, limit }: IPaginationDTO,
   ): Promise<PaginatedWeeklyListsDTO> {
     const skippedItems = (page - 1) * limit;
 

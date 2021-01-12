@@ -349,6 +349,83 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFound'
 
+  /orders:
+    post:
+      summary: Criar um pedido
+      tags:
+        - orders
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    get:
+        summary: Listar pedidos de um usuário
+        tags:
+          - orders
+        description: filtrar orders por usuário
+        responses:
+          200:
+            description: Sucesso
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Order'
+
+  /orders/{order_id}:
+    put:
+      summary: atualizar um pedido
+      tags:
+        - orders
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    delete:
+      summary: deletar um pedido
+      tags:
+        - orders
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+        404:
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+    get:
+      summary: Listar um pedido em específico
+      tags:
+        - orders
+      parameters:
+        - in: params
+          name: order_id
+          required: true
+          schema:
+            type: string
+          description: filtrar orders por usuário
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
 tags:
   - name: users
     description: Tudo sobre usuários
@@ -358,6 +435,8 @@ tags:
     description: Tudo sobre pontos de entrega
   - name: weekly lists
     description: Tudo sobre listas semanais
+  - name: orders
+    description: Tudo sobre pedidos
 
 components:
   parameters:
@@ -381,6 +460,13 @@ components:
       required: true
       description: 'id da lista semanal a ser operada'
       name: list_id
+      in: path
+      schame:
+        type: string
+    order_id:
+      required: true
+      description: 'id do pedido a ser operada'
+      name: order_id
       in: path
       schame:
         type: string
@@ -453,11 +539,50 @@ components:
               quantitty:
                 type: integer
               unit_price:
-                type: float
+                type: number
               discount:
-                type: float
+                type: number
               total_price:
-                type: float
+                type: number
+
+    Order:
+      type: object
+      required:
+        - id
+      properties:
+        date:
+          type: date
+        value:
+          type: number
+        final_value:
+          type: number
+        payment_type:
+          type: string
+        payment_status:
+          type: string
+        sales_type:
+          type: string
+        delivery_point_id:
+          type: string
+        user_id:
+          type: string
+        id:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: string
+              quantity:
+                type: integer
+              unit_price:
+                type: number
+              discount:
+                type: number
+              total_price:
+                type: number
 
     NotFound:
       type: object

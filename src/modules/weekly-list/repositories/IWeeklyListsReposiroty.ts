@@ -1,6 +1,6 @@
 import ICreateWeeklyListDTO from '@modules/weekly-list/dtos/ICreateWeeklyListDTO';
 import IFindAllListsInPeriod from '@modules/weekly-list/dtos/IFindAllListsInPeriod';
-import PaginationDTO from '@shared/dtos/PaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import PaginatedWeeklyListsDTO from '@modules/weekly-list/dtos/PaginatedWeeklyListsDTO';
 import WeeklyList from '../infra/typeorm/entities/WeeklyList';
 
@@ -15,6 +15,6 @@ export default interface IWeeklyListReposiroty {
   save(weeklyList: WeeklyList): Promise<WeeklyList>;
   findAllPaginated(
     user_id: string,
-    { page, limit }: PaginationDTO,
+    { page, limit }: IPaginationDTO,
   ): Promise<PaginatedWeeklyListsDTO>;
 }

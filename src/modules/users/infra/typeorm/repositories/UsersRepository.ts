@@ -3,7 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
-import PaginationDTO from '@shared/dtos/PaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import PaginatedUsersDTO from '@modules/users/dtos/PaginatedUsersDTO';
 import User from '../entities/User';
 
@@ -75,7 +75,7 @@ class UsersRepository implements IUsersRepository {
   public async findAllPaginated({
     limit,
     page,
-  }: PaginationDTO): Promise<PaginatedUsersDTO> {
+  }: IPaginationDTO): Promise<PaginatedUsersDTO> {
     const skippedItems = (page - 1) * limit;
 
     const totalCount = await this.ormRepository.count();

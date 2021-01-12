@@ -1,11 +1,10 @@
 import { injectable, inject } from 'tsyringe';
 
-import AppError from '@shared/errors/AppError';
-import PaginationDTO from '@shared/dtos/PaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import IDeliveryPointsRepository from '../repositories/IDeliveryPointsRepository';
 import PaginatedDeliveryPointsDTO from '../dtos/PaginatedDeliveryPointsDTO';
 
-interface IRequest extends PaginationDTO {
+interface IRequest extends IPaginationDTO {
   point_state: string;
 }
 
@@ -21,10 +20,6 @@ class ListDeliveryPointsService {
     limit,
     page,
   }: IRequest): Promise<PaginatedDeliveryPointsDTO> {
-    if (!point_state) {
-      throw new AppError('Please inform the state');
-    }
-
     const response = await this.deliveryPointsRepository.findAllPaginated(
       point_state,
       { limit, page },

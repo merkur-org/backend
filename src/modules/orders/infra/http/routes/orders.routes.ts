@@ -45,6 +45,64 @@ ordersRoutes.post(
   ordersController.create,
 );
 
-ordersRoutes.put('/:order_id', [checkRole(['r'])], ordersController.update);
+ordersRoutes.put(
+  '/:order_id',
+  [checkRole(['r'])],
+  celebrate({
+    [Segments.PARAMS]: {
+      order_id: Joi.string().uuid().required(),
+    },
+    [Segments.BODY]: {
+      date: Joi.date(),
+      delivery_point_id: Joi.string().uuid(),
+      final_value: Joi.number(),
+      payment_status: Joi.string().valid(
+        'processing',
+        'awaiting_payment',
+        'canceled',
+        'expired',
+        'paid',
+      ),
+      payment_type: Joi.string().valid(
+        'credit_card',
+        'money',
+        'pix',
+        'bank_slip',
+        'bank_transfer',
+      ),
+      sales_type: Joi.string().valid('wholesale', 'retail'),
+      value: Joi.number(),
+      details: Joi.array().items({
+        id: Joi.string().uuid().required(),
+        product_id: Joi.string().uuid(),
+        unit_price: Joi.number(),
+        quantity: Joi.number(),
+        discount: Joi.number(),
+      }),
+    },
+  }),
+  ordersController.update,
+);
+ordersRoutes.delete(
+  '/:order_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      order_id: Joi.string().uuid().required(),
+    },
+  }),
+  [checkRole(['r'])],
+  ordersController.delete,
+);
+ordersRoutes.get(
+  '/:order_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      order_id: Joi.string().uuid().required(),
+    },
+  }),
+  [checkRole(['r'])],
+  ordersController.show,
+);
+ordersRoutes.get('/', [checkRole(['r'])], ordersController.list);
 
 export default ordersRoutes;

@@ -3,7 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 import DeliveryPoint from '@modules/delivery-points/infra/typeorm/entities/DeliveryPoints';
 import ICreateDeliveryPointDTO from '@modules/delivery-points/dtos/ICreateDeliveryPointDTO';
 import IDeliveryPointsRepository from '@modules/delivery-points/repositories/IDeliveryPointsRepository';
-import PaginationDTO from '@shared/dtos/PaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import PaginatedDeliveryPointsDTO from '@modules/delivery-points/dtos/PaginatedDeliveryPointsDTO';
 
 class DeliveryPointsRepository implements IDeliveryPointsRepository {
@@ -37,7 +37,7 @@ class DeliveryPointsRepository implements IDeliveryPointsRepository {
 
   public async findAllPaginated(
     state: string,
-    { limit, page }: PaginationDTO,
+    { limit, page }: IPaginationDTO,
   ): Promise<PaginatedDeliveryPointsDTO> {
     const skippedItems = (page - 1) * limit;
 

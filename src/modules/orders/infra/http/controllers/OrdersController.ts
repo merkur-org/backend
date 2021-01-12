@@ -1,4 +1,7 @@
 import CreateOrderService from '@modules/orders/services/CreateOrderService';
+import DeleteOrderService from '@modules/orders/services/DeleteOrderService';
+import ListOrdersService from '@modules/orders/services/ListOrdersService';
+import ShowOrderService from '@modules/orders/services/ShowOrderService';
 import UpdateOrderService from '@modules/orders/services/UpdateOrderService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
@@ -68,6 +71,40 @@ class OrdersController {
     });
 
     return response.json(order);
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { order_id } = request.params;
+
+    const deleteOrderService = container.resolve(DeleteOrderService);
+
+    const message = await deleteOrderService.execute({ order_id });
+
+    return response.json(message);
+  }
+
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { order_id } = request.params;
+
+    const ShowOrder = container.resolve(ShowOrderService);
+
+    const order = await ShowOrder.execute({ order_id });
+
+    return response.json(order);
+  }
+
+  public async list(request: Request, response: Response): Promise<Response> {
+    const { page = 1, limit = 10 } = request.query;
+    const { id: user_id } = request.user;
+    const listOrders = container.resolve(ListOrdersService);
+
+    const data = await listOrders.execute({
+      user_id: String(user_id),
+      page: Number(page),
+      limit: Number(limit),
+    });
+
+    return response.json(data);
   }
 }
 

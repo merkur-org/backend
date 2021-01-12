@@ -1,12 +1,12 @@
 import { injectable, inject } from 'tsyringe';
 
-import PaginationDTO from '@shared/dtos/PaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import AppError from '@shared/errors/AppError';
 import IWeeklyListDetailsRepository from '../repositories/IWeeklyListDetailsRepository';
 import IWeeklyListsReposiroty from '../repositories/IWeeklyListsReposiroty';
 import PaginatedWeeklyListsDTO from '../dtos/PaginatedWeeklyListsDTO';
 
-interface IRequest extends PaginationDTO {
+interface IRequest extends IPaginationDTO {
   user_id: string;
 }
 
