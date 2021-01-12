@@ -41,6 +41,7 @@ class UpdateDeliveryPointService {
     point.number = number;
     point.latitude = latitude;
     point.longitude = longitude;
+    point.updated_at = new Date();
 
     await this.deliveryPointsRepository.save(point);
 

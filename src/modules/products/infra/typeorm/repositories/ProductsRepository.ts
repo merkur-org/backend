@@ -3,6 +3,8 @@ import { getRepository, Repository, Like } from 'typeorm';
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 import Product from '@modules/products/infra/typeorm/entities/Product';
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
+import IPaginatedProductsDTO from '@modules/products/dtos/IPaginatedProductsDTO';
 
 class ProductsRepository implements IProductsRepository {
   private ormRepository: Repository<Product>;
@@ -49,6 +51,28 @@ class ProductsRepository implements IProductsRepository {
     await this.ormRepository.save(product);
 
     return product;
+  }
+
+  public async findAllPaginated({
+    limit,
+    page,
+  }: IPaginationDTO): Promise<IPaginatedProductsDTO> {
+    const skippedItems = (page - 1) * limit;
+
+    const totalCount = await this.ormRepository.count();
+    const products = await this.ormRepository
+      .createQueryBuilder('products')
+      .orderBy('created_at', 'DESC')
+      .offset(skippedItems)
+      .limit(limit)
+      .getMany();
+
+    return {
+      totalCount,
+      page,
+      limit,
+      data: products,
+    };
   }
 }
 

@@ -16,7 +16,6 @@ interface IResponse {
   order: Order;
   order_details: OrderDetail[];
 }
-
 @injectable()
 class CreateOrderService {
   constructor(

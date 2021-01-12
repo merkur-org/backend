@@ -1,24 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
-import { getRepository } from 'typeorm';
 
-import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
+import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 
-const checkRole = (roles: Array<string>) => {
+const checkRole = (roles: IRole[]) => {
   return async (
     request: Request,
     response: Response,
     next: NextFunction,
   ): Promise<Response | void> => {
-    const { id } = request.user;
-
-    const userRepository = getRepository(User);
-    const user = await userRepository.findOneOrFail(id);
+    const { id, role } = request.user;
 
     // Check that the matrix of authorized roles includes the user role or that the route is allowed for the user whose login is
     if (
-      roles.indexOf(user.role) > -1 ||
-      (roles.includes('himself') && user.id === request.params.user_id)
+      roles.indexOf(role as IRole) > -1 ||
+      (roles.includes('himself') && id === request.params.user_id)
     ) {
       return next();
     }

@@ -7,7 +7,9 @@ export type IRole =
   | 'f' // financeiro (financial)
   | 'bp' // comprador && fornecedor
   | 'db' // entregador && comprador
-  | 'bf'; // comprador e financeiro
+  | 'bf' // comprador e financeiro
+  | 'himself'; // o proprio user;
+
 export default interface ICreateUserDTO {
   name: string;
   email?: string;

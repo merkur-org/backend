@@ -75,6 +75,7 @@ class UpdateUserService {
     user.cpf = cpf.match(/uninformed/gi) ? user.cpf : cpf;
     user.cnpj = cnpj.match(/uninformed/gi) ? user.cnpj : cnpj;
     user.phone = phone || user.phone;
+    user.updated_at = new Date();
 
     if (password && !old_password) {
       throw new AppError(

@@ -52,7 +52,7 @@ describe('UpdateDeliveryPoint', () => {
   it('should not be able update the delivery point from non-existing point', async () => {
     await expect(
       updateDeliveryPoint.execute({
-        point_id: 'non-existing-user-id',
+        point_id: 'non-existing-point-id',
         cep: '12345678',
         city: 'example',
         latitude: 40.6976701,

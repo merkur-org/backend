@@ -49,8 +49,10 @@ class UpdateWeeklyListService {
       throw new AppError('Weekly List not found', 404);
     }
 
-    list.start_date = start_date;
-    list.status = status;
+    list.start_date = start_date || list.start_date;
+    list.status = status || list.status;
+    list.created_at = new Date();
+
     await this.weeklyListsRepository.save(list);
 
     const listDetails = await this.weeklyListDetailsRepository.findByListId(
@@ -69,6 +71,7 @@ class UpdateWeeklyListService {
           listDetails[detailIndex].unit_price = detail.unit_price;
           listDetails[detailIndex].discount = detail.discount;
           listDetails[detailIndex].total_price = detail.total_price;
+          listDetails[detailIndex].updated_at = new Date();
         }
       });
       await this.weeklyListDetailsRepository.save(listDetails);

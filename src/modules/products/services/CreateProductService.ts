@@ -1,14 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 
-import { IRole } from '@modules/users/dtos/ICreateUserDTO';
 import AppError from '@shared/errors/AppError';
 import ICreateProductDTO from '../dtos/ICreateProductDTO';
 import Product from '../infra/typeorm/entities/Product';
 import IProductsRepository from '../repositories/IProductsRepository';
-
-interface IRequest extends ICreateProductDTO {
-  role: IRole;
-}
 
 @injectable()
 class CreateProductService {
@@ -23,15 +18,7 @@ class CreateProductService {
     sale_price,
     unit,
     wholesale_price,
-    role,
-  }: IRequest): Promise<Product> {
-    if (role !== 'a' && role !== 'r') {
-      throw new AppError(
-        'Permission denied, only root or admin user can create product',
-        401,
-      );
-    }
-
+  }: ICreateProductDTO): Promise<Product> {
     const productAlreadyExists = await this.productsRepository.findExistingProduct(
       name,
     );
