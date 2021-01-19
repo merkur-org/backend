@@ -94,13 +94,14 @@ ordersRoutes.delete(
   ordersController.delete,
 );
 ordersRoutes.get(
-  '/:order_id',
+  '/:user_id/:order_id',
   celebrate({
     [Segments.PARAMS]: {
       order_id: Joi.string().uuid().required(),
+      user_id: Joi.string().uuid().required(),
     },
   }),
-  [checkRole(['r'])],
+  [checkRole(['r', 'himself'])],
   ordersController.show,
 );
 ordersRoutes.get('/', [checkRole(['r'])], ordersController.list);

@@ -8,7 +8,7 @@ const checkRole = (roles: IRole[]) => {
     request: Request,
     response: Response,
     next: NextFunction,
-  ): Promise<Response | void> => {
+  ): Promise<void> => {
     const { id, role } = request.user;
 
     // Check that the matrix of authorized roles includes the user role or that the route is allowed for the user whose login is
