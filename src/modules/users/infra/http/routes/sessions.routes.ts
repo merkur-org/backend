@@ -6,6 +6,27 @@ import SessionsController from '../controllers/SessionsController';
 const sessionsRouter = Router();
 const sessionsController = new SessionsController();
 
+/**
+ * @swagger
+ * /sessions:
+ *  post:
+ *    description: creates a new section for the user, returning a jwt token for authentication
+ *    tags:
+ *      - users
+ *    requestBody:
+ *      content:
+ *        application/json:
+ *          schema:
+ *           type: object
+ *           properties:
+ *            name:
+ *              type: string
+ *            email:
+ *              type: string
+ *    responses:
+ *      '200':
+ *        description: session created successfully
+ */
 sessionsRouter.post(
   '/',
   celebrate({

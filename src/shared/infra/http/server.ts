@@ -6,11 +6,13 @@ import 'express-async-errors';
 import morgan from 'morgan';
 import morganBody from 'morgan-body';
 import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
+
 import YAML from 'yamljs';
 import { errors } from 'celebrate';
 
 import logger from '@shared/utils/logger';
-import config from '@config/index';
+import config, { swaggerOptions } from '@config/index';
 import expressDevLogger from '@shared/utils/expressDevLogger';
 import routes from './routes';
 
@@ -44,6 +46,12 @@ if (config.expressDevLogger) {
 app.use(errors({ statusCode: 403 }));
 
 app.use(exceptionHandler);
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerJsDoc(swaggerOptions)),
+);
 
 const { port } = config;
 

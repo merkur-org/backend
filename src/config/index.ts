@@ -1,5 +1,21 @@
 import dotenvExtended from 'dotenv-extended';
 import dotenvParseVariables from 'dotenv-parse-variables';
+import { SwaggerDefinition } from 'swagger-jsdoc';
+
+const swaggerDefinition = {
+  info: {
+    title: 'API REST project for family farming cooperatives',
+    description:
+      'the entire sales and distribution flow of small cooperatives, as well as cash control and chart of accounts',
+    version: '1.0.0',
+  },
+  servers: ['http://localhost:3000'],
+} as SwaggerDefinition;
+
+export const swaggerOptions = {
+  swaggerDefinition,
+  apis: ['src/modules/**/infra/http/routes/*routes.ts'],
+};
 
 const env = dotenvExtended.load({
   path: process.env.ENV_FILE,
