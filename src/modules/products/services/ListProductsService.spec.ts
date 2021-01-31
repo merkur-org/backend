@@ -44,9 +44,9 @@ describe('ListProducts', () => {
       page: 1,
     });
 
-    expect(products.data.length).toBe(1);
+    expect(products.data.length).toBe(2);
     expect(products.limit).toBe(10);
     expect(products.page).toBe(1);
-    expect(products.totalCount).toBe(1);
+    expect(products.totalCount).toBe(3);
   });
 });

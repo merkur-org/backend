@@ -34,7 +34,7 @@ class User {
   cnpj: string;
 
   @Column()
-  role: 'r' | 'b' | 'p' | 'd' | 'a' | 'f' | 'bp' | 'db' | 'bf';
+  role: 'r' | 'b' | 'p' | 'd' | 'a' | 'f' | 'bp' | 'db' | 'bf' | 'himself';
 
   @OneToMany(() => Order, order => order.user_id)
   orders: Order[];

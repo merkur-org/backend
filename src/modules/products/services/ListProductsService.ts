@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe';
 
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import IProductsRepository from '../repositories/IProductsRepository';
-import PaginatedProductDTO from '../dtos/PaginatedProductsDTO';
+import PaginatedProductDTO from '../dtos/IPaginatedProductsDTO';
 
 @injectable()
 class ListProductsService {
