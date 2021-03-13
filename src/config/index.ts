@@ -24,6 +24,8 @@ type LogLevel =
   | 'debug'
   | 'silly';
 
+type IMailDriver = 'ethereal' | 'ses';
+
 interface Config {
   morganLogger: boolean;
   morganBodyLogger: boolean;
@@ -34,6 +36,15 @@ interface Config {
   jwt: {
     secret: string;
     expiresIn: string;
+  };
+
+  mailDriver: IMailDriver;
+
+  mailDefaults: {
+    from: {
+      email: string;
+      name: string;
+    };
   };
 }
 
@@ -48,6 +59,15 @@ const config: Config = {
   jwt: {
     secret: parsedEnv.JWT_SECRET as string,
     expiresIn: parsedEnv.JWT_EXPIRES_IN as string,
+  },
+
+  mailDriver: (parsedEnv.MAIL_DRIVER || 'ethereal') as IMailDriver,
+
+  mailDefaults: {
+    from: {
+      email: 'cooperativa@dominio.com.br',
+      name: 'Cooperativa felicidade',
+    },
   },
 };
 
