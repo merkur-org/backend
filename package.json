@@ -7,11 +7,11 @@
   "license": "MIT",
   "scripts": {
     "start": "ENV_FILE=./env/.env.prod node dist/shared/infra/http/server.js",
-    "dev": "ENV_FILE=./env/.env.dev ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
+    "dev": "NODE_ENV=dev ENV_FILE=./env/.env.dev ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run",
-    "test": "ENV_FILE=./env/.env.test jest"
+    "test": "NODE_ENV=dev ENV_FILE=./env/.env.test jest"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
