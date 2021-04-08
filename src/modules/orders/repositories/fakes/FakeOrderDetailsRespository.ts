@@ -1,6 +1,6 @@
 import ICreateOrderDetailDTO from '@modules/orders/dtos/ICreateOrderDetailDTO';
 import OrderDetail from '@modules/orders/infra/typeorm/entities/OrderDetail';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import IOrderDetailsRepository from '../IOrderDetailsRepository';
 
 class FakeOrderDetailsRepository implements IOrderDetailsRepository {

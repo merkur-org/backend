@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import IWeeklyListReposiroty from '@modules/weekly-list/repositories/IWeeklyListsReposiroty';
 import ICreateWeeklyListDTO from '@modules/weekly-list/dtos/ICreateWeeklyListDTO';

@@ -1,7 +1,7 @@
 import ICreateOrderDTO from '@modules/orders/dtos/ICreateOrderDTO';
 import IPaginatedOrdersDTO from '@modules/orders/dtos/IPaginatedOrdersDTO';
 import IFindAllInPeriod from '@shared/dtos/IFindAllInPeriod';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import Order from '../../infra/typeorm/entities/Order';
 import IOrdersRepository, {

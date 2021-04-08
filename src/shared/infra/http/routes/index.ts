@@ -7,11 +7,13 @@ import deliveryPointsRoutes from '@modules/delivery-points/infra/http/routes/del
 import weeklyListRoutes from '@modules/weekly-list/infra/http/routes/weeklyList.routes';
 import ordersRoutes from '@modules/orders/infra/http/routes/orders.routes';
 import weeklyOffersRoutes from '@modules/weekly-offers/infra/http/routes/weeklyOffers.routes';
+import passwordRoutes from '@modules/users/infra/http/routes/password.routes';
 
 const routes = Router();
 
 routes.use('/users', usersRoutes);
 routes.use('/sessions', sessionsRoutes);
+routes.use('/password', passwordRoutes);
 
 routes.use('/delivery-points', deliveryPointsRoutes);
 
