@@ -12,6 +12,7 @@ import { errors } from 'celebrate';
 import logger from '@shared/utils/logger';
 import config from '@config/index';
 import expressDevLogger from '@shared/utils/expressDevLogger';
+import uploadConfig from '@config/upload';
 import routes from './routes';
 
 import '@shared/infra/typeorm/index';
@@ -26,6 +27,8 @@ app.use(cors());
 app.use(express.json());
 app.use(routes);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use('/files', express.static(uploadConfig.uploadsFolder));
 
 if (config.morganLogger) {
   app.use(

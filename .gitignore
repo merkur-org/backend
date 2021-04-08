@@ -7,6 +7,11 @@ lerna-debug.log*
 
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
+tmp/*
+!/tmp/uploads
+/tmp/uploads/*
+!/tmp/uploads/.gitkeep
+
 pids
 *.pid
 *.seed

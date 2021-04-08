@@ -6,6 +6,7 @@ import DeleteProductService from '@modules/products/services/DeleteProductServic
 import UpdateProductService from '@modules/products/services/UpdateProductService';
 import ShowProductService from '@modules/products/services/ShowProductService';
 import ListProductsService from '@modules/products/services/ListProductsService';
+import { classToClass } from 'class-transformer';
 
 class ProductsController {
   // CRUD create read (list, show), update, delete
@@ -18,7 +19,7 @@ class ProductsController {
       unit,
       wholesale_price,
     } = request.body;
-
+    const image = request.file.filename;
     const createProduct = container.resolve(CreateProductService);
 
     const product = await createProduct.execute({
@@ -27,9 +28,10 @@ class ProductsController {
       sale_price,
       unit,
       wholesale_price,
+      image,
     });
 
-    return response.json(product);
+    return response.json(classToClass(product));
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
@@ -42,7 +44,7 @@ class ProductsController {
       limit: Number(limit),
     });
 
-    return response.json(data);
+    return response.json(classToClass(data));
   }
 
   public async show(request: Request, response: Response): Promise<Response> {

@@ -5,6 +5,9 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Expose } from 'class-transformer';
+
+import uploadConfig from '@config/upload';
 
 export type IUnit = 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton';
 
@@ -15,6 +18,9 @@ class Product {
 
   @Column()
   name: string;
+
+  @Column()
+  image: string;
 
   @Column('enum')
   unit: IUnit;
@@ -33,6 +39,22 @@ class Product {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: 'image_url' })
+  getImageUrl(): string | null {
+    if (!this.image) {
+      return null;
+    }
+
+    switch (uploadConfig.driver) {
+      case 'disk':
+        return `${process.env.APP_API_URL}/files/${this.image}`;
+      case 's3':
+        return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.image}`;
+      default:
+        return null;
+    }
+  }
 }
 
 export default Product;
