@@ -27,6 +27,12 @@ import OrdersRepository from '@modules/orders/infra/typeorm/repositories/OrdersR
 import IOrderDetailsRepository from '@modules/orders/repositories/IOrderDetailsRepository';
 import OrderDetailsRepository from '@modules/orders/infra/typeorm/repositories/OrderDetailsRepository';
 
+import WeeklyOffersRepository from '@modules/weekly-offers/infra/typeorm/repositories/WeeklyOffersRepository';
+import IWeeklyOffersRepository from '@modules/weekly-offers/repositories/IWeeklyOffersRepository';
+
+import WeeklyOffersDetailsRepository from '@modules/weekly-offers/infra/typeorm/repositories/WeeklyOffersDetailsRepository';
+import IWeeklyOffersDetailsRepository from '@modules/weekly-offers/repositories/IWeeklyOffersDetailsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -65,4 +71,14 @@ container.registerSingleton<IOrdersRepository>(
 container.registerSingleton<IOrderDetailsRepository>(
   'OrderDetailsRepository',
   OrderDetailsRepository,
+);
+
+container.registerSingleton<IWeeklyOffersRepository>(
+  'WeeklyOffersRepository',
+  WeeklyOffersRepository,
+);
+
+container.registerSingleton<IWeeklyOffersDetailsRepository>(
+  'WeeklyOffersDetailsRepository',
+  WeeklyOffersDetailsRepository,
 );
