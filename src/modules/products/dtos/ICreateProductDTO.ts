@@ -5,5 +5,6 @@ export default interface ICreateProductDTO {
   unit: IUnit;
   cost_price: number;
   sale_price: number;
+  image?: string;
   wholesale_price?: number;
 }

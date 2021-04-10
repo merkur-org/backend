@@ -18,6 +18,11 @@ export default class createProduct1609879520820 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'image',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'unit',
             type: 'enum',
             enum: ['kg', 'g', 'l', 'ml', 'un', 'ton'],
