@@ -25,7 +25,7 @@ describe('CreateUser', () => {
       cpf: '123456789',
     });
 
-    expect(user).toHaveProperty('id');
+    expect(user).toHaveProperty('token');
   });
 
   it('should not be able to create a new user with same email another', async () => {

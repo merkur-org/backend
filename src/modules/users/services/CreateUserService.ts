@@ -1,12 +1,12 @@
-import { injectable, inject } from 'tsyringe';
-
+import Config from '@config/index';
 import AppError from '@shared/errors/AppError';
 import { checkRootUser, normalizePhone } from '@shared/utils/helpers';
-import IUsersRepository from '../repositories/IUsersRepository';
-import IHashProvider from '../providers/HashProvider/models/IHashProvider';
-
-import User from '../infra/typeorm/entities/User';
+import { sign } from 'jsonwebtoken';
+import { inject, injectable } from 'tsyringe';
 import { IRole } from '../dtos/ICreateUserDTO';
+import User from '../infra/typeorm/entities/User';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+import IUsersRepository from '../repositories/IUsersRepository';
 
 interface IRequest {
   name: string;
@@ -19,6 +19,10 @@ interface IRequest {
   token?: string;
 }
 
+interface IResponse {
+  user: User;
+  token: string;
+}
 @injectable()
 class CreateUserService {
   constructor(
@@ -39,7 +43,7 @@ class CreateUserService {
     // caso não venha role, deixamos valor default como 'b'
     role = 'b',
     token,
-  }: IRequest): Promise<User> {
+  }: IRequest): Promise<IResponse> {
     const checkUserExists = await this.usersRepository.checkUserExists(
       email,
       cpf,
@@ -71,7 +75,14 @@ class CreateUserService {
       role,
     });
 
-    return user;
+    const { secret, expiresIn } = Config.jwt;
+
+    const userToken = sign({ role, id: user.id }, secret, {
+      subject: user.id,
+      expiresIn,
+    });
+
+    return { user, token: userToken };
   }
 }
 

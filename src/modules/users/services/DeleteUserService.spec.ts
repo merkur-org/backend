@@ -19,7 +19,7 @@ describe('CreateUser', () => {
   });
 
   it('should be able to delete a user', async () => {
-    const user = await createUser.execute({
+    const { user } = await createUser.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
       phone: '46 99999999',

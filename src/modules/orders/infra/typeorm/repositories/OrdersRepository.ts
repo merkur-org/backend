@@ -4,6 +4,7 @@ import IOrdersRepository, {
   IFindAllOrdersPaginated,
 } from '@modules/orders/repositories/IOrdersRepository';
 import IFindAllInPeriod from '@shared/dtos/IFindAllInPeriod';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import { getRepository, Repository, Between } from 'typeorm';
 import Order from '../entities/Order';
 import OrderDetail from '../entities/OrderDetail';
@@ -19,14 +20,6 @@ class OrdersRepository implements IOrdersRepository {
     const foundOrder = this.ormRepository.findOne(id);
 
     return foundOrder;
-  }
-
-  public async findByUserId(user_id: string): Promise<Order[] | undefined> {
-    const foundOrders = this.ormRepository.find({
-      where: { user_id },
-    });
-
-    return foundOrders;
   }
 
   public async findByPeriod({
@@ -77,14 +70,39 @@ class OrdersRepository implements IOrdersRepository {
   }
 
   public async findAllPaginated({
+    page,
+    limit,
+  }: IPaginationDTO): Promise<IPaginatedOrdersDTO> {
+    const skipped_items = (page - 1) * limit;
+
+    const total_count = await this.ormRepository.count();
+    const orders = await this.ormRepository
+      .createQueryBuilder('o')
+      .select('o.*')
+      .addSelect('json_agg(od) as "details"')
+      .orderBy('o.created_at', 'DESC')
+      .leftJoin(OrderDetail, 'od', 'o.id = od.order_id')
+      .groupBy('o.id')
+      .offset(skipped_items)
+      .limit(limit)
+      .getRawMany();
+
+    return {
+      total_count,
+      page,
+      limit,
+      data: orders,
+    };
+  }
+
+  public async findByUserId({
     user_id,
     page,
     limit,
   }: IFindAllOrdersPaginated): Promise<IPaginatedOrdersDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = await this.ormRepository.count();
-    const orders = await this.ormRepository
+    const [orders, total_count] = await this.ormRepository
       .createQueryBuilder('o')
       .select('o.*')
       .addSelect('json_agg(od) as "details"')
@@ -92,12 +110,12 @@ class OrdersRepository implements IOrdersRepository {
       .leftJoin(OrderDetail, 'od', 'o.id = od.order_id')
       .where('o.user_id = :user_id', { user_id })
       .groupBy('o.id')
-      .offset(skippedItems)
+      .offset(skipped_items)
       .limit(limit)
-      .getRawMany();
+      .getManyAndCount();
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
       data: orders,

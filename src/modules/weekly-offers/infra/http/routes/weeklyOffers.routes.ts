@@ -46,12 +46,11 @@ weeklyOffersRoutes.get(
   [checkRole(['r', 'a'])],
   celebrate({
     [Segments.QUERY]: {
-      user_id: Joi.string().required(),
       limit: Joi.number().min(1),
       page: Joi.number().min(1),
     },
   }),
-  weeklyOffersController.offer,
+  weeklyOffersController.list,
 );
 
 weeklyOffersRoutes.delete(

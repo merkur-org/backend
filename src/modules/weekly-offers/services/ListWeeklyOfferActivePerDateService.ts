@@ -5,8 +5,12 @@ import IWeeklyOffersDetailsRepository from '../repositories/IWeeklyOffersDetails
 import IWeeklyOffersReposiroty from '../repositories/IWeeklyOffersRepository';
 import PaginatedWeeklyOffersDTO from '../dtos/PaginatedWeeklyOffersDTO';
 
+interface IRequest extends IPaginationDTO {
+  date?: Date;
+}
+
 @injectable()
-class OffersWeeklyOffersService {
+class ListWeeklyOfferActivePerDateService {
   constructor(
     @inject('WeeklyOffersRepository')
     private weeklyOffersRepository: IWeeklyOffersReposiroty,
@@ -18,14 +22,18 @@ class OffersWeeklyOffersService {
   public async execute({
     limit,
     page,
-  }: IPaginationDTO): Promise<PaginatedWeeklyOffersDTO> {
-    const response = await this.weeklyOffersRepository.findAllPaginated({
-      limit,
-      page,
-    });
+    date = new Date(),
+  }: IRequest): Promise<PaginatedWeeklyOffersDTO> {
+    const response = await this.weeklyOffersRepository.findBetweenStartAndEndDate(
+      {
+        limit,
+        page,
+      },
+      date,
+    );
 
     return response;
   }
 }
 
-export default OffersWeeklyOffersService;
+export default ListWeeklyOfferActivePerDateService;

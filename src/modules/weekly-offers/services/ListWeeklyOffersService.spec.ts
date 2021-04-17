@@ -50,7 +50,7 @@ describe('listWeeklyOffer', () => {
     expect(offers.data.length).toBe(1);
     expect(offers.limit).toBe(10);
     expect(offers.page).toBe(1);
-    expect(offers.totalCount).toBe(1);
+    expect(offers.total_count).toBe(1);
   });
 
   it('should be able to offer more than one weekly offer', async () => {
@@ -106,7 +106,7 @@ describe('listWeeklyOffer', () => {
     expect(offers.data.length).toBe(1);
     expect(offers.limit).toBe(1);
     expect(offers.page).toBe(1);
-    expect(offers.totalCount).toBe(3);
+    expect(offers.total_count).toBe(3);
   });
 
   it('should not be able to offer a weekly offer with non-existing user id', async () => {

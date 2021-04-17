@@ -4,5 +4,5 @@ export default interface PaginatedDeliveryPointsDTO {
   data: DeliveryPoints[];
   page: number;
   limit: number;
-  totalCount: number;
+  total_count: number;
 }

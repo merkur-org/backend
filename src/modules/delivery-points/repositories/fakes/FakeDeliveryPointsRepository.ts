@@ -43,15 +43,17 @@ class FakeDeliveryPointsRepository implements IDeliveryPointsRepository {
     state: string,
     { page, limit }: IPaginationDTO,
   ): Promise<PaginatedDeliveryPointsDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = this.deliveryPoints.length;
+    const total_count = this.deliveryPoints.length;
     const points: DeliveryPoint[] = [];
 
-    let i = skippedItems;
+    let i = skipped_items;
 
     const limitLoop =
-      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.deliveryPoints[0]) {
       points.push(this.deliveryPoints[0]);
@@ -62,7 +64,7 @@ class FakeDeliveryPointsRepository implements IDeliveryPointsRepository {
     }
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
       data: points,

@@ -25,7 +25,8 @@ class OrderDetailsRepository implements IOrderDetailsRepository {
   }
 
   public async create(data: ICreateOrderDetailDTO[]): Promise<OrderDetail[]> {
-    const details = this.ormReposiroty.create(data.map(d => d));
+    const details = this.ormReposiroty.create(data);
+
     await this.ormReposiroty.save(details);
 
     return details;

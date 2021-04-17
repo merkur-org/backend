@@ -10,11 +10,14 @@ export interface IFindAllOrdersPaginated extends IPaginationDTO {
 export default interface IOrdersRepository {
   findById(id: string): Promise<Order | undefined>;
   findAllPaginated({
-    user_id,
     limit,
     page,
+  }: IPaginationDTO): Promise<IPaginatedOrdersDTO>;
+  findByUserId({
+    user_id,
+    page,
+    limit,
   }: IFindAllOrdersPaginated): Promise<IPaginatedOrdersDTO>;
-  findByUserId(user_id: string): Promise<Order[] | undefined>;
   findByPeriod(period: IFindAllInPeriod): Promise<Order[] | undefined>;
   create(data: ICreateOrderDTO): Promise<Order>;
   delete(id: string): Promise<void>;

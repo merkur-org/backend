@@ -23,6 +23,10 @@ export default class createWeeklyList1610039989598
             type: 'timestamp with time zone',
           },
           {
+            name: 'end_date',
+            type: 'timestamp with time zone',
+          },
+          {
             name: 'status',
             type: 'enum',
             enum: ['unavailable', 'available', 'created'],

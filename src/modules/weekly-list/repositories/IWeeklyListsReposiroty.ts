@@ -10,11 +10,15 @@ export default interface IWeeklyListReposiroty {
   findByPeriod(
     period: IFindAllListsInPeriod,
   ): Promise<WeeklyList[] | undefined>;
+  findBetweenStartAndEndDate(
+    { page, limit }: IPaginationDTO,
+    date: Date,
+  ): Promise<PaginatedWeeklyListsDTO>;
   create(data: ICreateWeeklyListDTO): Promise<WeeklyList>;
   delete(id: string): Promise<void>;
   save(weeklyList: WeeklyList): Promise<WeeklyList>;
   findAllPaginated(
-    user_id: string,
     { page, limit }: IPaginationDTO,
+    user_id?: string,
   ): Promise<PaginatedWeeklyListsDTO>;
 }

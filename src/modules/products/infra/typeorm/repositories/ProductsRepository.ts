@@ -1,4 +1,4 @@
-import { getRepository, Repository, Like } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 import Product from '@modules/products/infra/typeorm/entities/Product';
@@ -26,18 +26,33 @@ class ProductsRepository implements IProductsRepository {
     return findProduct;
   }
 
-  public async findByName(name: string): Promise<Product[] | undefined> {
-    const findProduct = this.ormRepository.find({
-      where: {
-        name: Like(`%${name}%`),
-      },
-    });
-    return findProduct;
+  public async findByName({
+    limit,
+    page,
+    name,
+  }: IPaginationDTO): Promise<IPaginatedProductsDTO> {
+    const skipped_items = (page - 1) * limit;
+
+    const [products, total_count] = await this.ormRepository
+      .createQueryBuilder('products')
+      .where(
+        `to_tsvector('portuguese', unaccent(products.name)) @@
+    plainto_tsquery('portuguese', unaccent('${name}'))`,
+      )
+      .offset(skipped_items)
+      .limit(limit)
+      .getManyAndCount();
+
+    return {
+      total_count,
+      page,
+      limit,
+      data: products,
+    };
   }
 
   public async create(data: ICreateProductDTO): Promise<Product> {
     const product = this.ormRepository.create(data);
-    console.log({ data, product });
 
     await this.ormRepository.save(product);
 
@@ -57,19 +72,26 @@ class ProductsRepository implements IProductsRepository {
   public async findAllPaginated({
     limit,
     page,
+    name,
   }: IPaginationDTO): Promise<IPaginatedProductsDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = await this.ormRepository.count();
+    const total_count = await this.ormRepository.count();
     const products = await this.ormRepository
       .createQueryBuilder('products')
       .orderBy('created_at', 'DESC')
-      .offset(skippedItems)
+      .where(
+        name
+          ? `to_tsvector('portuguese', unaccent(products.name)) @@
+    plainto_tsquery('portuguese', unaccent('${name}'))`
+          : '',
+      )
+      .offset(skipped_items)
       .limit(limit)
       .getMany();
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
       data: products,

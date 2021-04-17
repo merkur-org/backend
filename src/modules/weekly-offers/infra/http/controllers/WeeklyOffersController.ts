@@ -25,13 +25,12 @@ class WeeklyOfferController {
     return response.json(weeklyOffer);
   }
 
-  public async offer(request: Request, response: Response): Promise<Response> {
-    const { page = 1, limit = 10, user_id } = request.query;
+  public async list(request: Request, response: Response): Promise<Response> {
+    const { page = 1, limit = 10 } = request.query;
 
     const ListWeeklyOffers = container.resolve(ListWeeklyOffersService);
 
     const data = await ListWeeklyOffers.execute({
-      user_id: String(user_id),
       page: Number(page),
       limit: Number(limit),
     });

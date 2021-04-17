@@ -4,7 +4,7 @@ import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 import Product from '@modules/products/infra/typeorm/entities/Product';
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
-import IPaginatedProductDTO from '@modules/products/dtos/IPaginatedProductsDTO';
+import IPaginatedProductsDTO from '@modules/products/dtos/IPaginatedProductsDTO';
 
 class FakeProductsRepository implements IProductsRepository {
   private products: Product[] = [];
@@ -22,11 +22,42 @@ class FakeProductsRepository implements IProductsRepository {
     return findProduct;
   }
 
-  public async findByName(name: string): Promise<Product[] | undefined> {
-    const findProduct = this.products.filter(product =>
-      product.name.toLowerCase().includes(name.toLowerCase()),
+  public async findByName({
+    limit,
+    page,
+    name,
+  }: IPaginationDTO): Promise<IPaginatedProductsDTO> {
+    const skipped_items = (page - 1) * limit;
+    const productsArray = this.products.filter(
+      p => p.name.toLowerCase() === String(name).toLowerCase(),
     );
-    return findProduct;
+    const total_count = this.products.length;
+    const products: Product[] = [];
+
+    let i = skipped_items;
+
+    const limitLoop =
+      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
+
+    if (
+      i === 0 &&
+      limitLoop === 0 &&
+      productsArray[0] &&
+      productsArray[0].name.toLowerCase() === String(name).toLowerCase()
+    ) {
+      products.push(productsArray[0]);
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i; i < limitLoop; i++) {
+      products.push(productsArray[i]);
+    }
+
+    return {
+      total_count,
+      page,
+      limit,
+      data: products,
+    };
   }
 
   public async create(data: ICreateProductDTO): Promise<Product> {
@@ -56,16 +87,16 @@ class FakeProductsRepository implements IProductsRepository {
   public async findAllPaginated({
     page,
     limit,
-  }: IPaginationDTO): Promise<IPaginatedProductDTO> {
-    const skippedItems = (page - 1) * limit;
+  }: IPaginationDTO): Promise<IPaginatedProductsDTO> {
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = this.products.length;
+    const total_count = this.products.length;
     const products: Product[] = [];
 
-    let i = skippedItems;
+    let i = skipped_items;
 
     const limitLoop =
-      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.products[0]) {
       products.push(this.products[0]);
@@ -76,7 +107,7 @@ class FakeProductsRepository implements IProductsRepository {
     }
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
       data: products,

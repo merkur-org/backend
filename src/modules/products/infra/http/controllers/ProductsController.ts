@@ -35,13 +35,14 @@ class ProductsController {
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
-    const { page = 1, limit = 10 } = request.query;
+    const { page = 1, limit = 10, name } = request.query;
 
     const listProducts = container.resolve(ListProductsService);
 
     const data = await listProducts.execute({
       page: Number(page),
       limit: Number(limit),
+      name: name ? String(name) : undefined,
     });
 
     return response.json(classToClass(data));

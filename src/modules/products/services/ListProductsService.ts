@@ -14,10 +14,12 @@ class ListProductsService {
   public async execute({
     limit,
     page,
+    name,
   }: IPaginationDTO): Promise<PaginatedProductDTO> {
     const response = await this.productsRepository.findAllPaginated({
       limit,
       page,
+      name,
     });
 
     return response;

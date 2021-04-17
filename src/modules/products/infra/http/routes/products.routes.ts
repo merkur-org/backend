@@ -19,6 +19,7 @@ productsRouter.get(
     [Segments.QUERY]: {
       page: Joi.number().min(1),
       limit: Joi.number().min(1),
+      name: Joi.string(),
     },
   }),
   productsController.list,

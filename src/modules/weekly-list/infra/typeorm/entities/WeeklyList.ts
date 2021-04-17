@@ -27,12 +27,15 @@ class WeeklyList {
 
   @OneToMany(
     () => WeeklyListDetail,
-    weeklyListDetail => weeklyListDetail.list_id,
+    weeklyListDetail => weeklyListDetail.weekly_list,
   )
-  weekly_list_details: WeeklyListDetail[];
+  details: WeeklyListDetail[];
 
   @Column('timestamp with time zone')
   start_date: Date;
+
+  @Column('timestamp with time zone')
+  end_date: Date;
 
   @Column('enum')
   status: IStatusList;

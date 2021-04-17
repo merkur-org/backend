@@ -6,6 +6,7 @@ import IFindAllListsInPeriod from '@modules/weekly-list/dtos/IFindAllListsInPeri
 
 import PaginatedWeeklyListsDTO from '@modules/weekly-list/dtos/PaginatedWeeklyListsDTO';
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
+import { isWithinInterval } from 'date-fns';
 import WeeklyList from '../../infra/typeorm/entities/WeeklyList';
 
 class FakeWeeklyListRepository implements IWeeklyListReposiroty {
@@ -68,18 +69,20 @@ class FakeWeeklyListRepository implements IWeeklyListReposiroty {
   }
 
   public async findAllPaginated(
-    user_id: string,
     { page, limit }: IPaginationDTO,
+    user_id: string,
   ): Promise<PaginatedWeeklyListsDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = this.weeklyLists.length;
+    const total_count = this.weeklyLists.length;
     const lists: WeeklyList[] = [];
 
-    let i = skippedItems;
+    let i = skipped_items;
 
     const limitLoop =
-      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.weeklyLists[0]) {
       lists.push(this.weeklyLists[0]);
@@ -90,7 +93,41 @@ class FakeWeeklyListRepository implements IWeeklyListReposiroty {
     }
 
     return {
-      totalCount,
+      total_count,
+      page,
+      limit,
+      data: lists,
+    };
+  }
+
+  public async findBetweenStartAndEndDate(
+    { page, limit }: IPaginationDTO,
+    date: Date,
+  ): Promise<PaginatedWeeklyListsDTO> {
+    const skipped_items = (page - 1) * limit;
+    const arrayLists = this.weeklyLists.filter(({ start_date, end_date }) =>
+      isWithinInterval(date, { start: start_date, end: end_date }),
+    );
+    const total_count = arrayLists.length;
+    const lists: WeeklyList[] = [];
+
+    let i = skipped_items;
+
+    const limitLoop =
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
+
+    if (i === 0 && limitLoop === 0 && arrayLists) {
+      lists.push(this.weeklyLists[0]);
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i; i < limitLoop; i++) {
+      lists.push(arrayLists[i]);
+    }
+
+    return {
+      total_count,
       page,
       limit,
       data: lists,

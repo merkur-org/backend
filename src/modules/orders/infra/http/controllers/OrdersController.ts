@@ -12,7 +12,7 @@ class OrdersController {
     const { id: user_id } = request.user;
 
     const {
-      date,
+      date = new Date(),
       delivery_point_id,
       final_value,
       payment_status,
@@ -95,11 +95,9 @@ class OrdersController {
 
   public async list(request: Request, response: Response): Promise<Response> {
     const { page = 1, limit = 10 } = request.query;
-    const { id: user_id } = request.user;
     const listOrders = container.resolve(ListOrdersService);
 
     const data = await listOrders.execute({
-      user_id: String(user_id),
       page: Number(page),
       limit: Number(limit),
     });

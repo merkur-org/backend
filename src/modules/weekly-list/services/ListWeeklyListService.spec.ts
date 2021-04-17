@@ -52,7 +52,7 @@ describe('listWeeklyList', () => {
     expect(lists.data.length).toBe(1);
     expect(lists.limit).toBe(10);
     expect(lists.page).toBe(1);
-    expect(lists.totalCount).toBe(1);
+    expect(lists.total_count).toBe(1);
   });
 
   it('should be able to list more than one weekly list', async () => {
@@ -114,7 +114,7 @@ describe('listWeeklyList', () => {
     expect(lists.data.length).toBe(1);
     expect(lists.limit).toBe(1);
     expect(lists.page).toBe(1);
-    expect(lists.totalCount).toBe(3);
+    expect(lists.total_count).toBe(3);
   });
 
   it('should not be able to list a weekly list with non-existing user id', async () => {

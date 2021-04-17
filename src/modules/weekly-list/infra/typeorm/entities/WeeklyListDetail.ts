@@ -19,7 +19,7 @@ class WeeklyListDetail {
   @Column('uuid')
   list_id: string;
 
-  @ManyToOne(() => WeeklyList, weeklyList => weeklyList.id, {
+  @ManyToOne(() => WeeklyList, weeklyList => weeklyList.details, {
     cascade: true,
   })
   @JoinColumn({ name: 'list_id' })
@@ -28,9 +28,12 @@ class WeeklyListDetail {
   @Column('uuid')
   product_id: string;
 
-  @ManyToOne(() => Product, product => product.id, { cascade: true })
+  @ManyToOne(() => Product, product => product.details, {
+    cascade: true,
+    eager: true,
+  })
   @JoinColumn({ name: 'product_id' })
-  products: Product[];
+  product: Product;
 
   @Column('timestamp with time zone')
   due_date: Date;

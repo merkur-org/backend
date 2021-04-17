@@ -19,7 +19,7 @@ class WeeklyOffersDetail {
   @Column('uuid')
   offer_id: string;
 
-  @ManyToOne(() => WeeklyOffers, weeklyOffers => weeklyOffers.id, {
+  @ManyToOne(() => WeeklyOffers, weeklyOffers => weeklyOffers.details, {
     cascade: true,
   })
   @JoinColumn({ name: 'offer_id' })
@@ -28,9 +28,12 @@ class WeeklyOffersDetail {
   @Column('uuid')
   product_id: string;
 
-  @ManyToOne(() => Product, product => product.id, { cascade: true })
+  @ManyToOne(() => Product, product => product.details, {
+    cascade: true,
+    eager: true,
+  })
   @JoinColumn({ name: 'product_id' })
-  products: Product[];
+  product: Product;
 
   @Column('float')
   quantity: number;

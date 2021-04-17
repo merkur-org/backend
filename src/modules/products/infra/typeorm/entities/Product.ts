@@ -4,10 +4,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
+  Index,
+  OneToMany,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
 
 import uploadConfig from '@config/upload';
+import WeeklyOffersDetail from '@modules/weekly-offers/infra/typeorm/entities/WeeklyOffersDetail';
 
 export type IUnit = 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton';
 
@@ -16,8 +19,15 @@ class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Index('products_name_search')
   @Column()
   name: string;
+
+  @OneToMany(
+    () => WeeklyOffersDetail,
+    weeklyOffersDetail => weeklyOffersDetail.product,
+  )
+  details: WeeklyOffersDetail[];
 
   @Column()
   image: string;

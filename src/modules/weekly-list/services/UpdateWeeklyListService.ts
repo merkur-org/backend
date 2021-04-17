@@ -41,6 +41,7 @@ class UpdateWeeklyListService {
     list_id,
     details,
     start_date,
+    end_date,
     status,
   }: IRequest): Promise<IResponse> {
     const list = await this.weeklyListsRepository.findById(list_id);
@@ -50,6 +51,7 @@ class UpdateWeeklyListService {
     }
 
     list.start_date = start_date || list.start_date;
+    list.end_date = end_date || list.end_date;
     list.status = status || list.status;
     list.created_at = new Date();
 

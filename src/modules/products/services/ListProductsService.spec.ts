@@ -1,16 +1,22 @@
+import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 import FakeProductsRepository from '../repositories/fakes/FakeProductsRepository';
 import ListProductsService from './ListProductsService';
 import CreateProductService from './CreateProductService';
 
 let fakeProductsRepository: FakeProductsRepository;
+let fakeStorageProvider: FakeStorageProvider;
 let listProducts: ListProductsService;
 let createProduct: CreateProductService;
 
 describe('ListProducts', () => {
   beforeEach(() => {
     fakeProductsRepository = new FakeProductsRepository();
+    fakeStorageProvider = new FakeStorageProvider();
 
-    createProduct = new CreateProductService(fakeProductsRepository);
+    createProduct = new CreateProductService(
+      fakeProductsRepository,
+      fakeStorageProvider,
+    );
     listProducts = new ListProductsService(fakeProductsRepository);
   });
 
@@ -47,6 +53,6 @@ describe('ListProducts', () => {
     expect(products.data.length).toBe(2);
     expect(products.limit).toBe(10);
     expect(products.page).toBe(1);
-    expect(products.totalCount).toBe(3);
+    expect(products.total_count).toBe(3);
   });
 });

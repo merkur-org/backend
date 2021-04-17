@@ -17,6 +17,7 @@ weeklyListRoutes.post(
   celebrate({
     [Segments.BODY]: {
       start_date: Joi.date(),
+      end_date: Joi.date(),
       status: Joi.string().required(),
       details: Joi.array().items({
         product_id: Joi.string().required(),
@@ -50,7 +51,7 @@ weeklyListRoutes.get(
     [Segments.QUERY]: {
       limit: Joi.number().min(1),
       page: Joi.number().min(1),
-      user_id: Joi.string().required(),
+      user_id: Joi.string(),
     },
   }),
   weeklyListController.list,
@@ -76,6 +77,7 @@ weeklyListRoutes.put(
     },
     [Segments.BODY]: {
       start_date: Joi.date(),
+      end_date: Joi.date(),
       status: Joi.string().required(),
       details: Joi.array().items({
         id: Joi.string().required(),

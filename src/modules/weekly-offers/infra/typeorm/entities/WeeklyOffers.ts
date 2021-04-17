@@ -28,9 +28,9 @@ class WeeklyOffers {
 
   @OneToMany(
     () => WeeklyOffersDetail,
-    weeklyOffersDetail => weeklyOffersDetail.offer_id,
+    weeklyOffersDetail => weeklyOffersDetail.weekly_offer,
   )
-  weekly_offer_details: WeeklyOffersDetail[];
+  details: WeeklyOffersDetail[];
 
   @Column('enum')
   status: IStatusOffers;

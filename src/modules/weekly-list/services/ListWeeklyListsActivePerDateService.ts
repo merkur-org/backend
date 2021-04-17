@@ -1,16 +1,16 @@
 import { injectable, inject } from 'tsyringe';
 
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
-import IWeeklyListDetailsRepository from '../repositories/IWeeklyListDetailsRepository';
-import IWeeklyListsReposiroty from '../repositories/IWeeklyListsReposiroty';
 import PaginatedWeeklyListsDTO from '../dtos/PaginatedWeeklyListsDTO';
+import IWeeklyListsReposiroty from '../repositories/IWeeklyListsReposiroty';
+import IWeeklyListDetailsRepository from '../repositories/IWeeklyListDetailsRepository';
 
 interface IRequest extends IPaginationDTO {
-  user_id?: string;
+  date?: Date;
 }
 
 @injectable()
-class ListWeeklyListsService {
+class ListWeeklyOfferActivePerDateService {
   constructor(
     @inject('WeeklyListsRepository')
     private weeklyListsRepository: IWeeklyListsReposiroty,
@@ -20,17 +20,20 @@ class ListWeeklyListsService {
   ) {}
 
   public async execute({
-    user_id,
     limit,
     page,
+    date = new Date(),
   }: IRequest): Promise<PaginatedWeeklyListsDTO> {
-    const response = await this.weeklyListsRepository.findAllPaginated(
-      { limit, page },
-      user_id,
+    const response = await this.weeklyListsRepository.findBetweenStartAndEndDate(
+      {
+        limit,
+        page,
+      },
+      date,
     );
 
     return response;
   }
 }
 
-export default ListWeeklyListsService;
+export default ListWeeklyOfferActivePerDateService;

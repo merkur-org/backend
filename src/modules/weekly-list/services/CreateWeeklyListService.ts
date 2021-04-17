@@ -27,11 +27,13 @@ class CreateDeliveryPointService {
   public async execute({
     details,
     start_date,
+    end_date,
     user_id,
     status,
   }: IRequest): Promise<IResponse> {
     const weeklyList = await this.weeklyListsRepository.create({
       start_date,
+      end_date,
       user_id,
       status,
     });

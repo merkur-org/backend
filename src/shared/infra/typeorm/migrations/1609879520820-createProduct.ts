@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
 
 export default class createProduct1609879520820 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -53,9 +53,18 @@ export default class createProduct1609879520820 implements MigrationInterface {
         ],
       }),
     );
+
+    await queryRunner.createIndex(
+      'products',
+      new TableIndex({
+        name: 'products_name_search',
+        columnNames: ['name'],
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropIndex('products', 'products_name_search');
     await queryRunner.dropTable('products');
   }
 }

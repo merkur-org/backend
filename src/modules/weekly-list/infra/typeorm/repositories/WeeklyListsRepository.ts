@@ -6,7 +6,7 @@ import IFindAllListsInPeriod from '@modules/weekly-list/dtos/IFindAllListsInPeri
 import WeeklyList from '@modules/weekly-list/infra/typeorm/entities/WeeklyList';
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import PaginatedWeeklyListsDTO from '@modules/weekly-list/dtos/PaginatedWeeklyListsDTO';
-import WeeklyListDetail from '../entities/WeeklyListDetail';
+import { AfterDate, BeforeDate } from '@shared/utils/typeorm';
 
 class WeeklyListRepository implements IWeeklyListReposiroty {
   private ormRepository: Repository<WeeklyList>;
@@ -43,9 +43,15 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
   public async create({
     user_id,
     start_date,
+    end_date,
     status,
   }: ICreateWeeklyListDTO): Promise<WeeklyList> {
-    const list = this.ormRepository.create({ user_id, start_date, status });
+    const list = this.ormRepository.create({
+      user_id,
+      start_date,
+      end_date,
+      status,
+    });
     await this.ormRepository.save(list);
 
     return list;
@@ -62,29 +68,59 @@ class WeeklyListRepository implements IWeeklyListReposiroty {
   }
 
   public async findAllPaginated(
-    user_id: string,
     { page, limit }: IPaginationDTO,
+    user_id?: string,
   ): Promise<PaginatedWeeklyListsDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = await this.ormRepository.count();
-    const lists = await this.ormRepository
-      .createQueryBuilder('wl')
-      .select('wl.*')
-      .addSelect('json_agg(wld) as "details"')
-      .orderBy('wl.created_at', 'DESC')
-      .leftJoin(WeeklyListDetail, 'wld', 'wl.id = wld.list_id')
-      .where('wl.user_id = :user_id', { user_id })
-      .groupBy('wl.id')
-      .offset(skippedItems)
-      .limit(limit)
-      .getRawMany();
+    // const [offers, total_count] = await this.ormRepository
+    //   .createQueryBuilder('wo')
+    //   .select('wo.*')
+    //   .addSelect('json_agg(wod) as "details"')
+    //   .orderBy('wo.created_at', 'DESC')
+    //   .leftJoin(WeeklyOffersDetail, 'wod', 'wo.id = wod.offer_id')
+    //   .where(user_id ? `wo.user_id = ${user_id}` : '')
+    //   .groupBy('wo.id')
+    //   .offset(skipped_items)
+    //   .limit(limit)
+    //   .getManyAndCount();
+    const [offers, total_count] = await this.ormRepository.findAndCount({
+      where: user_id ? { user_id } : '',
+      relations: ['details'],
+      skip: skipped_items,
+      take: limit,
+      order: { created_at: 'DESC' },
+    });
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
-      data: lists,
+      data: offers,
+    };
+  }
+
+  public async findBetweenStartAndEndDate(
+    { page, limit }: IPaginationDTO,
+    date = new Date(),
+  ): Promise<PaginatedWeeklyListsDTO> {
+    const skipped_items = (page - 1) * limit;
+
+    const [offers, total_count] = await this.ormRepository.findAndCount({
+      where: {
+        start_date: BeforeDate(date),
+        end_date: AfterDate(date),
+      },
+      relations: ['details'],
+      skip: skipped_items,
+      take: limit,
+    });
+
+    return {
+      total_count,
+      page,
+      limit,
+      data: offers,
     };
   }
 }

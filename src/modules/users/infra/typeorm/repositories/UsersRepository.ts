@@ -76,18 +76,18 @@ class UsersRepository implements IUsersRepository {
     limit,
     page,
   }: IPaginationDTO): Promise<PaginatedUsersDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = await this.ormRepository.count();
+    const total_count = await this.ormRepository.count();
     const users = await this.ormRepository
       .createQueryBuilder('user')
       .orderBy('created_at', 'DESC')
-      .offset(skippedItems)
+      .offset(skipped_items)
       .limit(limit)
       .getMany();
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
       data: users,

@@ -7,6 +7,10 @@ import WeeklyOffers from '../infra/typeorm/entities/WeeklyOffers';
 export default interface IWeeklyOffersReposiroty {
   findById(id: string): Promise<WeeklyOffers | undefined>;
   findByUserId(user_id: string): Promise<WeeklyOffers[] | undefined>;
+  findBetweenStartAndEndDate(
+    { page, limit }: IPaginationDTO,
+    date: Date,
+  ): Promise<PaginatedWeeklyOffersDTO>;
   findByPeriod(
     period: IFindAllOffersInPeriod,
   ): Promise<WeeklyOffers[] | undefined>;
@@ -14,7 +18,7 @@ export default interface IWeeklyOffersReposiroty {
   delete(id: string): Promise<void>;
   save(weeklyOffers: WeeklyOffers): Promise<WeeklyOffers>;
   findAllPaginated(
-    user_id: string,
     { page, limit }: IPaginationDTO,
+    user_id?: string,
   ): Promise<PaginatedWeeklyOffersDTO>;
 }

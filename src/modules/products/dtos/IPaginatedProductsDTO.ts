@@ -4,5 +4,5 @@ export default interface IPaginatedProductDTO {
   data: Product[];
   page: number;
   limit: number;
-  totalCount: number;
+  total_count: number;
 }

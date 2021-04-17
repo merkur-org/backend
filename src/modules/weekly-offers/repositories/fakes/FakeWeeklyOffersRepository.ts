@@ -1,4 +1,5 @@
 import { uuid } from 'uuidv4';
+import isWithinInterval from 'date-fns/isWithinInterval';
 
 import IWeeklyOffersReposiroty from '@modules/weekly-offers/repositories/IWeeklyOffersRepository';
 import ICreateWeeklyOffersDTO from '@modules/weekly-offers/dtos/ICreateWeeklyOffersDTO';
@@ -68,18 +69,20 @@ class FakeWeeklyOffersRepository implements IWeeklyOffersReposiroty {
   }
 
   public async findAllPaginated(
-    user_id: string,
     { page, limit }: IPaginationDTO,
+    user_id: string,
   ): Promise<PaginatedWeeklyOffersDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = this.weeklyOffers.length;
+    const total_count = this.weeklyOffers.length;
     const offers: WeeklyOffers[] = [];
 
-    let i = skippedItems;
+    let i = skipped_items;
 
     const limitLoop =
-      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.weeklyOffers[0]) {
       offers.push(this.weeklyOffers[0]);
@@ -90,7 +93,41 @@ class FakeWeeklyOffersRepository implements IWeeklyOffersReposiroty {
     }
 
     return {
-      totalCount,
+      total_count,
+      page,
+      limit,
+      data: offers,
+    };
+  }
+
+  public async findBetweenStartAndEndDate(
+    { page, limit }: IPaginationDTO,
+    date: Date,
+  ): Promise<PaginatedWeeklyOffersDTO> {
+    const skipped_items = (page - 1) * limit;
+    const arrayOffers = this.weeklyOffers.filter(({ start_date, end_date }) =>
+      isWithinInterval(date, { start: start_date, end: end_date }),
+    );
+    const total_count = arrayOffers.length;
+    const offers: WeeklyOffers[] = [];
+
+    let i = skipped_items;
+
+    const limitLoop =
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
+
+    if (i === 0 && limitLoop === 0 && arrayOffers) {
+      offers.push(this.weeklyOffers[0]);
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i; i < limitLoop; i++) {
+      offers.push(arrayOffers[i]);
+    }
+
+    return {
+      total_count,
       page,
       limit,
       data: offers,
