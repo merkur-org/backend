@@ -32,6 +32,12 @@ class Product {
   @Column()
   image: string;
 
+  @Column('text')
+  nutritional_information: string;
+
+  @Column('text')
+  observation: string;
+
   @Column('enum')
   unit: IUnit;
 

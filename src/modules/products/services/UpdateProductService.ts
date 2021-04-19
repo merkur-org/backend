@@ -11,6 +11,8 @@ interface IRequest {
   cost_price?: number;
   sale_price?: number;
   wholesale_price?: number;
+  observation?: string;
+  nutritional_information?: string;
 }
 
 @injectable()
@@ -27,6 +29,8 @@ class UpdateProductService {
     sale_price,
     unit,
     wholesale_price,
+    nutritional_information,
+    observation,
   }: IRequest): Promise<Product> {
     const foundProduct = await this.productsRepository.findById(product_id);
 
@@ -41,6 +45,10 @@ class UpdateProductService {
     foundProduct.wholesale_price =
       wholesale_price || foundProduct.wholesale_price;
     foundProduct.updated_at = new Date();
+    foundProduct.nutritional_information =
+      nutritional_information || foundProduct.nutritional_information;
+    foundProduct.nutritional_information =
+      observation || foundProduct.observation;
 
     await this.productsRepository.save(foundProduct);
 

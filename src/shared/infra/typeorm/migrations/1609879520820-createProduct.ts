@@ -23,6 +23,16 @@ export default class createProduct1609879520820 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'nutritional_information',
+            type: 'text',
+            isNullable: true,
+          },
+          {
+            name: 'observation',
+            type: 'text',
+            isNullable: true,
+          },
+          {
             name: 'unit',
             type: 'enum',
             enum: ['kg', 'g', 'l', 'ml', 'un', 'ton'],
@@ -30,6 +40,11 @@ export default class createProduct1609879520820 implements MigrationInterface {
           {
             name: 'cost_price',
             type: 'float',
+          },
+          {
+            name: 'organic',
+            type: 'boolean',
+            default: true,
           },
           {
             name: 'sale_price',

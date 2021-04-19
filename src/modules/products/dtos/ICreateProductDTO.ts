@@ -6,5 +6,7 @@ export default interface ICreateProductDTO {
   cost_price: number;
   sale_price: number;
   image?: string;
+  observation?: string;
+  nutritional_information?: string;
   wholesale_price?: number;
 }

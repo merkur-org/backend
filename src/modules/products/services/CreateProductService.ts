@@ -21,6 +21,8 @@ class CreateProductService {
     cost_price,
     sale_price,
     unit,
+    nutritional_information,
+    observation,
     wholesale_price,
     image,
   }: ICreateProductDTO): Promise<Product> {
@@ -48,6 +50,8 @@ class CreateProductService {
       sale_price,
       unit,
       wholesale_price,
+      nutritional_information,
+      observation,
     });
 
     return product;
