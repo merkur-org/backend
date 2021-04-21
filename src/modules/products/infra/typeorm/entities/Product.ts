@@ -10,7 +10,8 @@ import {
 import { Expose } from 'class-transformer';
 
 import uploadConfig from '@config/upload';
-import WeeklyOffersDetail from '@modules/weekly-offers/infra/typeorm/entities/WeeklyOffersDetail';
+import ListOffersDetail from '@modules/lists/infra/typeorm/entities/ListOffersDetail';
+import ListProducersDetail from '@modules/lists/infra/typeorm/entities/ListProducersDetail';
 
 export type IUnit = 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton';
 
@@ -24,10 +25,16 @@ class Product {
   name: string;
 
   @OneToMany(
-    () => WeeklyOffersDetail,
-    weeklyOffersDetail => weeklyOffersDetail.product,
+    () => ListOffersDetail,
+    listOffersDetail => listOffersDetail.product,
   )
-  details: WeeklyOffersDetail[];
+  offers_details: ListOffersDetail[];
+
+  @OneToMany(
+    () => ListProducersDetail,
+    listProducersDetail => listProducersDetail.product,
+  )
+  producers_details: ListProducersDetail[];
 
   @Column()
   image: string;
