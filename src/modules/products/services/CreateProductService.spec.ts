@@ -1,14 +1,20 @@
+import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 import FakeProductsRepository from '../repositories/fakes/FakeProductsRepository';
 import CreateProductService from './CreateProductService';
 
 let fakeProductsRepository: FakeProductsRepository;
+let fakeStorageProvider: FakeStorageProvider;
 let createProduct: CreateProductService;
 
 describe('CreateProduct', () => {
   beforeEach(() => {
     fakeProductsRepository = new FakeProductsRepository();
+    fakeStorageProvider = new FakeStorageProvider();
 
-    createProduct = new CreateProductService(fakeProductsRepository);
+    createProduct = new CreateProductService(
+      fakeProductsRepository,
+      fakeStorageProvider,
+    );
   });
 
   it('should be able to create a new product', async () => {

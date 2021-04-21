@@ -15,23 +15,20 @@ import DeliveryPointsRepository from '@modules/delivery-points/infra/typeorm/rep
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import ProductsRepository from '@modules/products/infra/typeorm/repositories/ProductsRepository';
 
-import IWeeklyListRepository from '@modules/weekly-list/repositories/IWeeklyListsReposiroty';
-import WeeklyListsRepository from '@modules/weekly-list/infra/typeorm/repositories/WeeklyListsRepository';
-
-import IWeeklyListDetailsRepository from '@modules/weekly-list/repositories/IWeeklyListDetailsRepository';
-import WeeklyListDetailsRepository from '@modules/weekly-list/infra/typeorm/repositories/WeeklyListDetailsRepository';
-
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 import OrdersRepository from '@modules/orders/infra/typeorm/repositories/OrdersRepository';
 
 import IOrderDetailsRepository from '@modules/orders/repositories/IOrderDetailsRepository';
 import OrderDetailsRepository from '@modules/orders/infra/typeorm/repositories/OrderDetailsRepository';
 
-import WeeklyOffersRepository from '@modules/weekly-offers/infra/typeorm/repositories/WeeklyOffersRepository';
-import IWeeklyOffersRepository from '@modules/weekly-offers/repositories/IWeeklyOffersRepository';
+import ListOffersDetailsRepository from '@modules/lists/infra/typeorm/repositories/ListOffersDetailsRepository';
+import IListOffersDetailsRepository from '@modules/lists/repositories/IListOffersDetailsRepository';
 
-import WeeklyOffersDetailsRepository from '@modules/weekly-offers/infra/typeorm/repositories/WeeklyOffersDetailsRepository';
-import IWeeklyOffersDetailsRepository from '@modules/weekly-offers/repositories/IWeeklyOffersDetailsRepository';
+import ListProducersDetailsRepository from '@modules/lists/infra/typeorm/repositories/ListProducersDetailsRepository';
+import IListProducersDetailsRepository from '@modules/lists/repositories/IListProducersDetailsRepository';
+
+import ListsRepository from '@modules/lists/infra/typeorm/repositories/ListsRepository';
+import IListsRepository from '@modules/lists/repositories/IListsReposiroty';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
@@ -53,16 +50,6 @@ container.registerSingleton<IProductsRepository>(
   ProductsRepository,
 );
 
-container.registerSingleton<IWeeklyListRepository>(
-  'WeeklyListsRepository',
-  WeeklyListsRepository,
-);
-
-container.registerSingleton<IWeeklyListDetailsRepository>(
-  'WeeklyListDetailsRepository',
-  WeeklyListDetailsRepository,
-);
-
 container.registerSingleton<IOrdersRepository>(
   'OrdersRepository',
   OrdersRepository,
@@ -73,12 +60,17 @@ container.registerSingleton<IOrderDetailsRepository>(
   OrderDetailsRepository,
 );
 
-container.registerSingleton<IWeeklyOffersRepository>(
-  'WeeklyOffersRepository',
-  WeeklyOffersRepository,
+container.registerSingleton<IListOffersDetailsRepository>(
+  'ListOffersDetailsRepository',
+  ListOffersDetailsRepository,
 );
 
-container.registerSingleton<IWeeklyOffersDetailsRepository>(
-  'WeeklyOffersDetailsRepository',
-  WeeklyOffersDetailsRepository,
+container.registerSingleton<IListProducersDetailsRepository>(
+  'ListProducersDetailsRepository',
+  ListProducersDetailsRepository,
+);
+
+container.registerSingleton<IListsRepository>(
+  'ListsRepository',
+  ListsRepository,
 );

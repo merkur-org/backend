@@ -25,7 +25,7 @@ describe('listUsers', () => {
     expect(users.data.length).toBe(1);
     expect(users.limit).toBe(10);
     expect(users.page).toBe(1);
-    expect(users.totalCount).toBe(1);
+    expect(users.total_count).toBe(1);
   });
 
   it('should be able show the User', async () => {
@@ -56,6 +56,6 @@ describe('listUsers', () => {
     expect(users.data.length).toBe(1);
     expect(users.limit).toBe(1);
     expect(users.page).toBe(1);
-    expect(users.totalCount).toBe(3);
+    expect(users.total_count).toBe(3);
   });
 });

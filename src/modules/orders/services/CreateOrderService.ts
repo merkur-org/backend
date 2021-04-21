@@ -23,7 +23,7 @@ class CreateOrderService {
     private ordersRepository: IOrdersRepository,
 
     @inject('OrderDetailsRepository')
-    private OrderDetailsRepository: IOrderDetailsRepository,
+    private orderDetailsRepository: IOrderDetailsRepository,
   ) {}
 
   public async execute({
@@ -55,7 +55,7 @@ class CreateOrderService {
       };
     });
 
-    const orderDetails = await this.OrderDetailsRepository.create(
+    const orderDetails = await this.orderDetailsRepository.create(
       serializedProducts,
     );
 

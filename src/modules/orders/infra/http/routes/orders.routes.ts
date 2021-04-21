@@ -15,7 +15,7 @@ ordersRoutes.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      date: Joi.date().required(),
+      date: Joi.date(),
       delivery_point_id: Joi.string().uuid().required(),
       final_value: Joi.number().required(),
       payment_status: Joi.string().valid(

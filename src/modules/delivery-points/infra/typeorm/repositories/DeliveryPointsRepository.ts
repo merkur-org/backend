@@ -39,19 +39,19 @@ class DeliveryPointsRepository implements IDeliveryPointsRepository {
     state: string,
     { limit, page }: IPaginationDTO,
   ): Promise<PaginatedDeliveryPointsDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = await this.ormRepository.count();
+    const total_count = await this.ormRepository.count();
     const points = await this.ormRepository
       .createQueryBuilder('delivery_points')
       .where('delivery_points.state = :state', { state })
       .orderBy('created_at', 'DESC')
-      .offset(skippedItems)
+      .offset(skipped_items)
       .limit(limit)
       .getMany();
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
       data: points,

@@ -17,10 +17,42 @@ class FakeOrdersRepository implements IOrdersRepository {
     return foundOrder;
   }
 
-  public async findByUserId(user_id: string): Promise<Order[] | undefined> {
-    const foundOrders = this.orders.filter(order => order.user_id === user_id);
+  public async findByUserId({
+    limit,
+    page,
+    user_id,
+  }: IFindAllOrdersPaginated): Promise<IPaginatedOrdersDTO> {
+    const skipped_items = (page - 1) * limit;
+    const ordersArray = this.orders.filter(order => order.user_id === user_id);
+    const total_count = ordersArray.length;
+    const orders: Order[] = [];
 
-    return foundOrders;
+    let i = skipped_items;
+
+    const limitLoop =
+      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
+
+    if (
+      i === 0 &&
+      limitLoop === 0 &&
+      ordersArray[0] &&
+      ordersArray[0].user_id === user_id
+    ) {
+      orders.push(ordersArray[0]);
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i; i < limitLoop; i++) {
+      if (ordersArray[i].user_id === user_id) {
+        orders.push(ordersArray[i]);
+      }
+    }
+
+    return {
+      total_count,
+      page,
+      limit,
+      data: orders,
+    };
   }
 
   public async findAllPaginated({
@@ -28,15 +60,15 @@ class FakeOrdersRepository implements IOrdersRepository {
     limit,
     user_id,
   }: IFindAllOrdersPaginated): Promise<IPaginatedOrdersDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = this.orders.length;
+    const total_count = this.orders.length;
     const orders: Order[] = [];
 
-    let i = skippedItems;
+    let i = skipped_items;
 
     const limitLoop =
-      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.orders[0]) {
       orders.push(this.orders[0]);
@@ -47,7 +79,7 @@ class FakeOrdersRepository implements IOrdersRepository {
     }
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
       data: orders,

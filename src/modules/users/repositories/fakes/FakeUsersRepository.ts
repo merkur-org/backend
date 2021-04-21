@@ -72,15 +72,15 @@ class FakeUsersRepository implements IUsersRepository {
     page,
     limit,
   }: IPaginationDTO): Promise<PaginatedUsersDTO> {
-    const skippedItems = (page - 1) * limit;
+    const skipped_items = (page - 1) * limit;
 
-    const totalCount = this.users.length;
+    const total_count = this.users.length;
     const users: User[] = [];
 
-    let i = skippedItems;
+    let i = skipped_items;
 
     const limitLoop =
-      skippedItems + limit < totalCount ? skippedItems + limit : totalCount - 1;
+      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.users[0]) {
       users.push(this.users[0]);
@@ -91,7 +91,7 @@ class FakeUsersRepository implements IUsersRepository {
     }
 
     return {
-      totalCount,
+      total_count,
       page,
       limit,
       data: users,

@@ -1,3 +1,4 @@
+import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 import AppError from '@shared/errors/AppError';
 
 import FakeProductsRepository from '../repositories/fakes/FakeProductsRepository';
@@ -5,14 +6,19 @@ import CreateProductService from './CreateProductService';
 import UpdateProductService from './UpdateProductService';
 
 let fakeProductsRepository: FakeProductsRepository;
+let fakeStorageProvider: FakeStorageProvider;
 let createProduct: CreateProductService;
 let updateProduct: UpdateProductService;
 
 describe('UpdateProduct', () => {
   beforeEach(() => {
     fakeProductsRepository = new FakeProductsRepository();
+    fakeStorageProvider = new FakeStorageProvider();
 
-    createProduct = new CreateProductService(fakeProductsRepository);
+    createProduct = new CreateProductService(
+      fakeProductsRepository,
+      fakeStorageProvider,
+    );
     updateProduct = new UpdateProductService(fakeProductsRepository);
   });
 

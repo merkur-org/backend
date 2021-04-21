@@ -18,6 +18,8 @@ class ProductsController {
       sale_price,
       unit,
       wholesale_price,
+      nutritional_information,
+      observation,
     } = request.body;
     const image = request.file.filename;
     const createProduct = container.resolve(CreateProductService);
@@ -29,19 +31,22 @@ class ProductsController {
       unit,
       wholesale_price,
       image,
+      observation,
+      nutritional_information,
     });
 
     return response.json(classToClass(product));
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
-    const { page = 1, limit = 10 } = request.query;
+    const { page = 1, limit = 10, name } = request.query;
 
     const listProducts = container.resolve(ListProductsService);
 
     const data = await listProducts.execute({
       page: Number(page),
       limit: Number(limit),
+      name: name ? String(name) : undefined,
     });
 
     return response.json(classToClass(data));
@@ -66,6 +71,8 @@ class ProductsController {
       sale_price,
       unit,
       wholesale_price,
+      nutritional_information,
+      observation,
     } = request.body;
 
     const updateProduct = container.resolve(UpdateProductService);
@@ -77,6 +84,8 @@ class ProductsController {
       sale_price,
       unit,
       wholesale_price,
+      nutritional_information,
+      observation,
     });
 
     return response.json(product);

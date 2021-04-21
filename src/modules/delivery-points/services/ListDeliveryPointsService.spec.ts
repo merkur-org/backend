@@ -39,7 +39,7 @@ describe('listUsers', () => {
     expect(points.data.length).toBe(1);
     expect(points.limit).toBe(10);
     expect(points.page).toBe(1);
-    expect(points.totalCount).toBe(1);
+    expect(points.total_count).toBe(1);
   });
 
   it('should be able show the delivery points', async () => {
@@ -83,6 +83,6 @@ describe('listUsers', () => {
     expect(users.data.length).toBe(1);
     expect(users.limit).toBe(1);
     expect(users.page).toBe(1);
-    expect(users.totalCount).toBe(3);
+    expect(users.total_count).toBe(3);
   });
 });
