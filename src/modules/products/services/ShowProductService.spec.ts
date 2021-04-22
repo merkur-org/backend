@@ -1,4 +1,5 @@
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
+import AppError from '@shared/errors/AppError';
 import FakeProductsRepository from '../repositories/fakes/FakeProductsRepository';
 import ShowProductService from './ShowProductService';
 import CreateProductService from './CreateProductService';
@@ -34,5 +35,12 @@ describe('ShowProduct', () => {
     });
 
     expect(product.name).toBe('Laranja Lima');
+  });
+  it('should not be able to show the product if product not exists', async () => {
+    await expect(
+      showProduct.execute({
+        product_id: 'non-exists',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
