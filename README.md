@@ -38,24 +38,3 @@ yarn build
 ```bash
 yarn test --coverage
 ```
-
-
-## Após fazer o build do projeto deve se trocar no ormconfig.json
-
-```json
- ## pasta src para dist e a extensão para js
- "migrations": [
-    "./src/shared/infra/typeorm/migrations/*.ts"
-  ],
-  "cli": {
-    "migrationsDir": "./src/shared/infra/typeorm/migrations"
-  }
-
-## como ficaria
-  "migrations": [
-    "./dist/shared/infra/typeorm/migrations/*.js"
-  ],
-  "cli": {
-    "migrationsDir": "./dist/shared/infra/typeorm/migrations"
-  }
-```
