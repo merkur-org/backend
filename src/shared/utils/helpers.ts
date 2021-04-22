@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { verify } from 'jsonwebtoken';
 import Config from '@config/index';
 import AppError from '@shared/errors/AppError';

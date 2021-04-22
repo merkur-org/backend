@@ -1,7 +1,7 @@
-import WeeklyList from '../infra/typeorm/entities/WeeklyList';
+import List from '../infra/typeorm/entities/List';
 
 export default interface IPaginatedListsDTO {
-  data: WeeklyList[];
+  data: List[];
   page: number;
   limit: number;
   total_count: number;

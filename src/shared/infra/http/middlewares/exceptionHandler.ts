@@ -8,8 +8,6 @@ export default (
   response: Response,
   _: NextFunction,
 ): Response => {
-  console.log(err);
-
   logger.error(err);
 
   if (err instanceof AppError) {
