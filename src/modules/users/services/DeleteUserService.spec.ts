@@ -27,7 +27,6 @@ describe('CreateUser', () => {
       cpf: '123456789',
     });
 
-    // TODO validar se existe o user antes do delete
     const message = await deleteUser.execute({
       user_id: user.id,
     });

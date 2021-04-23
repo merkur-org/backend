@@ -11,7 +11,7 @@ module.exports = {
   password: DB_PASSWORD ||'docker',
   database: DB_DATABASE || 'data',
   entities: dev ? ['./src/modules/**/infra/typeorm/entities/*.ts'] : ['./dist/modules/**/infra/typeorm/entities/*.js'],
-  migrations: dev ? ['./src/shared/infra/typeorm/migrations/*.ts'] : ['./src/shared/infra/typeorm/migrations/*.ts'],
+  migrations: dev ? ['./src/shared/infra/typeorm/migrations/*.ts'] : ['./dist/shared/infra/typeorm/migrations/*.js'],
   cli: {
     migrationsDir: './src/shared/infra/typeorm/migrations'
   }

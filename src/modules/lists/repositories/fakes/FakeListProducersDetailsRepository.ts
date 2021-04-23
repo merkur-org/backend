@@ -39,7 +39,9 @@ class FakeListProducersDetailsRepository
   }
 
   public async delete(id: string): Promise<void> {
-    this.listProducersDetails.filter(detail => detail.id !== id);
+    this.listProducersDetails = this.listProducersDetails.filter(
+      detail => detail.id !== id,
+    );
   }
 
   public async save(

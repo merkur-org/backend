@@ -37,7 +37,7 @@ class FakeOrderDetailsRepository implements IOrderDetailsRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    this.orderDetails.filter(detail => detail.id !== id);
+    this.orderDetails = this.orderDetails.filter(detail => detail.id !== id);
   }
 
   public async save(OrderDetails: OrderDetail[]): Promise<OrderDetail[]> {

@@ -47,7 +47,7 @@ class FakeListsReposiroty implements IListsReposiroty {
   }
 
   public async delete(id: string): Promise<void> {
-    this.lists.filter(list => list.id !== id);
+    this.lists = this.lists.filter(list => list.id !== id);
   }
 
   public async save(list: List): Promise<List> {

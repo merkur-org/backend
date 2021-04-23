@@ -57,7 +57,7 @@ class FakeUsersRepository implements IUsersRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    this.users.filter(user => user.id !== id);
+    this.users = this.users.filter(user => user.id !== id);
   }
 
   public async save(user: User): Promise<User> {
