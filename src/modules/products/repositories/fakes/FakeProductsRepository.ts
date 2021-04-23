@@ -37,7 +37,9 @@ class FakeProductsRepository implements IProductsRepository {
     let i = skipped_items;
 
     const limitLoop =
-      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
 
     if (
       i === 0 &&
@@ -96,7 +98,9 @@ class FakeProductsRepository implements IProductsRepository {
     let i = skipped_items;
 
     const limitLoop =
-      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.products[0]) {
       products.push(this.products[0]);

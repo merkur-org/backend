@@ -30,7 +30,9 @@ class FakeOrdersRepository implements IOrdersRepository {
     let i = skipped_items;
 
     const limitLoop =
-      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
 
     if (
       i === 0 &&
@@ -68,7 +70,9 @@ class FakeOrdersRepository implements IOrdersRepository {
     let i = skipped_items;
 
     const limitLoop =
-      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.orders[0]) {
       orders.push(this.orders[0]);

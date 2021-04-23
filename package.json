@@ -11,7 +11,9 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run",
-    "test": "NODE_ENV=dev ENV_FILE=./env/.env.test jest"
+    "test": "NODE_ENV=dev ENV_FILE=./env/.env.test jest",
+    "lint": "eslint src --ext ts",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "aws-sdk": "^2.834.0",

@@ -80,7 +80,9 @@ class FakeUsersRepository implements IUsersRepository {
     let i = skipped_items;
 
     const limitLoop =
-      skipped_items + limit < total_count ? skipped_items + limit : total_count - 1;
+      skipped_items + limit < total_count
+        ? skipped_items + limit
+        : total_count - 1;
 
     if (i === 0 && limitLoop === 0 && this.users[0]) {
       users.push(this.users[0]);
