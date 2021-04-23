@@ -31,7 +31,6 @@ describe('DeleteDeliveryPoint', () => {
       suburb: 'center',
     });
 
-    // TODO validar se existe o user antes do delete
     const message = await deleteDeliveryPoint.execute({
       point_id: point.id,
     });

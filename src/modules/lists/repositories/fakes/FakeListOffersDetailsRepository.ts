@@ -38,7 +38,9 @@ class FakeListOffersDetailsRepository implements IListOffersDetailsRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    this.listOffersDetails.filter(detail => detail.id !== id);
+    this.listOffersDetails = this.listOffersDetails.filter(
+      detail => detail.id !== id,
+    );
   }
 
   public async save(

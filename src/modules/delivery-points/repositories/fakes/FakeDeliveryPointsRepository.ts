@@ -26,7 +26,7 @@ class FakeDeliveryPointsRepository implements IDeliveryPointsRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    this.deliveryPoints.filter(point => point.id !== id);
+    this.deliveryPoints = this.deliveryPoints.filter(point => point.id !== id);
   }
 
   public async save(point: DeliveryPoint): Promise<DeliveryPoint> {
