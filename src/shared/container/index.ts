@@ -28,7 +28,7 @@ import ListProducersDetailsRepository from '@modules/lists/infra/typeorm/reposit
 import IListProducersDetailsRepository from '@modules/lists/repositories/IListProducersDetailsRepository';
 
 import ListsRepository from '@modules/lists/infra/typeorm/repositories/ListsRepository';
-import IListsRepository from '@modules/lists/repositories/IListsReposiroty';
+import IListsRepository from '@modules/lists/repositories/IListsRepository';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
