@@ -23,7 +23,12 @@ describe('CreateProduct', () => {
       name: 'Alface Americana',
       cost_price: 0.5,
       sale_price: 0.75,
-      unit: 'un',
+      unit_buy: 'un',
+      unit_sale: 'un',
+      organic: true,
+      highlights: false,
+      fraction_buy: 1,
+      fraction_sale: 1,
       wholesale_price: 0.6,
     });
 
@@ -37,7 +42,12 @@ describe('CreateProduct', () => {
       cost_price: 0.5,
       sale_price: 0.75,
       image: 'image.png',
-      unit: 'un',
+      unit_buy: 'un',
+      unit_sale: 'un',
+      organic: true,
+      highlights: false,
+      fraction_buy: 1,
+      fraction_sale: 1,
       wholesale_price: 0.6,
     });
 
@@ -49,7 +59,12 @@ describe('CreateProduct', () => {
       name: 'Alface Americana',
       cost_price: 0.5,
       sale_price: 0.75,
-      unit: 'un',
+      unit_buy: 'un',
+      unit_sale: 'un',
+      organic: true,
+      highlights: false,
+      fraction_buy: 1,
+      fraction_sale: 1,
       wholesale_price: 0.6,
     });
 
@@ -58,7 +73,12 @@ describe('CreateProduct', () => {
         name: 'Alface Americana',
         cost_price: 0.5,
         sale_price: 0.75,
-        unit: 'un',
+        unit_buy: 'un',
+        unit_sale: 'un',
+        organic: true,
+        highlights: false,
+        fraction_buy: 1,
+        fraction_sale: 1,
         wholesale_price: 0.6,
       }),
     ).rejects.toBeInstanceOf(AppError);

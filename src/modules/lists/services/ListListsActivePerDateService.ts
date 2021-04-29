@@ -2,29 +2,33 @@ import { injectable, inject } from 'tsyringe';
 
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import IPaginatedListsDTO from '../dtos/IPaginatedListsDTO';
-import IListsReposiroty from '../repositories/IListsReposiroty';
+import IListsRepository from '../repositories/IListsRepository';
+import { TList } from '../infra/typeorm/entities/List';
 
 interface IRequest extends IPaginationDTO {
   date?: Date;
+  type: TList;
 }
 
 @injectable()
 class ListListsActivePerDateService {
   constructor(
-    @inject('ListsReposiroty')
-    private listsReposiroty: IListsReposiroty,
+    @inject('ListsRepository')
+    private listsRepository: IListsRepository,
   ) {}
 
   public async execute({
     limit,
     page,
+    type,
     date = new Date(),
   }: IRequest): Promise<IPaginatedListsDTO> {
-    const response = await this.listsReposiroty.findBetweenStartAndEndDate(
+    const response = await this.listsRepository.findBetweenStartAndEndDate(
       {
         limit,
         page,
       },
+      type,
       date,
     );
 

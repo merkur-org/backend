@@ -19,14 +19,36 @@ listsRoutes.post(
       start_date: Joi.date(),
       end_date: Joi.date(),
       status: Joi.string().required(),
-      details: Joi.array().items({
-        product_id: Joi.string().required(),
-        due_date: Joi.date().required(),
-        quantity: Joi.number().required(),
-        unit_price: Joi.number().required(),
-        discount: Joi.number(),
-        total_price: Joi.number().required(),
-        lot: Joi.string(),
+      type: Joi.string().required().valid('offer', 'producer'),
+      details: Joi.when('type', {
+        switch: [
+          {
+            is: 'offer',
+            then: Joi.array()
+              .items({
+                product_id: Joi.string().required(),
+                due_date: Joi.date().required(),
+                quantity: Joi.number().required(),
+                unit_price: Joi.number().required(),
+                sale_price: Joi.string().required(),
+              })
+              .required(),
+          },
+          {
+            is: 'producer',
+            then: Joi.array()
+              .items({
+                product_id: Joi.string().required(),
+                due_date: Joi.date().required(),
+                quantity: Joi.number().required(),
+                unit_price: Joi.number().required(),
+                discount: Joi.number().required(),
+                total_price: Joi.number().required(),
+                lot: Joi.string(),
+              })
+              .required(),
+          },
+        ],
       }),
     },
   }),
@@ -38,7 +60,7 @@ listsRoutes.get(
   [checkRole(['r'])],
   celebrate({
     [Segments.PARAMS]: {
-      list_id: Joi.string().required(),
+      list_id: Joi.string().uuid().required(),
     },
   }),
   listsController.show,
@@ -49,6 +71,7 @@ listsRoutes.get(
   [checkRole(['r'])],
   celebrate({
     [Segments.QUERY]: {
+      type: Joi.string().required().valid('offer', 'producer'),
       limit: Joi.number().min(1),
       page: Joi.number().min(1),
       user_id: Joi.string(),

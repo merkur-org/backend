@@ -2,14 +2,15 @@ import ICreateListDTO from '@modules/lists/dtos/ICreateListDTO';
 import IFindAllListsInPeriod from '@modules/lists/dtos/IFindAllListsInPeriod';
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import IPaginatedListsDTO from '@modules/lists/dtos/IPaginatedListsDTO';
-import List from '../infra/typeorm/entities/List';
+import List, { TList } from '../infra/typeorm/entities/List';
 
-export default interface IListsReposiroty {
+export default interface IListsRepository {
   findById(id: string): Promise<List | undefined>;
   findByUserId(user_id: string): Promise<List[] | undefined>;
   findByPeriod(period: IFindAllListsInPeriod): Promise<List[] | undefined>;
   findBetweenStartAndEndDate(
     { page, limit }: IPaginationDTO,
+    type: TList,
     date: Date,
   ): Promise<IPaginatedListsDTO>;
   create(data: ICreateListDTO): Promise<List>;
@@ -17,6 +18,7 @@ export default interface IListsReposiroty {
   save(list: List): Promise<List>;
   findAllPaginated(
     { page, limit }: IPaginationDTO,
+    type: TList,
     user_id?: string,
   ): Promise<IPaginatedListsDTO>;
 }

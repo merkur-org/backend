@@ -1,28 +1,28 @@
 import FakeListOffersDetailsRepository from '../repositories/fakes/FakeListOffersDetailsRepository';
 import FakeListProducersDetailsRepository from '../repositories/fakes/FakeListProducersDetailsRepository';
-import FakeListsReposiroty from '../repositories/fakes/FakeListsReposiroty';
+import FakeListsRepository from '../repositories/fakes/FakeListsRepository';
 import CreateListService from './CreateListService';
 import ListListsService from './ListListsService';
 
 let fakeListOffersDetailsRepository: FakeListOffersDetailsRepository;
-let fakeListsReposiroty: FakeListsReposiroty;
+let fakeListsRepository: FakeListsRepository;
 let fakeListProducersDetailsRepository: FakeListProducersDetailsRepository;
 let createList: CreateListService;
 let listLists: ListListsService;
 
 describe('CreateListService', () => {
   beforeEach(() => {
-    fakeListsReposiroty = new FakeListsReposiroty();
+    fakeListsRepository = new FakeListsRepository();
     fakeListProducersDetailsRepository = new FakeListProducersDetailsRepository();
     fakeListOffersDetailsRepository = new FakeListOffersDetailsRepository();
 
     createList = new CreateListService(
-      fakeListsReposiroty,
+      fakeListsRepository,
       fakeListProducersDetailsRepository,
       fakeListOffersDetailsRepository,
     );
 
-    listLists = new ListListsService(fakeListsReposiroty);
+    listLists = new ListListsService(fakeListsRepository);
   });
 
   it('should be able to list a list', async () => {

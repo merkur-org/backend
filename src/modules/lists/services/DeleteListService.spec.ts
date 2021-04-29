@@ -1,29 +1,29 @@
 import AppError from '@shared/errors/AppError';
 import FakeListOffersDetailsRepository from '../repositories/fakes/FakeListOffersDetailsRepository';
 import FakeListProducersDetailsRepository from '../repositories/fakes/FakeListProducersDetailsRepository';
-import FakeListsReposiroty from '../repositories/fakes/FakeListsReposiroty';
+import FakeListsRepository from '../repositories/fakes/FakeListsRepository';
 import CreateListService from './CreateListService';
 import DeleteListService from './DeleteListService';
 
 let fakeListOffersDetailsRepository: FakeListOffersDetailsRepository;
-let fakeListsReposiroty: FakeListsReposiroty;
+let fakeListsRepository: FakeListsRepository;
 let fakeListProducersDetailsRepository: FakeListProducersDetailsRepository;
 let createList: CreateListService;
 let deleteList: DeleteListService;
 
 describe('CreateListService', () => {
   beforeEach(() => {
-    fakeListsReposiroty = new FakeListsReposiroty();
+    fakeListsRepository = new FakeListsRepository();
     fakeListProducersDetailsRepository = new FakeListProducersDetailsRepository();
     fakeListOffersDetailsRepository = new FakeListOffersDetailsRepository();
 
     createList = new CreateListService(
-      fakeListsReposiroty,
+      fakeListsRepository,
       fakeListProducersDetailsRepository,
       fakeListOffersDetailsRepository,
     );
 
-    deleteList = new DeleteListService(fakeListsReposiroty);
+    deleteList = new DeleteListService(fakeListsRepository);
   });
 
   it('should be able to delete a weekly list', async () => {

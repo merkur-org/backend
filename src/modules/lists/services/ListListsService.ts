@@ -1,27 +1,31 @@
 import { injectable, inject } from 'tsyringe';
 
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
-import IListsReposiroty from '../repositories/IListsReposiroty';
+import IListsRepository from '../repositories/IListsRepository';
 import IPaginatedListsDTO from '../dtos/IPaginatedListsDTO';
+import { TList } from '../infra/typeorm/entities/List';
 
 interface IRequest extends IPaginationDTO {
+  type: TList;
   user_id?: string;
 }
 
 @injectable()
 class ListListsService {
   constructor(
-    @inject('ListsReposiroty')
-    private listsReposiroty: IListsReposiroty,
+    @inject('ListsRepository')
+    private listsRepository: IListsRepository,
   ) {}
 
   public async execute({
     user_id,
     limit,
     page,
+    type,
   }: IRequest): Promise<IPaginatedListsDTO> {
-    const response = await this.listsReposiroty.findAllPaginated(
+    const response = await this.listsRepository.findAllPaginated(
       { limit, page },
+      type,
       user_id,
     );
 

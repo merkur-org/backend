@@ -5,20 +5,20 @@ import ICreateListOffersDetailDTO from '@modules/lists/dtos/ICreateListOffersDet
 import IListOffersDetailsRepository from '@modules/lists/repositories/IListOffersDetailsRepository';
 
 class ListOffersDetailsRepository implements IListOffersDetailsRepository {
-  private ormReposiroty: Repository<ListOffersDetail>;
+  private ormRepository: Repository<ListOffersDetail>;
 
   constructor() {
-    this.ormReposiroty = getRepository(ListOffersDetail);
+    this.ormRepository = getRepository(ListOffersDetail);
   }
 
   public async findById(id: string): Promise<ListOffersDetail | undefined> {
-    const foundDetail = await this.ormReposiroty.findOne(id);
+    const foundDetail = await this.ormRepository.findOne(id);
 
     return foundDetail;
   }
 
   public async findByListId(list_id: string): Promise<ListOffersDetail[]> {
-    const foundDetail = await this.ormReposiroty.find({ where: { list_id } });
+    const foundDetail = await this.ormRepository.find({ where: { list_id } });
 
     return foundDetail;
   }
@@ -26,20 +26,20 @@ class ListOffersDetailsRepository implements IListOffersDetailsRepository {
   public async create(
     data: ICreateListOffersDetailDTO[],
   ): Promise<ListOffersDetail[]> {
-    const details = this.ormReposiroty.create(data.map(d => d));
-    await this.ormReposiroty.save(details);
+    const details = this.ormRepository.create(data.map(d => d));
+    await this.ormRepository.save(details);
 
     return details;
   }
 
   public async delete(id: string): Promise<void> {
-    this.ormReposiroty.delete({ id });
+    this.ormRepository.delete({ id });
   }
 
   public async save(
     listOffersDetails: ListOffersDetail[],
   ): Promise<ListOffersDetail[]> {
-    await this.ormReposiroty.save(listOffersDetails);
+    await this.ormRepository.save(listOffersDetails);
 
     return listOffersDetails;
   }

@@ -1,10 +1,15 @@
-export type IUnit = 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton';
+import { IUnit } from '../infra/typeorm/entities/Product';
 
 export default interface ICreateProductDTO {
   name: string;
-  unit: IUnit;
+  unit_sale: IUnit;
+  unit_buy: IUnit;
+  fraction_buy: number;
+  fraction_sale: number;
   cost_price: number;
   sale_price: number;
+  highlights: boolean;
+  organic: boolean;
   image?: string;
   observation?: string;
   nutritional_information?: string;

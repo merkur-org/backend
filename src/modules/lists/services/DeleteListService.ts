@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import IListsReposiroty from '../repositories/IListsReposiroty';
+import IListsRepository from '../repositories/IListsRepository';
 
 interface IRequest {
   list_id: string;
@@ -10,8 +10,8 @@ interface IRequest {
 @injectable()
 class DeleteListService {
   constructor(
-    @inject('ListsReposiroty')
-    private listsRepository: IListsReposiroty,
+    @inject('ListsRepository')
+    private listsRepository: IListsRepository,
   ) {}
 
   public async execute({ list_id }: IRequest): Promise<{ message: string }> {

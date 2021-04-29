@@ -1,6 +1,7 @@
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import ICreateProductDTO from '../dtos/ICreateProductDTO';
 import IPaginatedProductsDTO from '../dtos/IPaginatedProductsDTO';
+import IPaginationInListDTO from '../dtos/IPaginationInListDTO';
 import Product from '../infra/typeorm/entities/Product';
 
 export default interface IProductsRepository {
@@ -11,4 +12,7 @@ export default interface IProductsRepository {
   delete(id: string): Promise<void>;
   save(data: ICreateProductDTO): Promise<Product>;
   findAllPaginated(data: IPaginationDTO): Promise<IPaginatedProductsDTO>;
+  findAllInListDetailsPaginated(
+    data: IPaginationInListDTO,
+  ): Promise<IPaginatedProductsDTO>;
 }

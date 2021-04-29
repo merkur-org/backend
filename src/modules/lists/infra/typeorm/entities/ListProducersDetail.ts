@@ -19,7 +19,7 @@ class ListProducersDetail {
   @Column('uuid')
   list_id: string;
 
-  @ManyToOne(() => List, list => list.details_list_producers, {
+  @ManyToOne(() => List, list => list.details_producers, {
     cascade: true,
   })
   @JoinColumn({ name: 'list_id' })

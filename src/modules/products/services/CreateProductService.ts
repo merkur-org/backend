@@ -20,11 +20,16 @@ class CreateProductService {
     name,
     cost_price,
     sale_price,
-    unit,
+    unit_sale,
+    unit_buy,
+    fraction_buy,
+    fraction_sale,
     nutritional_information,
     observation,
     wholesale_price,
     image,
+    highlights,
+    organic,
   }: ICreateProductDTO): Promise<Product> {
     const productAlreadyExists = await this.productsRepository.findExistingProduct(
       name,
@@ -48,10 +53,15 @@ class CreateProductService {
       cost_price,
       image: filename,
       sale_price,
-      unit,
+      unit_sale,
+      unit_buy,
+      fraction_buy,
+      fraction_sale,
       wholesale_price,
       nutritional_information,
       observation,
+      highlights,
+      organic,
     });
 
     return product;

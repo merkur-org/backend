@@ -1,11 +1,12 @@
 import { injectable, inject } from 'tsyringe';
+import AppError from '@shared/errors/AppError';
 import ICreateListDTO from '../dtos/ICreateListDTO';
 import ListOffersDetail from '../infra/typeorm/entities/ListOffersDetail';
 import ListProducersDetail from '../infra/typeorm/entities/ListProducersDetail';
 import List from '../infra/typeorm/entities/List';
 import IListProducersDetailsRepository from '../repositories/IListProducersDetailsRepository';
 import IListOffersDetailsRepository from '../repositories/IListOffersDetailsRepository';
-import IListsReposiroty from '../repositories/IListsReposiroty';
+import IListsRepository from '../repositories/IListsRepository';
 
 type ICreateListOffers = {
   product_id: string;
@@ -15,9 +16,9 @@ type ICreateListOffers = {
 };
 type ICreateListProducers = {
   product_id: string;
-  due_date: Date;
   quantity: number;
   unit_price: number;
+  due_date: Date;
   discount: number;
   total_price: number;
   lot?: string;
@@ -34,8 +35,8 @@ interface IResponse {
 @injectable()
 class CreateDeliveryPointService {
   constructor(
-    @inject('ListsReposiroty')
-    private listsRepository: IListsReposiroty,
+    @inject('ListsRepository')
+    private listsRepository: IListsRepository,
 
     @inject('ListProducersDetailsRepository')
     private listProducersDetailsRepository: IListProducersDetailsRepository,
@@ -52,6 +53,18 @@ class CreateDeliveryPointService {
     status,
     type,
   }: IRequest): Promise<IResponse> {
+    if (type === 'offer') {
+      const ExistsListActive = await this.listsRepository.findBetweenStartAndEndDate(
+        { limit: 1, page: 1 },
+        type,
+        new Date(),
+      );
+
+      if (ExistsListActive.data.length > 0) {
+        throw new AppError('Can only have one active offer registered', 400);
+      }
+    }
+
     const list = await this.listsRepository.create({
       start_date,
       end_date,
@@ -59,6 +72,9 @@ class CreateDeliveryPointService {
       user_id,
       status,
     });
+
+    console.log('passsou');
+
     let detailsResponse: ListOffersDetail[] | ListProducersDetail[];
     if (type === 'offer') {
       const detailsType = details as ICreateListOffers[];

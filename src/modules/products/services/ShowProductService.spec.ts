@@ -26,7 +26,12 @@ describe('ShowProduct', () => {
       name: 'Laranja Lima',
       cost_price: 4,
       sale_price: 6,
-      unit: 'kg',
+      unit_sale: 'kg',
+      unit_buy: 'kg',
+      fraction_buy: 1,
+      fraction_sale: 1,
+      highlights: true,
+      organic: true,
       wholesale_price: 5.5,
     });
 

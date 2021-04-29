@@ -13,6 +13,7 @@ import {
 import ListProducersDetail from './ListProducersDetail';
 import ListOffersDetail from './ListOffersDetail';
 
+export type TList = 'offer' | 'producer';
 @Entity('lists')
 class List {
   @PrimaryGeneratedColumn('uuid')
@@ -29,10 +30,10 @@ class List {
     () => ListProducersDetail,
     listProducersDetail => listProducersDetail.list,
   )
-  details_list_producers: ListProducersDetail[];
+  details_producers: ListProducersDetail[];
 
   @OneToMany(() => ListOffersDetail, listOffersDetail => listOffersDetail.list)
-  details_list_offer: ListOffersDetail[];
+  details_offer: ListOffersDetail[];
 
   @Column('enum')
   status: IStatus;
@@ -43,8 +44,8 @@ class List {
   @Column('timestamp with time zone')
   end_date: Date;
 
-  @Column('timestamp with time zone')
-  type: 'offer' | 'producer';
+  @Column('enum')
+  type: TList;
 
   @CreateDateColumn()
   created_at: Date;

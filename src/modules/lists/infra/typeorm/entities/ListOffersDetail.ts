@@ -19,7 +19,7 @@ class ListOffersDetail {
   @Column('uuid')
   list_id: string;
 
-  @ManyToOne(() => List, list => list.details_list_offer, {
+  @ManyToOne(() => List, list => list.details_offer, {
     cascade: true,
   })
   @JoinColumn({ name: 'list_id' })
