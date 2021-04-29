@@ -1,18 +1,27 @@
-import { getRepository, Repository, Between } from 'typeorm';
+import {
+  getRepository,
+  Repository,
+  Between,
+  EntityManager,
+  getManager,
+} from 'typeorm';
 
 import ICreateListDTO from '@modules/lists/dtos/ICreateListDTO';
 import IFindAllListsInPeriod from '@modules/lists/dtos/IFindAllListsInPeriod';
-import List from '@modules/lists/infra/typeorm/entities/List';
+import List, { TList } from '@modules/lists/infra/typeorm/entities/List';
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import { AfterDate, BeforeDate } from '@shared/utils/typeorm';
-import IListsReposiroty from '@modules/lists/repositories/IListsReposiroty';
+import IListsRepository from '@modules/lists/repositories/IListsRepository';
 import IPaginatedListsDTO from '@modules/lists/dtos/IPaginatedListsDTO';
 
-class ListsRepository implements IListsReposiroty {
+class ListsRepository implements IListsRepository {
   private ormRepository: Repository<List>;
+
+  private manager: EntityManager;
 
   constructor() {
     this.ormRepository = getRepository(List);
+    this.manager = getManager();
   }
 
   public async findById(id: string): Promise<List | undefined> {
@@ -43,13 +52,16 @@ class ListsRepository implements IListsReposiroty {
     start_date,
     end_date,
     status,
+    type,
   }: ICreateListDTO): Promise<List> {
     const list = this.ormRepository.create({
       user_id,
       start_date,
       end_date,
       status,
+      type,
     });
+
     await this.ormRepository.save(list);
 
     return list;
@@ -67,24 +79,16 @@ class ListsRepository implements IListsReposiroty {
 
   public async findAllPaginated(
     { page, limit }: IPaginationDTO,
+    type: TList,
     user_id?: string,
   ): Promise<IPaginatedListsDTO> {
     const skipped_items = (page - 1) * limit;
 
-    // const [offers, total_count] = await this.ormRepository
-    //   .createQueryBuilder('wo')
-    //   .select('wo.*')
-    //   .addSelect('json_agg(wod) as "details"')
-    //   .orderBy('wo.created_at', 'DESC')
-    //   .leftJoin(WeeklyOffersDetail, 'wod', 'wo.id = wod.offer_id')
-    //   .where(user_id ? `wo.user_id = ${user_id}` : '')
-    //   .groupBy('wo.id')
-    //   .offset(skipped_items)
-    //   .limit(limit)
-    //   .getManyAndCount();
+    const relation = type === 'offer' ? 'details_offer' : 'details_producers';
+
     const [offers, total_count] = await this.ormRepository.findAndCount({
-      where: user_id ? { user_id } : '',
-      relations: ['details'],
+      where: user_id ? { user_id, type } : { type },
+      relations: [relation],
       skip: skipped_items,
       take: limit,
       order: { created_at: 'DESC' },
@@ -100,16 +104,20 @@ class ListsRepository implements IListsReposiroty {
 
   public async findBetweenStartAndEndDate(
     { page, limit }: IPaginationDTO,
+    type: TList,
     date = new Date(),
   ): Promise<IPaginatedListsDTO> {
     const skipped_items = (page - 1) * limit;
+
+    const relation = type === 'offer' ? 'details_offer' : 'details_producers';
 
     const [offers, total_count] = await this.ormRepository.findAndCount({
       where: {
         start_date: BeforeDate(date),
         end_date: AfterDate(date),
+        type,
       },
-      relations: ['details'],
+      relations: [relation],
       skip: skipped_items,
       take: limit,
     });

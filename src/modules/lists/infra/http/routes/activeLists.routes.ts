@@ -13,6 +13,7 @@ activeListsRoutes.get(
       limit: Joi.number().min(1),
       page: Joi.number().min(1),
       date: Joi.date(),
+      type: Joi.string().required().valid('offer', 'producer'),
     },
   }),
   activeListsController.list,

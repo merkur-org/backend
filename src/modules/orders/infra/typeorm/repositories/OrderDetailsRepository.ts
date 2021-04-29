@@ -4,14 +4,14 @@ import { getRepository, Repository } from 'typeorm';
 import OrderDetail from '../entities/OrderDetail';
 
 class OrderDetailsRepository implements IOrderDetailsRepository {
-  private ormReposiroty: Repository<OrderDetail>;
+  private ormRepository: Repository<OrderDetail>;
 
   constructor() {
-    this.ormReposiroty = getRepository(OrderDetail);
+    this.ormRepository = getRepository(OrderDetail);
   }
 
   public async findById(id: string): Promise<OrderDetail | undefined> {
-    const foundDetail = this.ormReposiroty.findOne(id);
+    const foundDetail = this.ormRepository.findOne(id);
 
     return foundDetail;
   }
@@ -19,25 +19,25 @@ class OrderDetailsRepository implements IOrderDetailsRepository {
   public async findByOrderId(
     order_id: string,
   ): Promise<OrderDetail[] | undefined> {
-    const foundDetail = this.ormReposiroty.find({ where: { order_id } });
+    const foundDetail = this.ormRepository.find({ where: { order_id } });
 
     return foundDetail;
   }
 
   public async create(data: ICreateOrderDetailDTO[]): Promise<OrderDetail[]> {
-    const details = this.ormReposiroty.create(data);
+    const details = this.ormRepository.create(data);
 
-    await this.ormReposiroty.save(details);
+    await this.ormRepository.save(details);
 
     return details;
   }
 
   public async delete(id: string): Promise<void> {
-    this.ormReposiroty.delete({ id });
+    this.ormRepository.delete({ id });
   }
 
   public async save(OrderDetails: OrderDetail[]): Promise<OrderDetail[]> {
-    await this.ormReposiroty.save(OrderDetails);
+    await this.ormRepository.save(OrderDetails);
 
     return OrderDetails;
   }

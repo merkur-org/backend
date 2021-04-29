@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import IListsReposiroty from '../repositories/IListsReposiroty';
+import IListsRepository from '../repositories/IListsRepository';
 import IListProducersDetailsRepository from '../repositories/IListProducersDetailsRepository';
 import IListOffersDetailsRepository from '../repositories/IListOffersDetailsRepository';
 import ICreateListDTO from '../dtos/ICreateListDTO';
@@ -23,8 +23,8 @@ interface IResponse {
 @injectable()
 class UpdateListService {
   constructor(
-    @inject('ListsReposiroty')
-    private listsReposiroty: IListsReposiroty,
+    @inject('ListsRepository')
+    private listsRepository: IListsRepository,
 
     @inject('ListProducersDetailsRepository')
     private listProducersDetailsRepository: IListProducersDetailsRepository,
@@ -40,7 +40,7 @@ class UpdateListService {
     end_date,
     status,
   }: IRequest): Promise<IResponse> {
-    const list = await this.listsReposiroty.findById(list_id);
+    const list = await this.listsRepository.findById(list_id);
 
     if (!list) {
       throw new AppError('List not found', 404);
@@ -51,7 +51,7 @@ class UpdateListService {
     list.status = status || list.status;
     list.created_at = new Date();
 
-    await this.listsReposiroty.save(list);
+    await this.listsRepository.save(list);
     let listDetails: ListOffersDetail[] | ListProducersDetail[];
 
     if (list.type === 'offer') {

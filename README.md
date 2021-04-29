@@ -10,6 +10,12 @@ docker run -p 3333:3333 ${PWD}:/home/node/api -v /home/node/api/node_modules api
 docker-compose up
 ```
 
+## Criar base populada em dev
+```bash
+docker exec -i api-postgres /bin/bash -c "PGPASSWORD=docker psql --username postgres data" < dump_27-04-2021_09_57_07.sql
+
+```
+
 ativar no open settings json do vs code (ctrl + shift + p)
 
 ```json

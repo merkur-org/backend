@@ -13,7 +13,7 @@ import uploadConfig from '@config/upload';
 import ListOffersDetail from '@modules/lists/infra/typeorm/entities/ListOffersDetail';
 import ListProducersDetail from '@modules/lists/infra/typeorm/entities/ListProducersDetail';
 
-export type IUnit = 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton';
+export type IUnit = 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton' | 'box' | 'bag';
 
 @Entity('products')
 class Product {
@@ -46,7 +46,16 @@ class Product {
   observation: string;
 
   @Column('enum')
-  unit: IUnit;
+  unit_sale: IUnit;
+
+  @Column('enum')
+  unit_buy: IUnit;
+
+  @Column('float')
+  fraction_buy: number;
+
+  @Column('float')
+  fraction_sale: number;
 
   @Column('float')
   cost_price: number;
@@ -56,6 +65,12 @@ class Product {
 
   @Column('float')
   wholesale_price: number;
+
+  @Column('boolean')
+  organic: boolean;
+
+  @Column('boolean')
+  highlights: boolean;
 
   @CreateDateColumn()
   created_at: Date;

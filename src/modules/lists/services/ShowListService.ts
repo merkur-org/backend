@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import IListsReposiroty from '../repositories/IListsReposiroty';
+import IListsRepository from '../repositories/IListsRepository';
 import List from '../infra/typeorm/entities/List';
 import ListOffersDetail from '../infra/typeorm/entities/ListOffersDetail';
 import ListProducersDetail from '../infra/typeorm/entities/ListProducersDetail';
@@ -21,8 +21,8 @@ interface IResponse {
 @injectable()
 class ShowListService {
   constructor(
-    @inject('ListsReposiroty')
-    private listsReposiroty: IListsReposiroty,
+    @inject('ListsRepository')
+    private listsRepository: IListsRepository,
 
     @inject('ListProducersDetailsRepository')
     private listProducersDetailsRepository: IListProducersDetailsRepository,
@@ -32,7 +32,7 @@ class ShowListService {
   ) {}
 
   public async execute({ list_id }: IRequest): Promise<IResponse> {
-    const list = await this.listsReposiroty.findById(list_id);
+    const list = await this.listsRepository.findById(list_id);
 
     if (!list) {
       throw new AppError('Weekly List not found', 404);

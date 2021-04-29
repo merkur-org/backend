@@ -25,7 +25,12 @@ describe('ListProducts', () => {
       name: 'Batata Inglesa',
       cost_price: 8,
       sale_price: 12,
-      unit: 'kg',
+      unit_sale: 'kg',
+      unit_buy: 'kg',
+      fraction_buy: 1,
+      fraction_sale: 1,
+      highlights: true,
+      organic: true,
       wholesale_price: 10,
     });
 
@@ -33,7 +38,12 @@ describe('ListProducts', () => {
       name: 'Batata Doce',
       cost_price: 6,
       sale_price: 9,
-      unit: 'kg',
+      unit_sale: 'kg',
+      unit_buy: 'kg',
+      fraction_buy: 1,
+      fraction_sale: 1,
+      highlights: true,
+      organic: true,
       wholesale_price: 7.5,
     });
 
@@ -41,7 +51,12 @@ describe('ListProducts', () => {
       name: 'Banana',
       cost_price: 0.75,
       sale_price: 1.2,
-      unit: 'un',
+      unit_sale: 'kg',
+      unit_buy: 'kg',
+      fraction_buy: 1,
+      fraction_sale: 1,
+      highlights: true,
+      organic: true,
       wholesale_price: 0.9,
     });
 

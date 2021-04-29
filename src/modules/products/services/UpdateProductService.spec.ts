@@ -27,7 +27,12 @@ describe('UpdateProduct', () => {
       name: 'Limão Galego',
       cost_price: 12,
       sale_price: 14,
-      unit: 'kg',
+      unit_sale: 'kg',
+      unit_buy: 'kg',
+      fraction_buy: 1,
+      fraction_sale: 1,
+      highlights: true,
+      organic: true,
       wholesale_price: 12.75,
     });
 
@@ -36,7 +41,12 @@ describe('UpdateProduct', () => {
       name: 'Limão Galego',
       cost_price: 10,
       sale_price: 13,
-      unit: 'kg',
+      unit_sale: 'kg',
+      unit_buy: 'kg',
+      fraction_buy: 1,
+      fraction_sale: 1,
+      highlights: true,
+      organic: true,
       wholesale_price: 12,
     });
 
@@ -52,7 +62,12 @@ describe('UpdateProduct', () => {
         name: 'Limão Galego',
         cost_price: 12,
         sale_price: 14,
-        unit: 'kg',
+        unit_sale: 'kg',
+        unit_buy: 'kg',
+        fraction_buy: 1,
+        fraction_sale: 1,
+        highlights: true,
+        organic: true,
         wholesale_price: 12.75,
       }),
     ).rejects.toBeInstanceOf(AppError);

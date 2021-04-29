@@ -33,11 +33,6 @@ export default class createProduct1609879520820 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'unit',
-            type: 'enum',
-            enum: ['kg', 'g', 'l', 'ml', 'un', 'ton'],
-          },
-          {
             name: 'cost_price',
             type: 'float',
           },
@@ -45,6 +40,29 @@ export default class createProduct1609879520820 implements MigrationInterface {
             name: 'organic',
             type: 'boolean',
             default: true,
+          },
+          {
+            name: 'unit_sale',
+            type: 'enum',
+            enum: ['kg', 'g', 'l', 'ml', 'un', 'box', 'bag', 'ton'],
+          },
+          {
+            name: 'unit_buy',
+            type: 'enum',
+            enum: ['kg', 'g', 'l', 'ml', 'un', 'box', 'bag', 'ton'],
+          },
+          {
+            name: 'fraction_buy',
+            type: 'float',
+          },
+          {
+            name: 'fraction_sale',
+            type: 'float',
+          },
+          {
+            name: 'highlights',
+            type: 'boolean',
+            default: false,
           },
           {
             name: 'sale_price',
