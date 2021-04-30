@@ -29,6 +29,7 @@ class CreateProductService {
     wholesale_price,
     image,
     highlights,
+    category,
     organic,
   }: ICreateProductDTO): Promise<Product> {
     const productAlreadyExists = await this.productsRepository.findExistingProduct(
@@ -57,6 +58,7 @@ class CreateProductService {
       unit_buy,
       fraction_buy,
       fraction_sale,
+      category,
       wholesale_price,
       nutritional_information,
       observation,

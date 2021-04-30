@@ -1,4 +1,4 @@
-import { getRepository, Repository, EntityManager, getManager } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 import Product from '@modules/products/infra/typeorm/entities/Product';
@@ -14,11 +14,8 @@ import logger from '@shared/utils/logger';
 class ProductsRepository implements IProductsRepository {
   private ormRepository: Repository<Product>;
 
-  private manager: EntityManager;
-
   constructor() {
     this.ormRepository = getRepository(Product);
-    this.manager = getManager();
   }
 
   public async findById(id: string): Promise<Product | undefined> {

@@ -73,8 +73,6 @@ class CreateDeliveryPointService {
       status,
     });
 
-    console.log('passsou');
-
     let detailsResponse: ListOffersDetail[] | ListProducersDetail[];
     if (type === 'offer') {
       const detailsType = details as ICreateListOffers[];
