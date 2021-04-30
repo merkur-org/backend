@@ -47,6 +47,17 @@ export default class createProduct1609879520820 implements MigrationInterface {
             enum: ['kg', 'g', 'l', 'ml', 'un', 'box', 'bag', 'ton'],
           },
           {
+            name: 'category',
+            type: 'enum',
+            enum: [
+              'Verduras',
+              'Legumes',
+              'Proteínas',
+              'Bebidas',
+              'Carboidratos',
+            ],
+          },
+          {
             name: 'unit_buy',
             type: 'enum',
             enum: ['kg', 'g', 'l', 'ml', 'un', 'box', 'bag', 'ton'],

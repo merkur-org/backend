@@ -2,19 +2,20 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import IProductsRepository from '../repositories/IProductsRepository';
-import Product, { IUnit } from '../infra/typeorm/entities/Product';
+import Product, { ICategory, IUnit } from '../infra/typeorm/entities/Product';
 
 interface IRequest {
   product_id: string;
   name?: string;
   unit_sale?: IUnit;
   unit_buy?: IUnit;
+  category?: ICategory;
   fraction_buy?: number;
   fraction_sale?: number;
   cost_price?: number;
   sale_price?: number;
-  highlights: boolean;
-  organic: boolean;
+  highlights?: boolean;
+  organic?: boolean;
   wholesale_price?: number;
   observation?: string;
   nutritional_information?: string;
@@ -39,6 +40,7 @@ class UpdateProductService {
     wholesale_price,
     nutritional_information,
     observation,
+    category,
   }: IRequest): Promise<Product> {
     const foundProduct = await this.productsRepository.findById(product_id);
 
@@ -49,6 +51,7 @@ class UpdateProductService {
     foundProduct.name = name || foundProduct.name;
     foundProduct.unit_buy = unit_buy || foundProduct.unit_buy;
     foundProduct.unit_sale = unit_sale || foundProduct.unit_sale;
+    foundProduct.category = category || foundProduct.category;
     foundProduct.fraction_buy = fraction_buy || foundProduct.fraction_buy;
     foundProduct.fraction_sale = fraction_sale || foundProduct.fraction_sale;
     foundProduct.cost_price = cost_price || foundProduct.cost_price;

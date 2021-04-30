@@ -25,6 +25,7 @@ class ProductsController {
       observation,
       organic,
       highlights,
+      category,
     } = request.body;
     const image = request.file.filename;
     const createProduct = container.resolve(CreateProductService);
@@ -40,6 +41,7 @@ class ProductsController {
       fraction_sale,
       unit_sale,
       wholesale_price,
+      category,
       image,
       observation,
       nutritional_information,
@@ -88,6 +90,7 @@ class ProductsController {
       wholesale_price,
       nutritional_information,
       observation,
+      category,
     } = request.body;
 
     const updateProduct = container.resolve(UpdateProductService);
@@ -106,6 +109,7 @@ class ProductsController {
       wholesale_price,
       nutritional_information,
       observation,
+      category,
     });
 
     return response.json(product);

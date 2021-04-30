@@ -14,6 +14,12 @@ import ListOffersDetail from '@modules/lists/infra/typeorm/entities/ListOffersDe
 import ListProducersDetail from '@modules/lists/infra/typeorm/entities/ListProducersDetail';
 
 export type IUnit = 'kg' | 'g' | 'l' | 'ml' | 'un' | 'ton' | 'box' | 'bag';
+export type ICategory =
+  | 'Verduras'
+  | 'Legumes'
+  | 'Proteínas'
+  | 'Bebidas'
+  | 'Carboidratos';
 
 @Entity('products')
 class Product {
@@ -47,6 +53,9 @@ class Product {
 
   @Column('enum')
   unit_sale: IUnit;
+
+  @Column('enum')
+  category: ICategory;
 
   @Column('enum')
   unit_buy: IUnit;

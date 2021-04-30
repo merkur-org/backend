@@ -46,6 +46,9 @@ productsRouter.post(
       name: Joi.string().required(),
       cost_price: Joi.number().required(),
       sale_price: Joi.number().required(),
+      category: Joi.string()
+        .valid('Verduras', 'Legumes', 'Proteínas', 'Bebidas', 'Carboidratos')
+        .required(),
       unit_buy: Joi.string()
         .valid('kg', 'g', 'l', 'ml', 'un', 'ton', 'box', 'bag')
         .required(),
@@ -85,6 +88,7 @@ productsRouter.put(
         'box',
         'bag',
       ),
+
       unit_sale: Joi.string().valid(
         'kg',
         'g',
@@ -94,6 +98,13 @@ productsRouter.put(
         'ton',
         'box',
         'bag',
+      ),
+      category: Joi.string().valid(
+        'Verduras',
+        'Legumes',
+        'Proteínas',
+        'Bebidas',
+        'Carboidratos',
       ),
       fraction_buy: Joi.number(),
       fraction_sale: Joi.number(),
