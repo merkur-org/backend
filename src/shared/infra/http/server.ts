@@ -25,10 +25,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(routes);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.use('/files', express.static(uploadConfig.uploadsFolder));
 
 if (config.morganLogger) {
   app.use(
@@ -43,6 +40,9 @@ if (config.morganBodyLogger) {
 if (config.expressDevLogger) {
   app.use(expressDevLogger);
 }
+
+app.use(routes);
+app.use('/files', express.static(uploadConfig.uploadsFolder));
 
 app.use(errors({ statusCode: 403 }));
 
