@@ -10,6 +10,7 @@ import List from '@modules/lists/infra/typeorm/entities/List';
 import ListProducersDetail from '@modules/lists/infra/typeorm/entities/ListProducersDetail';
 import IPaginationInListDTO from '@modules/products/dtos/IPaginationInListDTO';
 import logger from '@shared/utils/logger';
+import { hasKey } from '@shared/utils/helpers';
 
 class ProductsRepository implements IProductsRepository {
   private ormRepository: Repository<Product>;
@@ -76,31 +77,46 @@ class ProductsRepository implements IProductsRepository {
 
   public async findAllInListDetailsPaginated({
     limit,
-    name,
     page,
     type,
     date,
+    order = 'ASC',
+    sort_by,
+    ...filter
   }: IPaginationInListDTO): Promise<IPaginatedProductsDTO> {
+    const entity = type === 'offer' ? ListOffersDetail : ListProducersDetail;
+
     const skipped_items = (page - 1) * limit;
 
-    const entity = type === 'offer' ? ListOffersDetail : ListProducersDetail;
+    let queryWhere = ``;
+    Object.keys(filter).forEach(key => {
+      if (key && hasKey(filter, key) && key !== 'name') {
+        queryWhere =
+          queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
+
+        queryWhere += `product.${key} = '${filter[key]}'`;
+      }
+
+      if (key === 'name') {
+        queryWhere =
+          queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
+
+        queryWhere += `to_tsvector('portuguese', unaccent(product.${key})) @@
+        plainto_tsquery('portuguese', unaccent('${filter[key]}'))`;
+      }
+    });
 
     const query = this.ormRepository
       .createQueryBuilder('product')
       .leftJoin(entity, 'ld', 'ld.product_id = product.id')
       .leftJoin(List, 'l', 'l.id = ld.list_id')
-      .where(
-        name
-          ? `to_tsvector('portuguese', unaccent(product.name)) @@
-plainto_tsquery('portuguese', unaccent('${name}'))`
-          : '',
-      )
+      .where(queryWhere)
       .andWhere(
         `'${date.toUTCString()}'
       BETWEEN "l"."start_date" AND "l"."end_date"`,
       )
       .groupBy('product.id')
-      .orderBy('product.created_at', 'DESC')
+      .orderBy(`product.${sort_by || 'created_at'}`, order)
       .offset(skipped_items)
       .limit(limit);
 

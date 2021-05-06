@@ -14,17 +14,21 @@ class ListProductsInListService {
   public async execute({
     limit,
     page,
-    name,
     type,
     date,
+    order = 'ASC',
+    sort_by,
+    ...filter
   }: IPaginationInListDTO): Promise<PaginatedProductDTO> {
     const response = await this.productsRepository.findAllInListDetailsPaginated(
       {
         limit,
         page,
-        name,
         type,
         date,
+        order,
+        sort_by,
+        ...filter,
       },
     );
 

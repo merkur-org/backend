@@ -8,7 +8,7 @@ export default (
   response: Response,
   _: NextFunction,
 ): Response => {
-  logger.error({ err });
+  logger.error(JSON.stringify(err));
 
   if (err instanceof AppError) {
     return response.status(err.statusCode).json({
