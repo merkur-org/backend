@@ -23,7 +23,11 @@ export default class createOffersListDetails1610310641444
             type: 'uuid',
           },
           {
-            name: 'quantity',
+            name: 'quantity_total',
+            type: 'float',
+          },
+          {
+            name: 'quantity_stock',
             type: 'float',
           },
           {
