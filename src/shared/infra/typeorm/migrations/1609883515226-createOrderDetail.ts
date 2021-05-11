@@ -26,6 +26,8 @@ export default class createOrderDetail1609883515226
           {
             name: 'unit_price',
             type: 'float',
+            default: 0,
+            isNullable: true,
           },
           {
             name: 'quantity',
