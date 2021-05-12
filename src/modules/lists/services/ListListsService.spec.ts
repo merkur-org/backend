@@ -49,6 +49,7 @@ describe('CreateListService', () => {
       user_id: createdList.list.user_id,
       page: 1,
       limit: 10,
+      type: 'offer',
     });
 
     expect(lists.data.length).toBe(1);
@@ -80,51 +81,32 @@ describe('CreateListService', () => {
       user_id: '33328f69-9c2b-4424-ad88-c14ac1dd0c0a',
       start_date: new Date(),
       end_date: new Date(),
-      type: 'offer',
+      type: 'producer',
 
       status: 'created',
-      details: [
-        {
-          product_id: 'c625252f-1af4-4164-a8db-f80c499a70d1',
-          due_date: new Date(),
-          lot: 'january',
-          quantity: 10,
-          unit_price: 10,
-          discount: 10,
-          total_price: 10,
-        },
-      ],
+      details: [],
     });
     await createList.execute({
       user_id: '33328f69-9c2b-4424-ad88-c14ac1dd0c0a',
       start_date: new Date(),
       end_date: new Date(),
-      type: 'offer',
+      type: 'producer',
 
       status: 'created',
-      details: [
-        {
-          product_id: 'c625252f-1af4-4164-a8db-f80c499a70d1',
-          due_date: new Date(),
-          lot: 'january',
-          quantity: 10,
-          unit_price: 10,
-          discount: 10,
-          total_price: 10,
-        },
-      ],
+      details: [],
     });
 
     const lists = await listLists.execute({
       user_id: createdList1.list.user_id,
       page: 1,
+      type: 'producer',
       limit: 1,
     });
 
     expect(lists.data.length).toBe(1);
     expect(lists.limit).toBe(1);
     expect(lists.page).toBe(1);
-    expect(lists.total_count).toBe(3);
+    expect(lists.total_count).toBe(2);
   });
 
   it('should not be able to list a list with non-existing user id', async () => {
@@ -132,6 +114,7 @@ describe('CreateListService', () => {
       user_id: 'non-existing user id',
       page: 1,
       limit: 10,
+      type: 'offer',
     });
 
     expect(lists.data.length === 0);

@@ -36,6 +36,7 @@ class CreateOrderService {
     sales_type,
     value,
     details,
+    list_id,
   }: IRequest): Promise<IResponse> {
     const order = await this.ordersRepository.create({
       user_id,
@@ -46,6 +47,7 @@ class CreateOrderService {
       payment_type,
       sales_type,
       value,
+      list_id,
     });
 
     const serializedProducts = details.map(detail => {

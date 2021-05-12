@@ -33,6 +33,7 @@ describe('ShowProduct', () => {
       highlights: true,
       organic: true,
       wholesale_price: 5.5,
+      category: 'Legumes',
     });
 
     const product = await showProduct.execute({

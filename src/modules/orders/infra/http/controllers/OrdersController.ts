@@ -20,6 +20,7 @@ class OrdersController {
       sales_type,
       value,
       details,
+      list_id,
     } = request.body;
 
     const createOrderService = container.resolve(CreateOrderService);
@@ -34,6 +35,7 @@ class OrdersController {
       sales_type,
       value,
       details,
+      list_id,
     });
 
     return response.json(order);

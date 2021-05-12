@@ -36,10 +36,10 @@ class FakeListsRepository implements IListsRepository {
     return foundLists;
   }
 
-  public async create({ user_id, start_date }: ICreateListDTO): Promise<List> {
+  public async create(data: ICreateListDTO): Promise<List> {
     const list = new List();
 
-    Object.assign(list, { id: uuid() }, { user_id, start_date });
+    Object.assign(list, { id: uuid() }, { ...data });
 
     this.lists.push(list);
 

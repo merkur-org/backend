@@ -13,4 +13,5 @@ export default interface ICreateOrderDTO {
   sales_type: ISalesType;
   delivery_point_id: string;
   user_id: string;
+  list_id: string;
 }
