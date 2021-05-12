@@ -17,6 +17,7 @@ ordersRoutes.post(
     [Segments.BODY]: {
       date: Joi.date(),
       delivery_point_id: Joi.string().uuid().required(),
+      list_id: Joi.string().uuid().required(),
       final_value: Joi.number().required(),
       payment_status: Joi.string().valid(
         'processing',
@@ -55,6 +56,7 @@ ordersRoutes.put(
     [Segments.BODY]: {
       date: Joi.date(),
       delivery_point_id: Joi.string().uuid(),
+      list_id: Joi.string().uuid(),
       final_value: Joi.number(),
       payment_status: Joi.string().valid(
         'processing',

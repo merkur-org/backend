@@ -22,6 +22,7 @@ describe('CreateOrder', () => {
     const order = await createOrder.execute({
       date: new Date(),
       delivery_point_id: 'c13d9f6c-d27c-4175-886c-ce4b653fc68d',
+      list_id: 'c13d9f6c-d27c-4175-886c-ce4b653fc68d',
       final_value: 45,
       payment_status: 'processing',
       payment_type: 'credit_card',

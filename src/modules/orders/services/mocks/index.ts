@@ -14,6 +14,7 @@ export const fakeOrder = {
   sales_type: 'wholesale' as ISalesType,
   value: 456,
   user_id: 'user-id',
+  list_id: 'list-id',
   details: [
     {
       product_id: '5971f952-d12a-4493-ba85-5fd976db275c',
@@ -28,6 +29,7 @@ export const fakeOrder1 = {
   date: new Date(),
   delivery_point_id: uuid(),
   final_value: 45,
+  list_id: 'list-id',
   payment_status: 'processing' as IPaymentStatus,
   payment_type: 'credit_card' as IPaymentType,
   sales_type: 'wholesale' as ISalesType,

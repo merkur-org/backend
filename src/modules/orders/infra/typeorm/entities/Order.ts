@@ -1,4 +1,5 @@
 import DeliveryPoint from '@modules/delivery-points/infra/typeorm/entities/DeliveryPoints';
+import List from '@modules/lists/infra/typeorm/entities/List';
 import User from '@modules/users/infra/typeorm/entities/User';
 import {
   Entity,
@@ -61,9 +62,16 @@ class Order {
   @Column()
   user_id: string;
 
+  @Column()
+  list_id: string;
+
   @ManyToOne(() => User, user => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @ManyToOne(() => List, list => list.id)
+  @JoinColumn({ name: 'list_id' })
+  list: List;
 
   @OneToMany(() => OrderDetail, orderDetail => orderDetail.order_id)
   order_details: OrderDetail[];

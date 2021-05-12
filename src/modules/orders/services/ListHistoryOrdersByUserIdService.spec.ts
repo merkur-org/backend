@@ -52,6 +52,7 @@ describe('ListHistoryOrdersByUserId', () => {
       payment_type: 'credit_card',
       sales_type: 'wholesale',
       value: 456,
+      list_id: 'list-id',
       user_id: user.id,
       details: [
         {

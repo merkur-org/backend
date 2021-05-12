@@ -10,7 +10,8 @@ import IListsRepository from '../repositories/IListsRepository';
 
 type ICreateListOffers = {
   product_id: string;
-  quantity: number;
+  quantity_total: number;
+  quantity_stock: number;
   unit_price: number;
   sale_price: number;
 };
@@ -80,6 +81,7 @@ class CreateDeliveryPointService {
       const serializedProducts = detailsType.map(detail => {
         return {
           ...detail,
+          quantity_stock: detail.quantity_stock || detail.quantity_total,
           list_id: list.id,
         } as ListOffersDetail;
       });

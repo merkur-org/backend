@@ -112,6 +112,7 @@ class FakeOrdersRepository implements IOrdersRepository {
     payment_type,
     sales_type,
     value,
+    list_id,
   }: ICreateOrderDTO): Promise<Order> {
     const order = new Order();
 
@@ -127,6 +128,7 @@ class FakeOrdersRepository implements IOrdersRepository {
         payment_type,
         sales_type,
         value,
+        list_id,
       },
     );
 

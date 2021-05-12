@@ -10,6 +10,7 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
+import Order from '@modules/orders/infra/typeorm/entities/Order';
 import ListProducersDetail from './ListProducersDetail';
 import ListOffersDetail from './ListOffersDetail';
 
@@ -32,8 +33,14 @@ class List {
   )
   details_producers: ListProducersDetail[];
 
-  @OneToMany(() => ListOffersDetail, listOffersDetail => listOffersDetail.list)
+  @OneToMany(
+    () => ListOffersDetail,
+    listOffersDetail => listOffersDetail.list_id,
+  )
   details_offer: ListOffersDetail[];
+
+  @OneToMany(() => Order, order => order.list_id)
+  orders: Order[];
 
   @Column('enum')
   status: IStatus;

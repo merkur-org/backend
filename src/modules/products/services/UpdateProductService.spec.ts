@@ -32,6 +32,7 @@ describe('UpdateProduct', () => {
       fraction_buy: 1,
       fraction_sale: 1,
       highlights: true,
+      category: 'Legumes',
       organic: true,
       wholesale_price: 12.75,
     });

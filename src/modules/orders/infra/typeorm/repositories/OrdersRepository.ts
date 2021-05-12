@@ -42,6 +42,7 @@ class OrdersRepository implements IOrdersRepository {
     sales_type,
     user_id,
     value,
+    list_id,
   }: ICreateOrderDTO): Promise<Order> {
     const order = this.ormRepository.create({
       date,
@@ -51,6 +52,7 @@ class OrdersRepository implements IOrdersRepository {
       payment_type,
       sales_type,
       user_id,
+      list_id,
       value,
     });
 

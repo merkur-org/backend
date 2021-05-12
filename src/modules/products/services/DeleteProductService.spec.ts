@@ -27,7 +27,13 @@ describe('DeleteProduct', () => {
       name: 'Alface Crespa',
       cost_price: 0.5,
       sale_price: 0.75,
-      unit: 'un',
+      unit_buy: 'bag',
+      unit_sale: 'box',
+      category: 'Proteínas',
+      fraction_buy: 1,
+      fraction_sale: 1,
+      highlights: false,
+      organic: true,
       wholesale_price: 0.6,
     });
 

@@ -36,7 +36,10 @@ class ListOffersDetail {
   product: Product;
 
   @Column('float')
-  quantity: number;
+  quantity_total: number;
+
+  @Column('float')
+  quantity_stock: number;
 
   @Column('float')
   unit_price: number;

@@ -30,6 +30,7 @@ describe('CreateProduct', () => {
       fraction_buy: 1,
       fraction_sale: 1,
       wholesale_price: 0.6,
+      category: 'Proteínas',
     });
 
     expect(product).toHaveProperty('id');
@@ -49,6 +50,7 @@ describe('CreateProduct', () => {
       fraction_buy: 1,
       fraction_sale: 1,
       wholesale_price: 0.6,
+      category: 'Proteínas',
     });
 
     expect(product).toHaveProperty('id');
@@ -66,6 +68,7 @@ describe('CreateProduct', () => {
       fraction_buy: 1,
       fraction_sale: 1,
       wholesale_price: 0.6,
+      category: 'Proteínas',
     });
 
     await expect(
@@ -75,6 +78,7 @@ describe('CreateProduct', () => {
         sale_price: 0.75,
         unit_buy: 'un',
         unit_sale: 'un',
+        category: 'Proteínas',
         organic: true,
         highlights: false,
         fraction_buy: 1,

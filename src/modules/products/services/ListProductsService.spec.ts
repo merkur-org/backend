@@ -32,6 +32,7 @@ describe('ListProducts', () => {
       highlights: true,
       organic: true,
       wholesale_price: 10,
+      category: 'Proteínas',
     });
 
     await createProduct.execute({
@@ -45,12 +46,14 @@ describe('ListProducts', () => {
       highlights: true,
       organic: true,
       wholesale_price: 7.5,
+      category: 'Legumes',
     });
 
     await createProduct.execute({
       name: 'Banana',
       cost_price: 0.75,
       sale_price: 1.2,
+      category: 'Legumes',
       unit_sale: 'kg',
       unit_buy: 'kg',
       fraction_buy: 1,
