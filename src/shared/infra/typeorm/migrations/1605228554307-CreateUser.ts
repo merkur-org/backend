@@ -68,7 +68,7 @@ export default class CreateUser1605228554307 implements MigrationInterface {
 
     await queryRunner.query(`INSERT INTO public.users
     (id, "name", email, phone, "password", cpf, cnpj, "role", created_at, updated_at)
-    VALUES(uuid_generate_v4(), 'admin', 'admin@admin.com', '46999999999', '$2a$08$NQdYygarnEitwZG62.Kr7OSdy0nhgPlVE1qa.fC7xmTJ8uj4Q12ai', '111111', '', 'r'::character varying, now(), now());
+    VALUES('836dbbb0-5af6-40bc-8b8f-c96b94609181', 'admin', 'admin@admin.com', '46999999999', '$2a$08$NQdYygarnEitwZG62.Kr7OSdy0nhgPlVE1qa.fC7xmTJ8uj4Q12ai', '111111', '', 'r'::character varying, now(), now());
     `);
   }
 
