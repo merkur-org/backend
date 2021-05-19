@@ -108,7 +108,7 @@ class ProductsRepository implements IProductsRepository {
 
     const query = this.ormRepository
       .createQueryBuilder('product')
-      .select('product.*, ld.quantity')
+      .select('product.*, ld.quantity_stock, ld.quantity_total')
       .leftJoin(entity, 'ld', 'ld.product_id = product.id')
       .leftJoin(List, 'l', 'l.id = ld.list_id')
       .where(queryWhere)
