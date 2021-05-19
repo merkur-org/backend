@@ -1,15 +1,11 @@
 import { Router } from 'express';
-import multer from 'multer';
 import { celebrate, Joi, Segments } from 'celebrate';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import checkRole from '@modules/users/infra/http/middlewares/checkRole';
-import uploadConfig from '@config/upload';
 import ProductsController from '../controllers/ProductsController';
 
 const productsController = new ProductsController();
-
-const upload = multer(uploadConfig.multer);
 
 const productsRouter = Router();
 
@@ -40,7 +36,6 @@ productsRouter.use(ensureAuthenticated);
 productsRouter.post(
   '/',
   [checkRole(['r', 'a'])],
-  upload.single('image'),
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),

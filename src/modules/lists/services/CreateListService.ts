@@ -54,6 +54,8 @@ class CreateDeliveryPointService {
     status,
     type,
   }: IRequest): Promise<IResponse> {
+    console.log('entrooooooooooooooooou');
+
     if (type === 'offer') {
       const ExistsListActive = await this.listsRepository.findBetweenStartAndEndDate(
         { limit: 1, page: 1 },
@@ -73,9 +75,11 @@ class CreateDeliveryPointService {
       user_id,
       status,
     });
+    console.log('entrooooooooooooooooou 1');
 
     let detailsResponse: ListOffersDetail[] | ListProducersDetail[];
     if (type === 'offer') {
+      console.log('entrooooooooooooooooou 2');
       const detailsType = details as ICreateListOffers[];
 
       const serializedProducts = detailsType.map(detail => {

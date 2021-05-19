@@ -37,7 +37,6 @@ ordersRoutes.post(
       value: Joi.number().required(),
       details: Joi.array().items({
         product_id: Joi.string().uuid().required(),
-        unit_price: Joi.number().required(),
         quantity: Joi.number().required(),
         discount: Joi.number().required(),
       }),
