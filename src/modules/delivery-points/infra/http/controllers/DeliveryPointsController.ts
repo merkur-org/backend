@@ -33,7 +33,7 @@ class DeliveryPointsController {
       suburb,
     });
 
-    return response.json({ deliveryPoint: point });
+    return response.json(point);
   }
 
   public async list(request: Request, response: Response): Promise<Response> {

@@ -9,6 +9,7 @@ export default (
   _: NextFunction,
 ): Response => {
   logger.error(JSON.stringify(err));
+  logger.error(err);
 
   if (err instanceof AppError) {
     return response.status(err.statusCode).json({

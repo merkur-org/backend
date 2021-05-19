@@ -38,6 +38,8 @@ interface Config {
     expiresIn: string;
   };
 
+  apiURL: string;
+
   mailDriver: IMailDriver;
 
   mailDefaults: {
@@ -60,6 +62,8 @@ const config: Config = {
     secret: parsedEnv.JWT_SECRET as string,
     expiresIn: parsedEnv.JWT_EXPIRES_IN as string,
   },
+
+  apiURL: parsedEnv.APP_API_URL as string,
 
   mailDriver: (parsedEnv.MAIL_DRIVER || 'ethereal') as IMailDriver,
 

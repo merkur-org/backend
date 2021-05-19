@@ -9,8 +9,6 @@ import ListProductsService from '@modules/products/services/ListProductsService'
 import { classToClass } from 'class-transformer';
 
 class ProductsController {
-  // CRUD create read (list, show), update, delete
-
   public async create(request: Request, response: Response): Promise<Response> {
     const {
       name,
@@ -27,7 +25,6 @@ class ProductsController {
       highlights,
       category,
     } = request.body;
-    const image = request.file.filename;
     const createProduct = container.resolve(CreateProductService);
 
     const product = await createProduct.execute({
@@ -42,7 +39,6 @@ class ProductsController {
       unit_sale,
       wholesale_price,
       category,
-      image,
       observation,
       nutritional_information,
     });

@@ -23,7 +23,7 @@ class List {
   @Column('uuid')
   user_id: string;
 
-  @ManyToOne(() => User, user => user.id)
+  @ManyToOne(() => User, user => user.lists)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
@@ -31,15 +31,13 @@ class List {
     () => ListProducersDetail,
     listProducersDetail => listProducersDetail.list,
   )
+  @JoinColumn()
   details_producers: ListProducersDetail[];
 
-  @OneToMany(
-    () => ListOffersDetail,
-    listOffersDetail => listOffersDetail.list_id,
-  )
+  @OneToMany(() => ListOffersDetail, listOffersDetail => listOffersDetail.list)
   details_offer: ListOffersDetail[];
 
-  @OneToMany(() => Order, order => order.list_id)
+  @OneToMany(() => Order, order => order.list)
   orders: Order[];
 
   @Column('enum')
