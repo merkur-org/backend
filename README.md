@@ -10,12 +10,6 @@ docker run -p 3333:3333 ${PWD}:/home/node/api -v /home/node/api/node_modules api
 docker-compose up
 ```
 
-## Criar base populada em dev
-```bash
-docker exec -i api-postgres /bin/bash -c "PGPASSWORD=docker psql --username postgres data" < dump_27-04-2021_09_57_07.sql
-
-```
-
 ativar no open settings json do vs code (ctrl + shift + p)
 
 ```json
@@ -29,10 +23,10 @@ ativar no open settings json do vs code (ctrl + shift + p)
 
 ```bash
 # fazer
-docker exec -it api-server yarn typeorm migration:run
+docker exec -it api-server NODE_ENV=dev yarn typeorm migration:run
 
 # desfazer
-docker exec -it api-server yarn typeorm migration:revert
+docker exec -it api-server NODE_ENV=dev yarn typeorm migration:revert
 ```
 
 ## Build do projeto

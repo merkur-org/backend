@@ -30,7 +30,7 @@ export default class CreateTriggers1620694873624 implements MigrationInterface {
 
               IF(TG_OP = 'DELETE') then
                   update list_offers_details
-                  set quantity_stock = (select quantity_stock from list_offers_details lod where lod.id = var_list_offer_id) + old.quantity_stock
+                  set quantity_stock = (select quantity_stock from list_offers_details lod where lod.id = var_list_offer_id) + old.quantity
                   where id = var_list_offer_id;
               return new;
               END IF;
