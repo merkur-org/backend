@@ -108,7 +108,9 @@ class ProductsRepository implements IProductsRepository {
 
     const query = this.ormRepository
       .createQueryBuilder('product')
-      .select('product.*, ld.quantity_stock, ld.quantity_total')
+      .select(
+        'product.*, ld.quantity_stock, ld.quantity_total, l.id as list_id, ld.id as list_offer_id',
+      )
       .leftJoin(entity, 'ld', 'ld.product_id = product.id')
       .leftJoin(List, 'l', 'l.id = ld.list_id')
       .where(queryWhere)
@@ -120,17 +122,31 @@ class ProductsRepository implements IProductsRepository {
       .offset(skipped_items)
       .limit(limit);
 
+    const list_promise = this.ormRepository
+      .createQueryBuilder('product')
+      .select('l.* as id')
+      .leftJoin(entity, 'ld', 'ld.product_id = product.id')
+      .leftJoin(List, 'l', 'l.id = ld.list_id')
+      .andWhere(
+        `'${date.toUTCString()}'
+      BETWEEN "l"."start_date" AND "l"."end_date"`,
+      )
+      .limit(1)
+      .getRawMany();
+
     logger.info(query.getSql());
 
-    const [products, total_count] = await Promise.all([
+    const [products, total_count, list] = await Promise.all([
       query.getRawMany(),
       query.getCount(),
+      list_promise,
     ]);
 
     return {
       limit,
       page,
       total_count,
+      list: list[0],
       data: products,
     };
   }

@@ -73,7 +73,7 @@ class Order {
   @JoinColumn({ name: 'list_id' })
   list: List;
 
-  @OneToMany(() => OrderDetail, orderDetail => orderDetail.order_id)
+  @OneToMany(() => OrderDetail, orderDetail => orderDetail.order)
   order_details: OrderDetail[];
 
   @CreateDateColumn()
