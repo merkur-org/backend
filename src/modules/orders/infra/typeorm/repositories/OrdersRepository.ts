@@ -104,17 +104,13 @@ class OrdersRepository implements IOrdersRepository {
   }: IFindAllOrdersPaginated): Promise<IPaginatedOrdersDTO> {
     const skipped_items = (page - 1) * limit;
 
-    const [orders, total_count] = await this.ormRepository
-      .createQueryBuilder('o')
-      .select('o.*')
-      .addSelect('json_agg(od) as "details"')
-      .orderBy('o.created_at', 'DESC')
-      .leftJoin(OrderDetail, 'od', 'o.id = od.order_id')
-      .where('o.user_id = :user_id', { user_id })
-      .groupBy('o.id')
-      .offset(skipped_items)
-      .limit(limit)
-      .getManyAndCount();
+    const [orders, total_count] = await this.ormRepository.findAndCount({
+      where: { user_id },
+      relations: ['order_details'],
+      skip: skipped_items,
+      take: limit,
+      order: { created_at: 'DESC' },
+    });
 
     return {
       total_count,
