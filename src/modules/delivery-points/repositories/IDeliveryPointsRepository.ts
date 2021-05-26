@@ -1,7 +1,7 @@
 import DeliveryPoint from '@modules/delivery-points/infra/typeorm/entities/DeliveryPoints';
-import IPaginationDTO from '@shared/dtos/IPaginationDTO';
-import PaginatedDeliveryPointsDTO from '@modules/delivery-points/dtos/PaginatedDeliveryPointsDTO';
+import IPaginatedDeliveryPointsDTO from '@modules/delivery-points/dtos/IPaginatedDeliveryPointsDTO';
 import ICreateDeliveryPointDTO from '../dtos/ICreateDeliveryPointDTO';
+import IPaginationDeliveryPointDTO from '../dtos/IPaginationDeliveryPointDTO';
 
 export default interface IDeliveryPointsRepository {
   findByID(id: string): Promise<DeliveryPoint | undefined>;
@@ -9,7 +9,6 @@ export default interface IDeliveryPointsRepository {
   delete(id: string): Promise<void>;
   save(point: DeliveryPoint): Promise<DeliveryPoint>;
   findAllPaginated(
-    state: string,
-    data: IPaginationDTO,
-  ): Promise<PaginatedDeliveryPointsDTO>;
+    data: IPaginationDeliveryPointDTO,
+  ): Promise<IPaginatedDeliveryPointsDTO>;
 }

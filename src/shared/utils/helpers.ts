@@ -52,8 +52,10 @@ export function hasKey<O>(obj: O, key: keyof any): key is keyof O {
 
 export function mountQueryWhere(filters: any, entity: string): string {
   let queryWhere = ``;
+
   Object.keys(filters).forEach(key => {
-    if (key && hasKey(filters, key)) {
+    if (key && hasKey(filters, key) && filters[key] !== undefined) {
+
       queryWhere =
         queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
 

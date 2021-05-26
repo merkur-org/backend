@@ -3,8 +3,9 @@ import { getRepository, Repository } from 'typeorm';
 import DeliveryPoint from '@modules/delivery-points/infra/typeorm/entities/DeliveryPoints';
 import ICreateDeliveryPointDTO from '@modules/delivery-points/dtos/ICreateDeliveryPointDTO';
 import IDeliveryPointsRepository from '@modules/delivery-points/repositories/IDeliveryPointsRepository';
-import IPaginationDTO from '@shared/dtos/IPaginationDTO';
-import PaginatedDeliveryPointsDTO from '@modules/delivery-points/dtos/PaginatedDeliveryPointsDTO';
+import IPaginatedDeliveryPointsDTO from '@modules/delivery-points/dtos/IPaginatedDeliveryPointsDTO';
+import IPaginationDeliveryPointDTO from '@modules/delivery-points/dtos/IPaginationDeliveryPointDTO';
+import { mountQueryWhere } from '@shared/utils/helpers';
 
 class DeliveryPointsRepository implements IDeliveryPointsRepository {
   private ormRepository: Repository<DeliveryPoint>;
@@ -35,20 +36,24 @@ class DeliveryPointsRepository implements IDeliveryPointsRepository {
     return this.ormRepository.save(point);
   }
 
-  public async findAllPaginated(
-    state: string,
-    { limit, page }: IPaginationDTO,
-  ): Promise<PaginatedDeliveryPointsDTO> {
+  public async findAllPaginated({
+    limit,
+    page,
+    sort_by,
+    order,
+    ...filter
+  }: IPaginationDeliveryPointDTO): Promise<IPaginatedDeliveryPointsDTO> {
     const skipped_items = (page - 1) * limit;
 
-    const total_count = await this.ormRepository.count();
-    const points = await this.ormRepository
+    const queryWhere = mountQueryWhere(filter, 'delivery_points');
+
+    const [points, total_count] = await this.ormRepository
       .createQueryBuilder('delivery_points')
-      .where('delivery_points.state = :state', { state })
-      .orderBy('created_at', 'DESC')
+      .where(queryWhere)
+      .orderBy(`delivery_points.${sort_by || 'created_at'}`, order)
       .offset(skipped_items)
       .limit(limit)
-      .getMany();
+      .getManyAndCount();
 
     return {
       total_count,
