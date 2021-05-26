@@ -2,8 +2,8 @@ import { v4 as uuid } from 'uuid';
 
 import DeliveryPoint from '@modules/delivery-points/infra/typeorm/entities/DeliveryPoints';
 import ICreateDeliveryPointDTO from '@modules/delivery-points/dtos/ICreateDeliveryPointDTO';
-import IPaginationDTO from '@shared/dtos/IPaginationDTO';
-import PaginatedDeliveryPointsDTO from '@modules/delivery-points/dtos/PaginatedDeliveryPointsDTO';
+import IPaginatedDeliveryPointsDTO from '@modules/delivery-points/dtos/IPaginatedDeliveryPointsDTO';
+import IPaginationDeliveryPointDTO from '@modules/delivery-points/dtos/IPaginationDeliveryPointDTO';
 import IDeliveryPointsRepository from '../IDeliveryPointsRepository';
 
 class FakeDeliveryPointsRepository implements IDeliveryPointsRepository {
@@ -39,10 +39,10 @@ class FakeDeliveryPointsRepository implements IDeliveryPointsRepository {
     return point;
   }
 
-  public async findAllPaginated(
-    state: string,
-    { page, limit }: IPaginationDTO,
-  ): Promise<PaginatedDeliveryPointsDTO> {
+  public async findAllPaginated({
+    page,
+    limit,
+  }: IPaginationDeliveryPointDTO): Promise<IPaginatedDeliveryPointsDTO> {
     const skipped_items = (page - 1) * limit;
 
     const total_count = this.deliveryPoints.length;

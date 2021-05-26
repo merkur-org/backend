@@ -1,12 +1,8 @@
 import { injectable, inject } from 'tsyringe';
 
-import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import IDeliveryPointsRepository from '../repositories/IDeliveryPointsRepository';
-import PaginatedDeliveryPointsDTO from '../dtos/PaginatedDeliveryPointsDTO';
-
-interface IRequest extends IPaginationDTO {
-  point_state: string;
-}
+import IPaginatedDeliveryPointsDTO from '../dtos/IPaginatedDeliveryPointsDTO';
+import IPaginationDeliveryPointDTO from '../dtos/IPaginationDeliveryPointDTO';
 
 @injectable()
 class ListDeliveryPointsService {
@@ -16,14 +12,19 @@ class ListDeliveryPointsService {
   ) {}
 
   public async execute({
-    point_state,
     limit,
+    order,
+    sort_by,
     page,
-  }: IRequest): Promise<PaginatedDeliveryPointsDTO> {
-    const response = await this.deliveryPointsRepository.findAllPaginated(
-      point_state,
-      { limit, page },
-    );
+    ...filter
+  }: IPaginationDeliveryPointDTO): Promise<IPaginatedDeliveryPointsDTO> {
+    const response = await this.deliveryPointsRepository.findAllPaginated({
+      limit,
+      order,
+      sort_by,
+      page,
+      ...filter,
+    });
 
     return response;
   }

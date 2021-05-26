@@ -13,9 +13,15 @@ deliveryPointsRoutes.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
-      state: Joi.string().required(),
+      state: Joi.string(),
       limit: Joi.number().min(1),
       page: Joi.number().min(1),
+      sort_by: Joi.string(),
+      city: Joi.string(),
+      suburb: Joi.string(),
+      street: Joi.string(),
+      email: Joi.string(),
+      order: Joi.string(),
     },
   }),
   deliveryPointsController.list,
