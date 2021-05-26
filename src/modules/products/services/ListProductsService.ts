@@ -1,8 +1,8 @@
 import { injectable, inject } from 'tsyringe';
 
-import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import IProductsRepository from '../repositories/IProductsRepository';
 import PaginatedProductDTO from '../dtos/IPaginatedProductsDTO';
+import IPaginationProductsDTO from '../dtos/IPaginationProductsDTO';
 
 @injectable()
 class ListProductsService {
@@ -14,12 +14,16 @@ class ListProductsService {
   public async execute({
     limit,
     page,
-    name,
-  }: IPaginationDTO): Promise<PaginatedProductDTO> {
+    order,
+    sort_by,
+    ...filter
+  }: IPaginationProductsDTO): Promise<PaginatedProductDTO> {
     const response = await this.productsRepository.findAllPaginated({
       limit,
       page,
-      name,
+      order,
+      sort_by,
+      ...filter,
     });
 
     return response;

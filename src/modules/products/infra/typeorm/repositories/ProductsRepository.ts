@@ -10,7 +10,8 @@ import List from '@modules/lists/infra/typeorm/entities/List';
 import ListProducersDetail from '@modules/lists/infra/typeorm/entities/ListProducersDetail';
 import IPaginationInListDTO from '@modules/products/dtos/IPaginationInListDTO';
 import logger from '@shared/utils/logger';
-import { hasKey } from '@shared/utils/helpers';
+import { mountQueryWhereWithName } from '@shared/utils/helpers';
+import IPaginationProductsDTO from '@modules/products/dtos/IPaginationProductsDTO';
 
 class ProductsRepository implements IProductsRepository {
   private ormRepository: Repository<Product>;
@@ -88,23 +89,7 @@ class ProductsRepository implements IProductsRepository {
 
     const skipped_items = (page - 1) * limit;
 
-    let queryWhere = ``;
-    Object.keys(filter).forEach(key => {
-      if (key && hasKey(filter, key) && key !== 'name') {
-        queryWhere =
-          queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
-
-        queryWhere += `product.${key} = '${filter[key]}'`;
-      }
-
-      if (key === 'name') {
-        queryWhere =
-          queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
-
-        queryWhere += `to_tsvector('portuguese', unaccent(product.${key})) @@
-        plainto_tsquery('portuguese', unaccent('${filter[key]}'))`;
-      }
-    });
+    const queryWhere = mountQueryWhereWithName(filter, 'product');
 
     const query = this.ormRepository
       .createQueryBuilder('product')
@@ -154,20 +139,19 @@ class ProductsRepository implements IProductsRepository {
   public async findAllPaginated({
     limit,
     page,
-    name,
-  }: IPaginationDTO): Promise<IPaginatedProductsDTO> {
+    order,
+    sort_by,
+    ...filter
+  }: IPaginationProductsDTO): Promise<IPaginatedProductsDTO> {
     const skipped_items = (page - 1) * limit;
+
+    const queryWhere = mountQueryWhereWithName(filter, 'products');
 
     const total_count = await this.ormRepository.count();
     const products = await this.ormRepository
       .createQueryBuilder('products')
-      .orderBy('created_at', 'DESC')
-      .where(
-        name
-          ? `to_tsvector('portuguese', unaccent(products.name)) @@
-    plainto_tsquery('portuguese', unaccent('${name}'))`
-          : '',
-      )
+      .orderBy(`products.${sort_by || 'created_at'}`, order)
+      .where(queryWhere)
       .offset(skipped_items)
       .limit(limit)
       .getMany();
