@@ -3,8 +3,9 @@ import { getRepository, Repository } from 'typeorm';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
-import IPaginationDTO from '@shared/dtos/IPaginationDTO';
-import PaginatedUsersDTO from '@modules/users/dtos/PaginatedUsersDTO';
+import IPaginatedUsersDTO from '@modules/users/dtos/IPaginatedUsersDTO';
+import IPaginationUsersDTO from '@modules/users/dtos/IPaginationUsersDTO';
+import { mountQueryWhere } from '@shared/utils/helpers';
 import User from '../entities/User';
 
 class UsersRepository implements IUsersRepository {
@@ -75,16 +76,21 @@ class UsersRepository implements IUsersRepository {
   public async findAllPaginated({
     limit,
     page,
-  }: IPaginationDTO): Promise<PaginatedUsersDTO> {
+    sort_by,
+    order,
+    ...filter
+  }: IPaginationUsersDTO): Promise<IPaginatedUsersDTO> {
     const skipped_items = (page - 1) * limit;
 
-    const total_count = await this.ormRepository.count();
-    const users = await this.ormRepository
+    const queryWhere = mountQueryWhere(filter, 'user');
+
+    const [users, total_count] = await this.ormRepository
       .createQueryBuilder('user')
-      .orderBy('created_at', 'DESC')
+      .where(queryWhere)
+      .orderBy(`user.${sort_by || 'created_at'}`, order)
       .offset(skipped_items)
       .limit(limit)
-      .getMany();
+      .getManyAndCount();
 
     return {
       total_count,

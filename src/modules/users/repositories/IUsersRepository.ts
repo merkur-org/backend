@@ -1,7 +1,7 @@
 import User from '../infra/typeorm/entities/User';
 import ICreateUserDTO from '../dtos/ICreateUserDTO';
-import IPaginationDTO from '../../../shared/dtos/IPaginationDTO';
-import PaginatedUsersDTO from '../dtos/PaginatedUsersDTO';
+import IPaginatedUsersDTO from '../dtos/IPaginatedUsersDTO';
+import IPaginationUsersDTO from '../dtos/IPaginationUsersDTO';
 
 export default interface IUsersRepository {
   findById(id: string): Promise<User | undefined>;
@@ -16,5 +16,5 @@ export default interface IUsersRepository {
   create(data: ICreateUserDTO): Promise<User>;
   delete(id: string): Promise<void>;
   save(user: User): Promise<User>;
-  findAllPaginated(data: IPaginationDTO): Promise<PaginatedUsersDTO>;
+  findAllPaginated(data: IPaginationUsersDTO): Promise<IPaginatedUsersDTO>;
 }

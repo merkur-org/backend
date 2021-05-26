@@ -47,6 +47,10 @@ usersRouter.get(
     [Segments.QUERY]: {
       limit: Joi.number().min(1),
       page: Joi.number().min(1),
+      sort_by: Joi.string(),
+      name: Joi.string(),
+      email: Joi.string(),
+      order: Joi.string(),
     },
   }),
   usersController.list,
