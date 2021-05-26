@@ -4,7 +4,7 @@ import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
-import PaginatedUsersDTO from '@modules/users/dtos/PaginatedUsersDTO';
+import IPaginatedUsersDTO from '@modules/users/dtos/IPaginatedUsersDTO';
 import User from '../../infra/typeorm/entities/User';
 
 class FakeUsersRepository implements IUsersRepository {
@@ -71,7 +71,7 @@ class FakeUsersRepository implements IUsersRepository {
   public async findAllPaginated({
     page,
     limit,
-  }: IPaginationDTO): Promise<PaginatedUsersDTO> {
+  }: IPaginationDTO): Promise<IPaginatedUsersDTO> {
     const skipped_items = (page - 1) * limit;
 
     const total_count = this.users.length;

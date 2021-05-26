@@ -1,6 +1,6 @@
 import User from '../infra/typeorm/entities/User';
 
-export default interface PaginatedUsersDTO {
+export default interface IPaginatedUsersDTO {
   data: User[];
   page: number;
   limit: number;

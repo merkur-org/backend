@@ -49,3 +49,17 @@ export const create_slug = (value: string | string[]): string => {
 export function hasKey<O>(obj: O, key: keyof any): key is keyof O {
   return key in obj;
 }
+
+export function mountQueryWhere(filters: any, entity: string): string {
+  let queryWhere = ``;
+  Object.keys(filters).forEach(key => {
+    if (key && hasKey(filters, key)) {
+      queryWhere =
+        queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
+
+      queryWhere += `${entity}.${key} = '${filters[key]}'`;
+    }
+  });
+
+  return queryWhere;
+}
