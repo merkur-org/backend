@@ -55,6 +55,7 @@ export function mountQueryWhere(filters: any, entity: string): string {
 
   Object.keys(filters).forEach(key => {
     if (key && hasKey(filters, key) && filters[key] !== undefined) {
+      
       queryWhere =
         queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
 
@@ -69,11 +70,13 @@ export function mountQueryWhereWithName(filters: any, entity: string): string {
   let queryWhere = ``;
   Object.keys(filters).forEach(key => {
     if (key && hasKey(filters, key) && key !== 'name') {
+
       queryWhere =
         queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
 
       queryWhere += `${entity}.${key} = '${filters[key]}'`;
     }
+
 
     if (key === 'name') {
       queryWhere =
