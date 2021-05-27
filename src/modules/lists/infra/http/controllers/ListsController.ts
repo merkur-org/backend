@@ -6,7 +6,6 @@ import ShowListService from '@modules/lists/services/ShowListService';
 import DeleteListService from '@modules/lists/services/DeleteListService';
 import ListListsService from '@modules/lists/services/ListListsService';
 import UpdateListService from '@modules/lists/services/UpdateListService';
-import { TList } from '../../typeorm/entities/List';
 
 class ListsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -28,15 +27,19 @@ class ListsController {
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
-    const { page = 1, limit = 10, user_id, type } = request.query;
+    const { page = 1, limit = 10, sort_by, order, ...filter } = request.query;
 
     const listLists = container.resolve(ListListsService);
 
+    const parsedOrder =
+      typeof order === 'string' && order.match(/asc/gi) ? 'ASC' : 'DESC';
+
     const data = await listLists.execute({
-      user_id: user_id ? String(user_id) : undefined,
       page: Number(page),
       limit: Number(limit),
-      type: type as TList,
+      sort_by: sort_by ? String(sort_by) : undefined,
+      order: parsedOrder,
+      ...filter,
     });
 
     return response.json(data);

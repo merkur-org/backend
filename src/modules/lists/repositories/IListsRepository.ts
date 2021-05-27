@@ -3,6 +3,7 @@ import IFindAllListsInPeriod from '@modules/lists/dtos/IFindAllListsInPeriod';
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import IPaginatedListsDTO from '@modules/lists/dtos/IPaginatedListsDTO';
 import List, { TList } from '../infra/typeorm/entities/List';
+import IPaginationListsDTO from '../dtos/IPaginationListsDTO';
 
 export default interface IListsRepository {
   findById(id: string): Promise<List | undefined>;
@@ -16,9 +17,5 @@ export default interface IListsRepository {
   create(data: ICreateListDTO): Promise<List>;
   delete(id: string): Promise<void>;
   save(list: List): Promise<List>;
-  findAllPaginated(
-    { page, limit }: IPaginationDTO,
-    type: TList,
-    user_id?: string,
-  ): Promise<IPaginatedListsDTO>;
+  findAllPaginated(data: IPaginationListsDTO): Promise<IPaginatedListsDTO>;
 }

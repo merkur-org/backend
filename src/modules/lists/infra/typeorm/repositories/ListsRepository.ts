@@ -13,6 +13,10 @@ import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import { AfterDate, BeforeDate } from '@shared/utils/typeorm';
 import IListsRepository from '@modules/lists/repositories/IListsRepository';
 import IPaginatedListsDTO from '@modules/lists/dtos/IPaginatedListsDTO';
+import IPaginationListsDTO from '@modules/lists/dtos/IPaginationListsDTO';
+import { mountQueryWhere } from '@shared/utils/helpers';
+import ListProducersDetail from '../entities/ListProducersDetail';
+import ListOffersDetail from '../entities/ListOffersDetail';
 
 class ListsRepository implements IListsRepository {
   private ormRepository: Repository<List>;
@@ -77,28 +81,45 @@ class ListsRepository implements IListsRepository {
     return list;
   }
 
-  public async findAllPaginated(
-    { page, limit }: IPaginationDTO,
-    type: TList,
-    user_id?: string,
-  ): Promise<IPaginatedListsDTO> {
+  public async findAllPaginated({
+    limit,
+    page,
+    order,
+    sort_by,
+    type,
+    ...filter
+  }: IPaginationListsDTO): Promise<IPaginatedListsDTO> {
     const skipped_items = (page - 1) * limit;
 
-    const relation = type === 'offer' ? 'details_offer' : 'details_producers';
+    const relation = type === 'offer' ? ListOffersDetail : ListProducersDetail;
+    // const [offers, total_count] = (await this.ormRepository.findAndCount({
+    //   where: filter ? { ...filter } : { type },
+    //   relations: [relation],
+    //   skip: skipped_items,
+    //   take: limit,
+    //   order: sort_by ? {} : { created_at: order },
+    // })) as any;
+    const queryWhere = mountQueryWhere(filter, 'l');
 
-    const [offers, total_count] = await this.ormRepository.findAndCount({
-      where: user_id ? { user_id, type } : { type },
-      relations: [relation],
-      skip: skipped_items,
-      take: limit,
-      order: { created_at: 'DESC' },
-    });
+    const total_count = await this.ormRepository.count();
+
+    const lists = await this.ormRepository
+      .createQueryBuilder('l')
+      .select('l.*')
+      .where(queryWhere)
+      .addSelect('json_agg(lod) as "details"')
+      .orderBy(`l.${sort_by || 'created_at'}`, order)
+      .leftJoin(relation, 'lod', 'l.id = lod.list_id')
+      .groupBy('l.id')
+      .offset(skipped_items)
+      .limit(limit)
+      .getRawMany<List>();
 
     return {
       total_count,
       page,
       limit,
-      data: offers,
+      data: lists,
     };
   }
 

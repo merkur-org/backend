@@ -5,6 +5,7 @@ import { isWithinInterval } from 'date-fns';
 import IFindAllListsInPeriod from '@modules/lists/dtos/IFindAllListsInPeriod';
 import ICreateListDTO from '@modules/lists/dtos/ICreateListDTO';
 import IPaginatedListsDTO from '@modules/lists/dtos/IPaginatedListsDTO';
+import IPaginationListsDTO from '@modules/lists/dtos/IPaginationListsDTO';
 import List, { TList } from '../../infra/typeorm/entities/List';
 import IListsRepository from '../IListsRepository';
 
@@ -60,11 +61,11 @@ class FakeListsRepository implements IListsRepository {
     return list;
   }
 
-  public async findAllPaginated(
-    { page, limit }: IPaginationDTO,
-    type: TList,
-    user_id: string,
-  ): Promise<IPaginatedListsDTO> {
+  public async findAllPaginated({
+    page,
+    limit,
+    type,
+  }: IPaginationListsDTO): Promise<IPaginatedListsDTO> {
     const skipped_items = (page - 1) * limit;
 
     const listsArray = this.lists.filter(l => l.type === type);
