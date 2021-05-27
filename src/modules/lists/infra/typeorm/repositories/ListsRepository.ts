@@ -92,13 +92,7 @@ class ListsRepository implements IListsRepository {
     const skipped_items = (page - 1) * limit;
 
     const relation = type === 'offer' ? ListOffersDetail : ListProducersDetail;
-    // const [offers, total_count] = (await this.ormRepository.findAndCount({
-    //   where: filter ? { ...filter } : { type },
-    //   relations: [relation],
-    //   skip: skipped_items,
-    //   take: limit,
-    //   order: sort_by ? {} : { created_at: order },
-    // })) as any;
+   
     const queryWhere = mountQueryWhere(filter, 'l');
 
     const total_count = await this.ormRepository.count();
