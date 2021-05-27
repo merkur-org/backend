@@ -96,12 +96,19 @@ class OrdersController {
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
-    const { page = 1, limit = 10 } = request.query;
+    const { page = 1, limit = 10, sort_by, order, ...filter } = request.query;
+
+    const parsedOrder =
+      typeof order === 'string' && order.match(/asc/gi) ? 'ASC' : 'DESC';
+
     const listOrders = container.resolve(ListOrdersService);
 
     const data = await listOrders.execute({
       page: Number(page),
       limit: Number(limit),
+      sort_by: sort_by ? String(sort_by) : undefined,
+      order: parsedOrder,
+      ...filter,
     });
 
     return response.json(data);

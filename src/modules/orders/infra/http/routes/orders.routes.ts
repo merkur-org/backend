@@ -105,6 +105,24 @@ ordersRoutes.get(
   [checkRole(['r', 'himself'])],
   ordersController.show,
 );
-ordersRoutes.get('/', [checkRole(['r'])], ordersController.list);
+
+ordersRoutes.get(
+  '/',
+  [checkRole(['r'])],
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number().min(1),
+      page: Joi.number().min(1),
+      sort_by: Joi.string(),
+      order: Joi.string(),
+      payment_type: Joi.string(),
+      payment_status: Joi.string(),
+      sales_type: Joi.string(),
+      delivery_point_id: Joi.string(),
+      user_id: Joi.string(),
+    },
+  }),
+  ordersController.list,
+);
 
 export default ordersRoutes;
