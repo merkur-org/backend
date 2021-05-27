@@ -55,11 +55,35 @@ export function mountQueryWhere(filters: any, entity: string): string {
 
   Object.keys(filters).forEach(key => {
     if (key && hasKey(filters, key) && filters[key] !== undefined) {
+      
+      queryWhere =
+        queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
+
+      queryWhere += `${entity}.${key} = '${filters[key]}'`;
+    }
+  });
+
+  return queryWhere;
+}
+
+export function mountQueryWhereWithName(filters: any, entity: string): string {
+  let queryWhere = ``;
+  Object.keys(filters).forEach(key => {
+    if (key && hasKey(filters, key) && key !== 'name') {
 
       queryWhere =
         queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
 
       queryWhere += `${entity}.${key} = '${filters[key]}'`;
+    }
+
+
+    if (key === 'name') {
+      queryWhere =
+        queryWhere.length > 10 ? (queryWhere += ` AND `) : queryWhere;
+
+      queryWhere += `to_tsvector('portuguese', unaccent(${entity}.${key})) @@
+      plainto_tsquery('portuguese', unaccent('${filters[key]}'))`;
     }
   });
 
