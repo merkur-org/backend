@@ -2,6 +2,7 @@ import IFindAllInPeriod from '@shared/dtos/IFindAllInPeriod';
 import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import ICreateOrderDTO from '../dtos/ICreateOrderDTO';
 import IPaginatedOrdersDTO from '../dtos/IPaginatedOrdersDTO';
+import IPaginationOrdersDTO from '../dtos/IPaginationOrdersDTO';
 import Order from '../infra/typeorm/entities/Order';
 
 export interface IFindAllOrdersPaginated extends IPaginationDTO {
@@ -12,7 +13,7 @@ export default interface IOrdersRepository {
   findAllPaginated({
     limit,
     page,
-  }: IPaginationDTO): Promise<IPaginatedOrdersDTO>;
+  }: IPaginationOrdersDTO): Promise<IPaginatedOrdersDTO>;
   findByUserId({
     user_id,
     page,

@@ -31,7 +31,7 @@ describe('listUsers', () => {
     });
 
     const points = await listDeliveryPoints.execute({
-      point_state: 'example',
+      state: 'example',
       limit: 10,
       page: 1,
     });
@@ -75,7 +75,7 @@ describe('listUsers', () => {
     });
 
     const users = await listDeliveryPoints.execute({
-      point_state: 'example',
+      state: 'example',
       limit: 1,
       page: 1,
     });

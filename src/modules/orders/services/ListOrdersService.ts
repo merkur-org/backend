@@ -1,8 +1,8 @@
 import { injectable, inject } from 'tsyringe';
 
-import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import IOrdersRepository from '../repositories/IOrdersRepository';
-import PaginatedOrdersDTO from '../dtos/IPaginatedOrdersDTO';
+import IPaginatedOrdersDTO from '../dtos/IPaginatedOrdersDTO';
+import IPaginationOrdersDTO from '../dtos/IPaginationOrdersDTO';
 
 @injectable()
 class ListOrdersService {
@@ -13,11 +13,17 @@ class ListOrdersService {
 
   public async execute({
     limit,
+    order,
+    sort_by,
     page,
-  }: IPaginationDTO): Promise<PaginatedOrdersDTO> {
+    ...filter
+  }: IPaginationOrdersDTO): Promise<IPaginatedOrdersDTO> {
     const response = await this.ordersRepository.findAllPaginated({
       limit,
+      order,
+      sort_by,
       page,
+      ...filter,
     });
 
     return response;

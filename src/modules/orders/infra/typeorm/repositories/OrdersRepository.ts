@@ -1,10 +1,11 @@
 import ICreateOrderDTO from '@modules/orders/dtos/ICreateOrderDTO';
 import IPaginatedOrdersDTO from '@modules/orders/dtos/IPaginatedOrdersDTO';
+import IPaginationOrdersDTO from '@modules/orders/dtos/IPaginationOrdersDTO';
 import IOrdersRepository, {
   IFindAllOrdersPaginated,
 } from '@modules/orders/repositories/IOrdersRepository';
 import IFindAllInPeriod from '@shared/dtos/IFindAllInPeriod';
-import IPaginationDTO from '@shared/dtos/IPaginationDTO';
+import { mountQueryWhere } from '@shared/utils/helpers';
 import { getRepository, Repository, Between } from 'typeorm';
 import Order from '../entities/Order';
 import OrderDetail from '../entities/OrderDetail';
@@ -72,17 +73,24 @@ class OrdersRepository implements IOrdersRepository {
   }
 
   public async findAllPaginated({
-    page,
     limit,
-  }: IPaginationDTO): Promise<IPaginatedOrdersDTO> {
+    page,
+    sort_by,
+    order,
+    ...filter
+  }: IPaginationOrdersDTO): Promise<IPaginatedOrdersDTO> {
     const skipped_items = (page - 1) * limit;
 
+    const queryWhere = mountQueryWhere(filter, 'o');
+
     const total_count = await this.ormRepository.count();
+
     const orders = await this.ormRepository
       .createQueryBuilder('o')
       .select('o.*')
+      .where(queryWhere)
       .addSelect('json_agg(od) as "details"')
-      .orderBy('o.created_at', 'DESC')
+      .orderBy(`o.${sort_by || 'created_at'}`, order)
       .leftJoin(OrderDetail, 'od', 'o.id = od.order_id')
       .groupBy('o.id')
       .offset(skipped_items)

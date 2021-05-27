@@ -75,8 +75,11 @@ listsRoutes.get(
     [Segments.QUERY]: {
       type: Joi.string().required().valid('offer', 'producer'),
       limit: Joi.number().min(1),
+      sort_by: Joi.string(),
+      order: Joi.string(),
       page: Joi.number().min(1),
       user_id: Joi.string(),
+      status: Joi.string(),
     },
   }),
   listsController.list,
