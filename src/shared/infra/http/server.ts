@@ -42,7 +42,7 @@ if (config.expressDevLogger) {
 }
 
 app.use('/api', routes);
-app.use('/files', express.static(uploadConfig.uploadsFolder));
+app.use('/api/files', express.static(uploadConfig.uploadsFolder));
 
 app.use(errors({ statusCode: 403 }));
 

@@ -72,7 +72,7 @@ class ProductsController {
 
     const product = await showProduct.execute({ product_id });
 
-    return response.json(product);
+    return response.json(classToClass(product));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
