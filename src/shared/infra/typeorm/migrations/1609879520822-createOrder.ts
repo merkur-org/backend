@@ -74,7 +74,7 @@ export default class createOrder1609879520822 implements MigrationInterface {
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
             columnNames: ['user_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
           {
@@ -82,7 +82,7 @@ export default class createOrder1609879520822 implements MigrationInterface {
             referencedTableName: 'delivery_points',
             referencedColumnNames: ['id'],
             columnNames: ['delivery_point_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
         ],

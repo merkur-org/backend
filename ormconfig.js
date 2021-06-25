@@ -14,5 +14,5 @@ module.exports = {
   migrations: dev ? ['./src/shared/infra/typeorm/migrations/*.ts'] : ['./dist/shared/infra/typeorm/migrations/*.js'],
   cli: {
     migrationsDir: './src/shared/infra/typeorm/migrations'
-  }
+  },
 }

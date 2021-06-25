@@ -24,7 +24,7 @@ export default class addRelationOrderWithList1620783672256
         columnNames: ['list_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'lists',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       }),
     );

@@ -41,6 +41,8 @@ class UpdateProductService {
     nutritional_information,
     observation,
     category,
+    highlights,
+    organic,
   }: IRequest): Promise<Product> {
     const foundProduct = await this.productsRepository.findById(product_id);
 
@@ -61,8 +63,11 @@ class UpdateProductService {
     foundProduct.updated_at = new Date();
     foundProduct.nutritional_information =
       nutritional_information || foundProduct.nutritional_information;
-    foundProduct.nutritional_information =
-      observation || foundProduct.observation;
+    foundProduct.observation = observation || foundProduct.observation;
+    foundProduct.highlights = highlights || false;
+    foundProduct.organic = organic || false;
+
+    console.log(foundProduct.organic);
 
     await this.productsRepository.save(foundProduct);
 
