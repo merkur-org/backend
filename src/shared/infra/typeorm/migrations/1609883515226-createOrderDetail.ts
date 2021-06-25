@@ -55,7 +55,7 @@ export default class createOrderDetail1609883515226
             referencedTableName: 'orders',
             referencedColumnNames: ['id'],
             columnNames: ['order_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
           {
@@ -63,7 +63,7 @@ export default class createOrderDetail1609883515226
             referencedTableName: 'products',
             referencedColumnNames: ['id'],
             columnNames: ['product_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
         ],

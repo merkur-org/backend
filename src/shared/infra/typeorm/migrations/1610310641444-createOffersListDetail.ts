@@ -55,7 +55,7 @@ export default class createOffersListDetails1610310641444
             referencedTableName: 'lists',
             referencedColumnNames: ['id'],
             columnNames: ['list_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
           {
@@ -63,7 +63,7 @@ export default class createOffersListDetails1610310641444
             referencedTableName: 'products',
             referencedColumnNames: ['id'],
             columnNames: ['product_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
         ],
