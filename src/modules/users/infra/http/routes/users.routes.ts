@@ -51,6 +51,7 @@ usersRouter.get(
       name: Joi.string(),
       email: Joi.string(),
       order: Joi.string(),
+      role: Joi.string().valid('r', 'b', 'p', 'd', 'a', 'f', 'bp', 'db', 'bf'),
     },
   }),
   usersController.list,
