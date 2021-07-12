@@ -1,15 +1,26 @@
+# Merkur Backend
+Backend da aplicação Merkur, onde se encontra todo o controle de usuários, produtos, pedidos, pontos de entregas, ofertas semanais.
+
+## Estrutura
+Para entender um pouco a estrutura [clique aqui](https://github.com/merkur-org/backend/tree/master/docs).
+
+## Tecnologias utilizadas
+- NodeJs
+- Typescript
+- Jest
+- Postgres
+- Typeorm
+- BcryptJs
+- Swagger
+- Nodemailer
+- Docker
 ## Docker
 ```bash
-# build da imagem
-docker build -t api-extensao -f Dockerfile.dev .
-
-# rodar imagem docker da API
-docker run -p 3333:3333 ${PWD}:/home/node/api -v /home/node/api/node_modules api-extensao
-
 # rodar docker compose para banco e api (só com esse comando já irá fazer tudo)
 docker-compose up
 ```
 
+## Eslint
 ativar no open settings json do vs code (ctrl + shift + p)
 
 ```json
@@ -20,7 +31,6 @@ ativar no open settings json do vs code (ctrl + shift + p)
 
 
 ## Migrations do banco
-
 ```bash
 # fazer
 docker exec -it api-server NODE_ENV=dev yarn typeorm migration:run
