@@ -900,7 +900,7 @@ src/modules/**/infra/http/routes/
 
 Para não acontecer isso podemos separar isso em rotas e subrotas.
 
-Ex: Para eu criar um restaurante eu acesso a rota: '/restaurants/', onde '/restaurants' é uma rota e '/' outra rota responsável pela criação.
+Ex: Para eu criar um usuário eu acesso a rota: '/users/', onde '/users' é uma rota e '/' outra rota responsável pela criação.
 
 No projeto atual o arquivo de configuração das rotas fica em:
 
