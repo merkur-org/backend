@@ -120,6 +120,7 @@ ordersRoutes.get(
       sales_type: Joi.string(),
       delivery_point_id: Joi.string(),
       user_id: Joi.string(),
+      date: Joi.string(),
     },
   }),
   ordersController.list,

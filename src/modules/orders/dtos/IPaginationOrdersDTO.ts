@@ -7,6 +7,7 @@ interface IFilter {
   sales_type?: string;
   delivery_point_id?: string;
   user_id?: string;
+  date?: string;
 }
 
 export default interface IPaginationOrdersDTO

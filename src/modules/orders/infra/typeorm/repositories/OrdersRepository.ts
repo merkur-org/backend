@@ -6,6 +6,7 @@ import IOrdersRepository, {
 } from '@modules/orders/repositories/IOrdersRepository';
 import IFindAllInPeriod from '@shared/dtos/IFindAllInPeriod';
 import { mountQueryWhere } from '@shared/utils/helpers';
+import { format } from 'date-fns';
 import { getRepository, Repository, Between } from 'typeorm';
 import Order from '../entities/Order';
 import OrderDetail from '../entities/OrderDetail';
@@ -77,13 +78,21 @@ class OrdersRepository implements IOrdersRepository {
     page,
     sort_by,
     order,
+    date,
     ...filter
   }: IPaginationOrdersDTO): Promise<IPaginatedOrdersDTO> {
     const skipped_items = (page - 1) * limit;
 
-    const queryWhere = mountQueryWhere(filter, 'o');
+    let queryWhere = mountQueryWhere(filter, 'o');
 
     const total_count = await this.ormRepository.count();
+
+    if (date) {
+      const dateWhere = new Date(format(new Date(date), 'yyyy/MM/dd'));
+
+      queryWhere += `"o"."date"
+      BETWEEN '${dateWhere.toUTCString()}' AND 'now()'`;
+    }
 
     const orders = await this.ormRepository
       .createQueryBuilder('o')
