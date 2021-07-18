@@ -44,6 +44,16 @@ class CreateUserService {
     role = 'b',
     token,
   }: IRequest): Promise<IResponse> {
+    if (
+      !['b', 'p', 'bp'].includes(role) &&
+      (!token || (token && !checkRootUser(token)))
+    ) {
+      throw new AppError(
+        'Permission denied, only root user can create root',
+        401,
+      );
+    }
+
     const checkUserExists = await this.usersRepository.checkUserExists(
       email,
       cpf,
@@ -52,13 +62,6 @@ class CreateUserService {
 
     if (checkUserExists) {
       throw new AppError('User already exists');
-    }
-
-    if (role !== 'b' && (!token || (token && !checkRootUser(token)))) {
-      throw new AppError(
-        'Permission denied, only root user can create root',
-        401,
-      );
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
