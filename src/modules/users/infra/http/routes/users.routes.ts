@@ -18,7 +18,7 @@ usersRouter.post(
       phone: Joi.string()
         .required()
         .regex(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$/),
-      password: Joi.string().required(),
+      password: Joi.string(),
       cpf: Joi.string().required(),
       cnpj: Joi.string(),
       role: Joi.string().valid('r', 'b', 'p', 'd', 'a', 'f', 'bp', 'db', 'bf'),
