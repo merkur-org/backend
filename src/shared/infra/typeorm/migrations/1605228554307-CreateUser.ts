@@ -39,6 +39,7 @@ export default class CreateUser1605228554307 implements MigrationInterface {
             name: 'cpf',
             type: 'varchar',
             isUnique: true,
+            isNullable: true,
           },
           {
             name: 'cnpj',
@@ -49,7 +50,6 @@ export default class CreateUser1605228554307 implements MigrationInterface {
           {
             name: 'role',
             type: 'varchar',
-
             default: "'b'",
           },
           {

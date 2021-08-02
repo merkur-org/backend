@@ -27,8 +27,6 @@ listsRoutes.post(
             then: Joi.array()
               .items({
                 product_id: Joi.string().required(),
-                due_date: Joi.date().required(),
-
                 quantity_total: Joi.number().required(),
                 quantity_stock: Joi.number(),
                 unit_price: Joi.number().required(),
