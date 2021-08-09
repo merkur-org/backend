@@ -54,7 +54,7 @@ const legumes = [
 ];
 
 class GenerateSeeders {
-  private api = axios.create({ baseURL: config.apiURL });
+  private api = axios.create({ baseURL: 'http://localhost:3333/api' });
 
   private arrayProducts: any[] = [];
 
@@ -188,7 +188,6 @@ class GenerateSeeders {
             const quantity = faker.datatype.number(500);
             return {
               product_id: p.id,
-              due_date: addDays(date, i * 15 + 15 - 1),
               unit_price: 1,
               quantity_total: quantity,
               quantity_stock: quantity,
