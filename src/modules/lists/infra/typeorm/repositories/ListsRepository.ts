@@ -86,15 +86,14 @@ class ListsRepository implements IListsRepository {
     page,
     order,
     sort_by,
-    type,
     ...filter
   }: IPaginationListsDTO): Promise<IPaginatedListsDTO> {
     const skipped_items = (page - 1) * limit;
 
-    const relation = type === 'offer' ? ListOffersDetail : ListProducersDetail;
+    const relation =
+      filter.type === 'offer' ? ListOffersDetail : ListProducersDetail;
 
     const queryWhere = mountQueryWhere(filter, 'l');
-
     const total_count = await this.ormRepository.count();
 
     const lists = await this.ormRepository

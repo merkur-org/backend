@@ -64,7 +64,10 @@ class CreateUserService {
       throw new AppError('User already exists');
     }
 
-    const hashedPassword = await this.hashProvider.generateHash(password);
+    let hashedPassword = password;
+    if (password) {
+      hashedPassword = await this.hashProvider.generateHash(password);
+    }
 
     const phoneNormalized = normalizePhone(phone);
 
