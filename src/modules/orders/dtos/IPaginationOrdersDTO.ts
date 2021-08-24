@@ -13,4 +13,7 @@ interface IFilter {
 export default interface IPaginationOrdersDTO
   extends IPaginationDTO,
     IFilter,
-    ISort {}
+    ISort {
+  start_date?: string;
+  end_date?: string;
+}

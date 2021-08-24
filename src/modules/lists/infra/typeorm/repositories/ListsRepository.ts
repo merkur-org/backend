@@ -92,7 +92,7 @@ class ListsRepository implements IListsRepository {
     const skipped_items = (page - 1) * limit;
 
     const relation = type === 'offer' ? ListOffersDetail : ListProducersDetail;
-   
+
     const queryWhere = mountQueryWhere(filter, 'l');
 
     const total_count = await this.ormRepository.count();
@@ -120,7 +120,8 @@ class ListsRepository implements IListsRepository {
   public async findBetweenStartAndEndDate(
     { page, limit }: IPaginationDTO,
     type: TList,
-    date = new Date(),
+    start_date = new Date(),
+    end_date = new Date(),
   ): Promise<IPaginatedListsDTO> {
     const skipped_items = (page - 1) * limit;
 
@@ -128,8 +129,8 @@ class ListsRepository implements IListsRepository {
 
     const [offers, total_count] = await this.ormRepository.findAndCount({
       where: {
-        start_date: BeforeDate(date),
-        end_date: AfterDate(date),
+        start_date: BeforeDate(start_date),
+        end_date: AfterDate(end_date),
         type,
       },
       relations: [relation],

@@ -12,7 +12,8 @@ export default interface IListsRepository {
   findBetweenStartAndEndDate(
     { page, limit }: IPaginationDTO,
     type: TList,
-    date: Date,
+    start_date: Date,
+    end_date: Date,
   ): Promise<IPaginatedListsDTO>;
   create(data: ICreateListDTO): Promise<List>;
   delete(id: string): Promise<void>;

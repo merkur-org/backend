@@ -121,6 +121,8 @@ ordersRoutes.get(
       delivery_point_id: Joi.string(),
       user_id: Joi.string(),
       date: Joi.string(),
+      start_date: Joi.string(),
+      end_date: Joi.string(),
     },
   }),
   ordersController.list,

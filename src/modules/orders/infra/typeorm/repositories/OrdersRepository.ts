@@ -6,7 +6,7 @@ import IOrdersRepository, {
 } from '@modules/orders/repositories/IOrdersRepository';
 import IFindAllInPeriod from '@shared/dtos/IFindAllInPeriod';
 import { mountQueryWhere } from '@shared/utils/helpers';
-import { format } from 'date-fns';
+import { addHours, format } from 'date-fns';
 import { getRepository, Repository, Between } from 'typeorm';
 import Order from '../entities/Order';
 import OrderDetail from '../entities/OrderDetail';
@@ -78,7 +78,8 @@ class OrdersRepository implements IOrdersRepository {
     page,
     sort_by,
     order,
-    date,
+    start_date,
+    end_date,
     ...filter
   }: IPaginationOrdersDTO): Promise<IPaginatedOrdersDTO> {
     const skipped_items = (page - 1) * limit;
@@ -87,11 +88,19 @@ class OrdersRepository implements IOrdersRepository {
 
     const total_count = await this.ormRepository.count();
 
-    if (date) {
-      const dateWhere = new Date(format(new Date(date), 'yyyy/MM/dd'));
+    if (start_date) {
+      const endDate = end_date
+        ? new Date(
+            format(addHours(new Date(end_date), 3), 'yyyy/MM/dd 23:59'),
+          ).toUTCString()
+        : 'now()';
 
-      queryWhere += `"o"."date"
-      BETWEEN '${dateWhere.toUTCString()}' AND 'now()'`;
+      const dateWhere = new Date(
+        format(addHours(new Date(start_date), 3), 'yyyy/MM/dd 23:59'),
+      );
+
+      queryWhere += ` "o"."date"
+      BETWEEN '${dateWhere.toUTCString()}' AND '${endDate}'`;
     }
 
     const orders = await this.ormRepository

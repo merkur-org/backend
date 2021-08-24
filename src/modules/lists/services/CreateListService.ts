@@ -58,7 +58,8 @@ class CreateDeliveryPointService {
       const ExistsListActive = await this.listsRepository.findBetweenStartAndEndDate(
         { limit: 1, page: 1 },
         type,
-        new Date(),
+        start_date,
+        end_date,
       );
 
       if (ExistsListActive.data.length > 0) {
