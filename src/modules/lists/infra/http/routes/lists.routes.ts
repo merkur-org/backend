@@ -18,6 +18,7 @@ listsRoutes.post(
     [Segments.BODY]: {
       start_date: Joi.date(),
       end_date: Joi.date(),
+      producer_id: Joi.string(),
       status: Joi.string().required(),
       type: Joi.string().required().valid('offer', 'producer'),
       details: Joi.when('type', {
@@ -103,6 +104,7 @@ listsRoutes.put(
     },
     [Segments.BODY]: {
       start_date: Joi.date(),
+      producer_id: Joi.string(),
       end_date: Joi.date(),
       status: Joi.string().required(),
       details: Joi.array().items({

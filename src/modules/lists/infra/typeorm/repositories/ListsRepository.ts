@@ -57,6 +57,7 @@ class ListsRepository implements IListsRepository {
     end_date,
     status,
     type,
+    producer_id,
   }: ICreateListDTO): Promise<List> {
     const list = this.ormRepository.create({
       user_id,
@@ -64,6 +65,7 @@ class ListsRepository implements IListsRepository {
       end_date,
       status,
       type,
+      producer_id,
     });
 
     await this.ormRepository.save(list);

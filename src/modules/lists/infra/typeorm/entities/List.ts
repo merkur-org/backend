@@ -27,6 +27,13 @@ class List {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
+  @Column('uuid')
+  producer_id: string;
+
+  @ManyToOne(() => User, user => user.lists)
+  @JoinColumn({ name: 'producer_id' })
+  producer: User;
+
   @OneToMany(
     () => ListProducersDetail,
     listProducersDetail => listProducersDetail.list,

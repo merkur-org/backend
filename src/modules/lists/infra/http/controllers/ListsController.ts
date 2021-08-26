@@ -10,7 +10,14 @@ import UpdateListService from '@modules/lists/services/UpdateListService';
 class ListsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { id: user_id } = request.user;
-    const { start_date, end_date, status, details, type } = request.body;
+    const {
+      start_date,
+      end_date,
+      status,
+      details,
+      type,
+      producer_id,
+    } = request.body;
 
     const createList = container.resolve(CreateListService);
 
@@ -21,6 +28,7 @@ class ListsController {
       type,
       user_id,
       status,
+      producer_id,
     });
 
     return response.json(list);
@@ -67,7 +75,14 @@ class ListsController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { list_id } = request.params;
-    const { start_date, status, end_date, type, details } = request.body;
+    const {
+      start_date,
+      status,
+      end_date,
+      type,
+      details,
+      producer_id,
+    } = request.body;
     const { id: user_id } = request.user;
     const updateList = container.resolve(UpdateListService);
 
@@ -79,6 +94,7 @@ class ListsController {
       status,
       end_date,
       details,
+      producer_id,
     });
 
     return response.json(list);

@@ -39,6 +39,7 @@ class UpdateListService {
     start_date,
     end_date,
     status,
+    producer_id,
   }: IRequest): Promise<IResponse> {
     const list = await this.listsRepository.findById(list_id);
 
@@ -49,6 +50,7 @@ class UpdateListService {
     list.start_date = start_date || list.start_date;
     list.end_date = end_date || list.end_date;
     list.status = status || list.status;
+    list.producer_id = producer_id || list.producer_id;
     list.created_at = new Date();
 
     await this.listsRepository.save(list);
@@ -65,7 +67,8 @@ class UpdateListService {
         const detailIndex = listAux.findIndex(() => detail.id);
 
         if (detailIndex !== -1) {
-          listAux[detailIndex].quantity = detail.quantity;
+          listAux[detailIndex].quantity_stock = detail.quantity_stock;
+          listAux[detailIndex].quantity_total = detail.quantity_total;
           listAux[detailIndex].unit_price = detail.unit_price;
           listAux[detailIndex].updated_at = new Date();
         }

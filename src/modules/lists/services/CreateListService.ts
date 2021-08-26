@@ -53,6 +53,7 @@ class CreateDeliveryPointService {
     user_id,
     status,
     type,
+    producer_id,
   }: IRequest): Promise<IResponse> {
     if (type === 'offer') {
       const ExistsListActive = await this.listsRepository.findBetweenStartAndEndDate(
@@ -73,6 +74,7 @@ class CreateDeliveryPointService {
       type,
       user_id,
       status,
+      producer_id,
     });
 
     let detailsResponse: ListOffersDetail[] | ListProducersDetail[];
