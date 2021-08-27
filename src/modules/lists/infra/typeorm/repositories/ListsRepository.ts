@@ -29,7 +29,9 @@ class ListsRepository implements IListsRepository {
   }
 
   public async findById(id: string): Promise<List | undefined> {
-    const foundList = await this.ormRepository.findOne(id);
+    const foundList = await this.ormRepository.findOne(id, {
+      relations: ['producer'],
+    });
 
     return foundList;
   }
@@ -98,17 +100,26 @@ class ListsRepository implements IListsRepository {
     const queryWhere = mountQueryWhere(filter, 'l');
     const total_count = await this.ormRepository.count();
 
-    const lists = await this.ormRepository
+    let lists = await this.ormRepository
       .createQueryBuilder('l')
       .select('l.*')
       .where(queryWhere)
       .addSelect('json_agg(lod) as "details"')
+      .addSelect('json_agg(u.*) as "producer"')
       .orderBy(`l.${sort_by || 'created_at'}`, order)
       .leftJoin(relation, 'lod', 'l.id = lod.list_id')
+      .leftJoin('users', 'u', 'l.producer_id = u.id')
       .groupBy('l.id')
       .offset(skipped_items)
       .limit(limit)
-      .getRawMany<List>();
+      .getRawMany();
+
+    lists = lists.map(l => {
+      return {
+        ...l,
+        producer: l.producer[0] ?? {},
+      };
+    });
 
     return {
       total_count,

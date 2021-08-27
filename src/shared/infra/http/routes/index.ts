@@ -8,7 +8,6 @@ import imageProducts from '@modules/products/infra/http/routes/imageProducts.rou
 import deliveryPointsRoutes from '@modules/delivery-points/infra/http/routes/deliveryPoints.routes';
 import ordersRoutes from '@modules/orders/infra/http/routes/orders.routes';
 import listsRoutes from '@modules/lists/infra/http/routes/lists.routes';
-import activeListsRoutes from '@modules/lists/infra/http/routes/activeLists.routes';
 import historyOrders from '@modules/orders/infra/http/routes/historyOrders.routes';
 import passwordRoutes from '@modules/users/infra/http/routes/password.routes';
 
@@ -24,7 +23,6 @@ routes.use('/products/in-list', productsInList);
 routes.use('/products', productsRoutes);
 routes.use('/products/image', imageProducts);
 
-routes.use('/lists', activeListsRoutes);
 routes.use('/lists', listsRoutes);
 
 routes.use('/orders', ordersRoutes);

@@ -23,7 +23,7 @@ export default class addProducerIdToList1629946449610
         name: 'ProducerList',
         columnNames: ['producer_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'lists',
+        referencedTableName: 'users',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       }),
